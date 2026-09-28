@@ -88,3 +88,34 @@ Samson-Sir/
 Easy to remember:
 
 mv = move a file or folder
+
+
+
+_____________________________________________
+rm-rf lesson2-python 
+_____________________________________________
+
+Part	Meaning
+rm	-->  r emove. File-a deleted pannum
+-r  -->	recursive. Folder-kulla irukura ellathaiyum (sub-folder, files) deleted pannum
+-f	  -->force. "Sure-aa?" nu kekkaadhu, error-um kaattaadhu
+lesson2-python	Endha folder-a delete pannum
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
