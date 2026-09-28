@@ -1,0 +1,232 @@
+==========================================================
+WHY DOES `--` APPEAR TWICE?
+==========================================================
+
+npm create vite@latest  my-vehicle-app  --  --template react
+└──────┬──────────┘    └──────┬──────┘  │   └──────┬───────┘
+   npm command          folder name     │      option passed
+                                        │      to Vite
+                                  tells npm: "what comes
+                                  after is NOT for me,
+                                  pass it to the tool below"
+
+- First `--`: Tells npm, "Pass the arguments that follow
+  to the `create-vite` tool"
+
+- `--template react`: The actual option sent to that tool
+
+- Note: Some npm versions work without `--`, but it is
+  always safer to include it.
+
+
+==========================================================
+WHAT DOES THIS COMMAND DO?
+==========================================================
+
+- Creates a folder named `my-vehicle-app`
+
+- Sets up a React + Vite project structure inside it:
+
+my-vehicle-app/
+├── src/
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── public/
+├── index.html
+├── package.json
+└── vite.config.js
+
+
+==========================================================
+COMMANDS TO RUN AFTERWARD
+==========================================================
+
+cd my-vehicle-app      # Move into the folder
+npm install            # Install dependencies
+npm run dev            # Start the development server
+
+
+==========================================================
+6. package.json — PROJECT ID CARD
+==========================================================
+
+This is the project's identity + dependencies list.
+
+Type            | Description
+----------------|------------------------------------------
+dependencies    | Needed in production (react, react-dom)
+devDependencies | Needed only in development (vite, eslint)
+
+
+{
+  "name": "my-vehicle-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",              // npm run dev
+    "build": "vite build",      // npm run build
+    "preview": "vite preview",  // npm run preview
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.0"
+  }
+}
+
+
+==========================================================
+`npm run dev` — WHAT DOES NPM DO?
+==========================================================
+
+It looks up the `scripts` section in package.json:
+
+"scripts": {
+  "dev": "vite"        <-- It searches for this
+}
+
+It finds that the value of `dev` is `vite`, and runs
+the `vite` command.
+
+In reality:
+  npm run dev  =  npx vite  =  runs node_modules/.bin/vite
+
+
+==========================================================
+STEP 2: WHAT DOES VITE DO?
+==========================================================
+
+Once Vite starts running, it:
+
+1. Reads vite.config.js
+2. Loads the React plugin
+3. Starts a Dev Server
+4. Asks the OS for a port (default: 5173)
+5. Begins listening on that port
+
+
+==========================================================
+STEP 3: WHERE DOES PORT 5173 COME FROM?
+==========================================================
+
+5173 is Vite's default port — it is not a random number!
+
+"5173" looks like "SITE" in leetspeak
+5 = S
+1 = I
+7 = T
+3 = E
+
+Yes! The creators of Vite wrote "SITE" in leetspeak
+and used it as the port number.
+
+
+==========================================================
+localhost:5173 — WHAT DOES IT MEAN?
+==========================================================
+
+http://localhost:5173
+└─┬─┘  └───┬───┘ └┬─┘
+protocol  host   port
+
+Part       | Meaning
+-----------|-----------------------------------------------
+http://    | Protocol (not HTTPS, plain HTTP for local)
+localhost  | Your own computer (127.0.0.1) — refers to
+           | this machine itself
+5173       | Which port on that machine to look at
+
+
+WHAT DOES `localhost` MEAN?
+
+localhost is a special hostname — it refers to your
+own computer.
+
+localhost  =  127.0.0.1  =  "me" (this computer)
+
+
+==========================================================
+COMPLETE FLOW — DIAGRAM
+==========================================================
+
++--------------------------------------------------------------+
+|  Terminal                                                     |
+|  $ npm run dev                                               |
+|         |                                                     |
+|         v                                                     |
+|  Reads the "dev" script in package.json                      |
+|         |                                                     |
+|         v                                                     |
+|  Runs the vite command                                       |
+|         |                                                     |
+|         v                                                     |
+|  Vite Dev Server starts                                      |
+|         |                                                     |
+|         v                                                     |
+|  Listens on Port 5173  <----------------+                    |
++------------------------------------------|-------------------+
+                                           |
+                                           | (waiting)
+                                           |
++------------------------------------------|-------------------+
+|  Browser                                 |                    |
+|  You type:                               |                    |
+|  http://localhost:5173  -----------------+                    |
+|         |                                                     |
+|         v                                                     |
+|  "Ask port 5173 on this computer"                            |
+|         |                                                     |
+|         v                                                     |
+|  Vite responds -> sends index.html                           |
+|         |                                                     |
+|         v                                                     |
+|  index.html -> main.jsx -> App.jsx loads                     |
+|         |                                                     |
+|         v                                                     |
+|  Your React App appears in the browser!                      |
++--------------------------------------------------------------+
+
+
+==========================================================
+WHAT HAPPENS IF PORT 5173 IS BUSY?
+==========================================================
+
+If you already have another Vite project running, that
+port will be busy. Vite will automatically pick the next
+port:
+
+Local:   http://localhost:5174/     <-- 5173 busy, switched to 5174
+
+This is called "port juggling" — Vite smartly picks the
+next available port.
+
+
+==========================================================
+SUMMARY
+==========================================================
+
+Question                          | Answer
+----------------------------------|-------------------------------
+What does `npm run dev` do?       | Runs the `vite` command from
+                                  | package.json
+----------------------------------|-------------------------------
+What does Vite do?                | Starts a local web server
+----------------------------------|-------------------------------
+What is `localhost`?              | Your own computer (127.0.0.1)
+----------------------------------|-------------------------------
+What is `5173`?                   | Vite's default port
+                                  | (SITE -> leetspeak)
+----------------------------------|-------------------------------
+How does it appear in the browser?| Browser asks localhost:5173 ->
+                                  | Vite sends index.html ->
+                                  | React renders
+----------------------------------|-------------------------------
+Do you need to type the link?     | No! Just Ctrl+Click the link
+                                  | in the terminal to open it
+                                  | in the browser
