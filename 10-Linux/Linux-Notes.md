@@ -100,6 +100,12 @@ rm	-->  r emove. File-a deleted pannum
 -r  -->	recursive. Folder-kulla irukura ellathaiyum (sub-folder, files) deleted pannum
 -f	  -->force. "Sure-aa?" nu kekkaadhu, error-um kaattaadhu
 lesson2-python	Endha folder-a delete pannum
+_______________________________________
+rm -ri lesson2-python
+__________________________________
+
+Idhu ovvoru file-kkum "delete pannattumaa?" nu kekkum. ypress pannunga. Beginner-kku idhu nalla practice. 😊
+____________________________________________________
 
 
 
