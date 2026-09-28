@@ -105,7 +105,7 @@ rm -ri lesson2-python
 __________________________________
 
 Idhu ovvoru file-kkum "delete pannattumaa?" nu kekkum. ypress pannunga. Beginner-kku idhu nalla practice. 😊
-____________________________________________________
+____________________________________________________    
 
 
 
