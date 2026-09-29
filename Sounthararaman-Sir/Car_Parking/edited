@@ -525,6 +525,53 @@ This will render a read-only field.
 ▎ value pottaa, onChange kandippa venum. Rendum eppovum jodi 👫
 
 
+_________________________________________________________________
+
+
+┌──────────────────────────────┬────────────────────────────┬────────────────────┐
+│                              │         Direction          │       Reason       │
+├──────────────────────────────┼────────────────────────────┼────────────────────┤
+│ Last time ('emptyForm' typo) │ uncontrolled ➡️ controlled │ undefined → 'T'    │
+├──────────────────────────────┼────────────────────────────┼────────────────────┤
+│ Ippo (...form illa)          │ controlled ➡️ uncontrolled │ 'TN01' → undefined │
+└──────────────────────────────┴────────────────────────────┴────────────────────┘
+
+
+Step 6c: Submit Button 📤
+1. <form> + onSubmit
+2. e.preventDefault() 🛑
+3. Form reset
+
+
+_________________________________________________________________________________________
+
+Step 6c: Submit Button 📤
+
+🧠 3 new concepts
+
+1. <form> + onSubmit
+
+Inputs-ah <form> kulla vechaa, Submit button click or Enter key press pannuna onSubmit run aagum ⌨️
+<form onSubmit={handleSubmit}>
+  <input ... />
+  <button type="submit">Save Entry</button>
+</form>
+
+2. e.preventDefault() 🛑
+
+HTML form-oda default behaviour: submit pannuna page reload aagum (1990s style 😄). Reload aana React state ellaam poidum! So:
+const handleSubmit = (e) => {
+  e.preventDefault()    // "Browser, reload pannaadha!"
+  ...
+}
+
+3. Form reset
+
+Save aanadhum form-ah empty pannanum, next vehicle-ku ready 🚗
+setForm(emptyForm)      // 6b-la create panna emptyForm reuse! ♻️
+Idhu dhaan emptyForm-ah veliya vechadhoda benefit 👍
+
+
 
 
 
