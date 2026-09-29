@@ -1,8 +1,8 @@
-function Dashboard({onNavigate}){
+function Dashboard(){
     return (
         <div>
         <h2>Dashboard</h2>
-        <button onClick={()=> ('home')}>Home</button>
+        
         </div>
     )
 }
