@@ -454,6 +454,26 @@ Reference VehicleEntry.jsx 462 lines, romba periya file 😅 Adhula camera, voic
 
 ---
 
+🧠 Concept: Controlled Input
+
+HTML-la <input> value-ah browser vechirukkum. React-la, value-ah useState vechukkanum. Idhukku per "Controlled Input" 🎮
+
+Type "T"  →  onChange  →  setVehicleNumber("T")  →  re-render  →  input shows "T"
+
+Rendu important props:
+
+┌───────────────────────┬──────────────────────────────────────────────────┐
+│         Prop          │                      Velai                       │
+├───────────────────────┼──────────────────────────────────────────────────┤
+│ value={vehicleNumber} │ Input-la enna show aaganum → state-la irundhu 📥 │
+├───────────────────────┼──────────────────────────────────────────────────┤
+│ onChange={...}        │ Type pannumbodhu state-ah update pannu 📤        │
+└───────────────────────┴──────────────────────────────────────────────────┘
+
+e.target.value = input-la ippo type panna full text
+- e = event (what happened)
+- e.target = andha input box
+- .value = adhula irukkura text
 
 
 

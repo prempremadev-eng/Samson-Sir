@@ -4,11 +4,13 @@ import './App.css'
 import Home from './pages/Home.jsx'
 import VehicleOut from './pages/VehicleOut.jsx' 
 import Dashboard from './pages/Dashboard.jsx'
+import VehicleEntry from './pages/VehicleEntry.jsx'
 
 const PAGE_PATHS = {
   home: '/',
   out: '/out',
   dashboard: '/entries',
+  in: '/in',
 
 }
 
@@ -26,12 +28,14 @@ function App() {
       <button onClick={()=>handleNavigate('home')}>Home</button>
       <button onClick={()=>handleNavigate('out')}>VehicleOut</button>
       <button onClick={()=>handleNavigate('dashboard')}>Dashboard</button>
+
       
 
       <Routes>
         <Route path='/' element={<Home onNavigate={handleNavigate}/>}></Route> 
         <Route path='/out' element={<VehicleOut onNavigate={handleNavigate}/>}></Route>
         <Route path='/entries' element={<Dashboard onNavigate={handleNavigate}/>}></Route>
+        <Route path='/in' element={<VehicleEntry onNavigate={handleNavigate}/>}/>
       </Routes>
 
 
