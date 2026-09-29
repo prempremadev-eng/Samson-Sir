@@ -6,7 +6,7 @@ import VehicleOut from './pages/VehicleOut.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 
 
-function App() {
+function App({onNavigate}) {
   const [page, setPage] = useState('home');
   
   return (
@@ -17,9 +17,9 @@ function App() {
       <button onClick={()=>setPage("out")}>VehicleOut</button>
        <button onClick={()=>setPage('dashboard')}>Dashboard </button>  
 
-      {page ==='home' && <Home/>}
-      {page==='out' && <VehicleOut /> }
-      {page==='dashboard' && <Dashboard/>}
+      {page ==='home' && <Home onNavigate={setPage}/>}
+      {page==='out' && <VehicleOut onNavigate={setPage} /> }
+      {page==='dashboard' && <Dashboard onNavigate={setPage}/>}
       
        </div>
   )
