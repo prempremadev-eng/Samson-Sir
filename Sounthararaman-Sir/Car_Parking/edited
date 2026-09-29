@@ -477,6 +477,55 @@ e.target.value = input-la ippo type panna full text
 
 
 
+______________________________________________________________
+
+onnume theriyala after - ▎ onChange line-ah delete panni type pannuna enna aagudhu?
+
+Correct! 🎯 Adhu dhaan answer. Type pannalum input-la onnume varaadhu, box freeze aagidum 🧊 Nalla observe panneenga 👏
+
+🔐 Yen apdi aagudhu? Controlled Input-oda secret
+
+value={vehicleNumber} pottaa, React solludhu:
+
+▎ "Indha box-la eppovum vehicleNumber state-la irukkuradhu mattum dhaan show aaganum. Vera edhuvum illa!"
+
+onChange irundha ✅
+
+1. "T" type pannureenga ⌨️
+2. onChange → setVehicleNumber("T")   📤 state update
+3. React re-render
+4. value={vehicleNumber} → "T"         📥 box-la "T" show
+
+onChange illana ❌
+
+1. "T" type pannureenga ⌨️
+2. ... yaarum state-ah update pannala 🤷
+3. vehicleNumber innum "" (empty)
+4. value={""} → React box-ah thirumba EMPTY-ah maathudhu 🧊
+Browser "T" add panna try pannudhu, React udane adha azhichudhu. Adhanaala freeze!
+
+🎮 Analogy
+
+- value = TV screen 📺: remote (state) enna solludho adha mattum dhaan kaattum
+- onChange = remote-la button press panradhu 🎛️
+
+Remote button illana, TV-ah evlo thatti paathaalum channel maaraadhu 😄
+
+👀 Console-la hint irundhirukkum
+
+F12 → Console-la React indha warning kuduthirukkum:
+Warning: You provided a `value` prop to a form field without an `onChange` handler.
+This will render a read-only field.
+"read-only field", adhu dhaan neenga paathadhu ✅
+
+---
+
+🎯 Rule: nyabagam vechukkonga
+
+▎ value pottaa, onChange kandippa venum. Rendum eppovum jodi 👫
+
+
+
 
 
 
