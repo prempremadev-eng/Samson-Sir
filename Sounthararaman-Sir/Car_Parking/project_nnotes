@@ -404,9 +404,55 @@ Ore velai dhaan. Munnaadi page state-ah check pannom; ippo URL-ah Router check p
 
 
 
+_________________________________________________________________
 
+1. Home:        onNavigate('out')
+2.              ↓ onNavigate = handleNavigate
+3. App:         handleNavigate('out')
+4.              PAGE_PATHS['out'] → '/out'
+5.              navigate('/out')
+6. Browser URL: #/  →  #/out  🌐
+7. <Routes>:    '/out' match aagura <Route> thedudhu
+8. Screen:      <VehicleOut/> show aagudhu ✅
 
+---
+___________________________________________________________________
 
+🗺️ Roadmap update
+
+┌─────┬─────────────────────────────┬─────────┐
+│  #  │            Task             │ Status  │
+├─────┼─────────────────────────────┼─────────┤
+│ 1-3 │ Setup, Components, useState │ ✅      │
+├─────┼─────────────────────────────┼─────────┤
+│ 4   │ Props: Lifting State Up     │ ✅      │
+├─────┼─────────────────────────────┼─────────┤
+│ 5   │ React Router                │ ✅      │
+├─────┼─────────────────────────────┼─────────┤
+│ 6   │ Vehicle Entry form          │ 🔜 Next │
+└─────┴─────────────────────────────┴─────────┘
+
+_______________________________________________________________
+
+Task 6: Vehicle Entry Form 🚗📝
+
+Reference VehicleEntry.jsx 462 lines, romba periya file 😅 Adhula camera, voice, plate scan, API ellaam irukku. Naama basic-la irundhu build pannuvom:
+
+┌──────┬─────────────────────────────────────────────────┐
+│ Step │                      Enna                       │
+├──────┼─────────────────────────────────────────────────┤
+│ 6a   │ Page + route + oru input box 👈 ippo            │
+├──────┼─────────────────────────────────────────────────┤
+│ 6b   │ Multiple inputs → oru form object               │
+├──────┼─────────────────────────────────────────────────┤
+│ 6c   │ Submit button → data show                       │
+├──────┼─────────────────────────────────────────────────┤
+│ 6d   │ Validation (empty check, error message)         │
+├──────┼─────────────────────────────────────────────────┤
+│ 6e   │ Entry type: /in/visitor, /in/vendor (useParams) │
+└──────┴─────────────────────────────────────────────────┘
+
+---
 
 
 
