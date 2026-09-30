@@ -3,6 +3,7 @@ import VehicleOut from './pages/VehicleOut.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import VehicleEntry from './pages/VehicleEntry.jsx'
+import './App.css'
 
 const PAGE_PATHS = {
   home: '/',

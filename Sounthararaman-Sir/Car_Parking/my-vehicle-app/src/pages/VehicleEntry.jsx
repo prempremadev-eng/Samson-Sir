@@ -35,29 +35,37 @@ function VehicleEntry({onNavigate}) {
     }
   return (
     
-    <div>
+    <div className="page">
         <h2>{entryTypeLabel}</h2>
-        {success && <p>{success}</p>}
-        {error && <p>{error}</p>}
+        {success && <p className="success">{success}</p>}
+        {error && <p className="error">{error}</p>}
 
-        <form onSubmit={handleSubmit}>
+        <form className="entry-form" onSubmit={handleSubmit}>
+    
 
+            <div className="field">
             <label>Vehicle Number</label>
             <input
                  value={form.vehicleNumber}
                  onChange={(e)=> setForm({...form, vehicleNumber: e.target.value})}
              /> 
+             </div>
 
-             <label>name</label>
+             <div className="field">
+             <label>Name</label>
              <input
                    value={form.name}
                    onChange={(e)=> setForm({...form, name:e.target.value})}
-             />  
+             />
+             </div>
+
+             <div className="field"> 
             <label>Phone Number </label>  
              <input
                    value={form.phoneNumber}
                    onChange={(e)=> setForm({...form, phoneNumber:e.target.value})}
-             />             
+             /> 
+              </div>           
 
 
             <button type="submit">Submit</button>
