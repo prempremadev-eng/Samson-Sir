@@ -18,8 +18,9 @@ function App(){
     {
        navigate(`/in/${type}`)
     }
-        else
+    else{
     navigate(PAGE_PATHS[page] || '/')
+  }
   }
   return (
    

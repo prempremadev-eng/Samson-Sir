@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useParams } from "react-router-dom"
+import { ENTRY_TYPE_LABELS } from "../constants"
 
 
 
@@ -14,6 +15,9 @@ function VehicleEntry({onNavigate}) {
     const [error,setError] = useState('')
     const [success, setSuccess] = useState('')
    const {entryType} =  useParams();
+
+   const entryTypeLabel = ENTRY_TYPE_LABELS[entryType] || 'Unknown'
+
     const handleSubmit = (e) =>{
         e.preventDefault()
         if(!form.vehicleNumber.trim())
@@ -32,7 +36,7 @@ function VehicleEntry({onNavigate}) {
   return (
     
     <div>
-        <h2>VehicleEntry - IN: {entryType}</h2>
+        <h2>{entryTypeLabel}</h2>
         {success && <p>{success}</p>}
         {error && <p>{error}</p>}
 
