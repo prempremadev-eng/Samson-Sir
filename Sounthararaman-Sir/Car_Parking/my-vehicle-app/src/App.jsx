@@ -8,13 +8,17 @@ const PAGE_PATHS = {
   home: '/',
   out: '/out',
   dashboard: '/entries',
-  in: '/in'
 }
 
 function App(){
   const navigate = useNavigate();
    
-  const handleNavigate = (page)=>{
+  const handleNavigate = (page,type)=>{
+    if(page==='in')
+    {
+       navigate(`/in/${type}`)
+    }
+        else
     navigate(PAGE_PATHS[page] || '/')
   }
   return (
@@ -32,7 +36,7 @@ function App(){
     <Route path='/' element={<Home onNavigate={handleNavigate}/>}></Route>
     <Route path='/out' element={<VehicleOut onNavigate={handleNavigate}/>}/>
     <Route path='/entries' element={<Dashboard onNavigate={handleNavigate}/>}/>
-    <Route path='/in' element={<VehicleEntry onNavigate={handleNavigate}/>}/>
+    <Route path='/in/:entryType' element={<VehicleEntry onNavigate={handleNavigate}/>}/>
     </Routes>
     </div>
   )

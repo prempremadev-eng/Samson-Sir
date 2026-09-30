@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { useParams } from "react-router-dom"
+
 
 
 const emptyForm ={
@@ -11,6 +13,7 @@ function VehicleEntry({onNavigate}) {
     const [form,setForm] = useState(emptyForm)
     const [error,setError] = useState('')
     const [success, setSuccess] = useState('')
+   const {entryType} =  useParams();
     const handleSubmit = (e) =>{
         e.preventDefault()
         if(!form.vehicleNumber.trim())
@@ -29,7 +32,7 @@ function VehicleEntry({onNavigate}) {
   return (
     
     <div>
-        <h2>VehicleEntry</h2>
+        <h2>VehicleEntry - IN: {entryType}</h2>
         {success && <p>{success}</p>}
         {error && <p>{error}</p>}
 
