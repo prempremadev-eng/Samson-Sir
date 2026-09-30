@@ -1,59 +1,64 @@
-import {useState} from 'react'
+import { useState } from "react"
 
 
-const emptyForm = {
-    vehicleNumber: '',
-    name: '',
-    phoneNumber: '',
+const emptyForm ={
+    vehicleNumber : "",
+    name: "",
+    phoneNumber: ""
 }
 
-
-
-function VehicleEntry({onNavigate}){
-    const[form, setForm] = useState(emptyForm)
-    const[successMessage, setSuccessMessage] = useState('')
-    const handleSubmit = (e)=>{
+function VehicleEntry({onNavigate}) {
+    const [form,setForm] = useState(emptyForm)
+    const [error,setError] = useState('')
+    const [success, setSuccess] = useState('')
+    const handleSubmit = (e) =>{
         e.preventDefault()
-        console.log("saving, ", form)
-        setSuccessMessage(`✅ ${form.vehicleNumber} saved!`)
+        if(!form.vehicleNumber.trim())
+        {
+            
+            setError("Enter the vehicleNumber")
+            setSuccess('')
+            return 
+        }
+        // console.log('Saving:', form)
+        setSuccess(`vehicleNumber ${form.vehicleNumber} added`)
         setForm(emptyForm)
+        setError('')
+
     }
-
-
-    return (
+  return (
+    
     <div>
+        <h2>VehicleEntry</h2>
+        {success && <p>{success}</p>}
+        {error && <p>{error}</p>}
+
         <form onSubmit={handleSubmit}>
-        
-            <h2>Vehicle IN</h2>
-        {successMessage && <p>{successMessage}</p>}
 
             <label>Vehicle Number</label>
             <input
-                  value={form.vehicleNumber}
-                  onChange={(e)=>setForm({...form, vehicleNumber: e.target.value})}
-            />
+                 value={form.vehicleNumber}
+                 onChange={(e)=> setForm({...form, vehicleNumber: e.target.value})}
+             /> 
 
-            <label>Name</label>
-            <input
-                  value={form.name}
-                  onChange={(e)=>setForm({...form, name: e.target.value})}
-            />
+             <label>name</label>
+             <input
+                   value={form.name}
+                   onChange={(e)=> setForm({...form, name:e.target.value})}
+             />  
+            <label>Phone Number </label>  
+             <input
+                   value={form.phoneNumber}
+                   onChange={(e)=> setForm({...form, phoneNumber:e.target.value})}
+             />             
 
-             <label>phone Number</label>
-            <input
-                  value={form.phoneNumber}
-                  onChange={(e)=>setForm({...form, phoneNumber: e.target.value})}
-            />
 
-            <pre>{JSON.stringify(form, null, 2)}</pre>
-                  
-         
-         <button type="submit">submit</button>  
-        
+            <button type="submit">Submit</button>
+            <pre>{JSON.stringify(form, null, 2)}</pre>   
         </form>
-        <button onClick={()=>onNavigate('home')}>Home</button> 
-        </div>
-
-    )
+        <button onClick={()=>onNavigate('home')}>Home</button>
+    </div>
+  )
 }
-export default VehicleEntry;
+
+export default VehicleEntry
