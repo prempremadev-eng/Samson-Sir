@@ -69,7 +69,7 @@ function VehicleEntry({onNavigate}) {
 
 
             <button type="submit">Submit</button>
-            <pre>{JSON.stringify(form, null, 2)}</pre>   
+            {/* <pre>{JSON.stringify(form, null, 2)}</pre>    */}
         </form>
         <button onClick={()=>onNavigate('home')}>Home</button>
     </div>
