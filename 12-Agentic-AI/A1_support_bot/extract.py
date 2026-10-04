@@ -7,7 +7,7 @@ from ticket_schema import SupportTicket
 load_dotenv()
 client = instructor.from_groq(Groq(), mode=instructor.Mode.JSON)
 
-name = input("Which transcript? (shipping / billing / defect): ")
+name = input("Which transcript? (shipping / billing / defect): ").strip()
 with open(f"transcripts/{name}.json") as f:
     messages = json.load(f)
 

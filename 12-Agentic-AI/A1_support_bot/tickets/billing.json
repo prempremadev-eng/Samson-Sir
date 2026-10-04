@@ -1,8 +1,8 @@
 {
-  "order_id": "ORD-66210",
+  "order_id": "ORD-455",
   "customer_name": null,
   "issue_category": "billing",
   "urgency": "high",
-  "sentiment": "angry",
-  "summary": "Customer was charged three times for order ORD-66210 and requests a refund by tomorrow."
+  "sentiment": "frustrated",
+  "summary": "Customer was double‑charged for order ORD-455 and needs a refund by tomorrow."
 }

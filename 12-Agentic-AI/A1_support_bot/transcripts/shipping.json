@@ -5,27 +5,19 @@
   },
   {
     "role": "user",
-    "content": "cat -n cha\t"
+    "content": "Hi order has not arrived yet"
   },
   {
     "role": "assistant",
-    "content": "Could you please provide your order or account number?"
+    "content": "Sure, I’m happy to help. Could you please provide the order number for this purchase?"
   },
   {
     "role": "user",
-    "content": "1233"
+    "content": "ORD-45821"
   },
   {
     "role": "assistant",
-    "content": "Thank you. Could you tell me what issue you’re experiencing?"
-  },
-  {
-    "role": "user",
-    "content": "still not come the order"
-  },
-  {
-    "role": "assistant",
-    "content": "Got it. How would you describe the urgency of this issue (e.g., low, medium, high, or emergency)?"
+    "content": "Got it—order ORD‑45821 hasn’t arrived yet. Could you let me know how urgent this is for you (e.g., low, medium, high, or emergency)?"
   },
   {
     "role": "user",
@@ -33,6 +25,6 @@
   },
   {
     "role": "assistant",
-    "content": "Thank you for the information. \n\nREADY_TO_CLOSE"
+    "content": "Thank you for the information. I’ll prioritize this emergency for you right away.\n\nREADY_TO_CLOSE"
   }
 ]

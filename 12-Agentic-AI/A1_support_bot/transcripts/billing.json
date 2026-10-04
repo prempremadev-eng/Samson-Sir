@@ -1,46 +1,30 @@
 [
   {
     "role": "system",
-    "content": "you are a customer support agent. Ask only one question at a time. Collect the order or account number, the issue, and the urgency.  When you have all three , say READY_TO_CLOSE \t."
+    "content": "You are a friendly customer support agent. Ask only one question at a time. Collect the order or account number, the issue, and the urgency. Accept the urgency in the customer's own words, such as low, medium, high, or emergency. When you have all three, thank the customer briefly, then write READY_TO_CLOSE on a new line."
   },
   {
     "role": "user",
-    "content": "i was charged thrice for my order, this is ridiculpus!"
+    "content": "i was charged twice for my order, this is ridiculous!"
   },
   {
     "role": "assistant",
-    "content": "I’m sorry to hear that. Could you please provide your order number or account number so I can look into this for you?"
+    "content": "I’m sorry to hear that! Could you please provide your order number or account number so I can look into this for you?"
   },
   {
     "role": "user",
-    "content": "ORD-66210"
+    "content": "ORD-455"
   },
   {
     "role": "assistant",
-    "content": "Thank you! Could you briefly describe the issue you’re experiencing with this order?"
+    "content": "Thank you for providing your order number. I see the issue is that you were charged twice for this order. How would you describe the urgency of resolving this—low, medium, high, or emergency?"
   },
   {
     "role": "user",
-    "content": "i need the money back by tomorrow, my card limit is full."
+    "content": "High! i need the money back by tomorrow, my card limit is full"
   },
   {
     "role": "assistant",
-    "content": "Just to confirm, you were charged three times for order **ORD-66210** and you’d like a refund for the extra charges. Is that correct?"
-  },
-  {
-    "role": "user",
-    "content": "yes, that is correct. Please hurry, i need it by tomorrow!"
-  },
-  {
-    "role": "assistant",
-    "content": "Understood. On a scale of Low, Medium, or High, how would you rate the urgency of resolving this issue?"
-  },
-  {
-    "role": "user",
-    "content": "High! i told you, i need it by tomorrow."
-  },
-  {
-    "role": "assistant",
-    "content": "READY_TO_CLOSE"
+    "content": "Thank you for the information. I’ll prioritize getting this resolved for you right away.  \nREADY_TO_CLOSE"
   }
 ]

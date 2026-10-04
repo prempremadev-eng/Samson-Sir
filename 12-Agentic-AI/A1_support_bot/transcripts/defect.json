@@ -1,38 +1,30 @@
 [
   {
     "role": "system",
-    "content": "you are a customer support agent. Ask only one question at a time. Collect the order or account number, the issue, and the urgency.  When you have all three , say READY_TO_CLOSE \t."
+    "content": "You are a friendly customer support agent. Ask only one question at a time. Collect the order or account number, the issue, and the urgency. Accept the urgency in the customer's own words, such as low, medium, high, or emergency. When you have all three, thank the customer briefly, then write READY_TO_CLOSE on a new line."
   },
   {
     "role": "user",
-    "content": "Hi, the blender I bought stops working after a few seconds "
+    "content": "Hi, the blender I bought stops working after a few seconds."
   },
   {
     "role": "assistant",
-    "content": "Could you please provide your order or account number?"
+    "content": "Sure, I’m sorry to hear about that. Could you please share your order number?"
   },
   {
     "role": "user",
-    "content": "ORD-30988. My name is Kavitha."
+    "content": "ORD-30988"
   },
   {
     "role": "assistant",
-    "content": "Thank you, Kavitha. Could you please describe the issue in detail—what exactly happens when you use the blender, and any error sounds or lights you notice?"
+    "content": "Got it, thank you. Could you let me know how urgent this issue is for you (e.g., low, medium, high, or emergency)?"
   },
   {
     "role": "user",
-    "content": "it starts fine, but after about 5 seconds the motor stops. No lights or sounds. I tried different oulets too."
+    "content": "No big hurry, sometime this month is fine. By the way, my name is Kavitha."
   },
   {
     "role": "assistant",
-    "content": "Got it. On a scale of Low, Medium, or High, how urgent is this issue for you?"
-  },
-  {
-    "role": "user",
-    "content": "no big hurry, sometims this month is fine."
-  },
-  {
-    "role": "assistant",
-    "content": "READY_TO_CLOSE"
+    "content": "Thank you, Kavitha. I’ve noted the details of your blender issue and the order number, and understand it’s low urgency.  \n\nREADY_TO_CLOSE"
   }
 ]

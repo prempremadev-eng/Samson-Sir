@@ -1,8 +1,8 @@
 {
-  "order_id": "1233",
+  "order_id": "ORD-45821",
   "customer_name": null,
   "issue_category": "shipping",
   "urgency": "critical",
-  "sentiment": "frustrated",
-  "summary": "Order 1233 has not arrived."
+  "sentiment": "neutral",
+  "summary": "Customer reports that order ORD-45821 has not arrived and marked it as an emergency."
 }
