@@ -1,18 +1,19 @@
 import type { Ticket } from "@/lib/api";
 
 // Badge colours, used by the chat page ticket card and the dashboard.
-export const urgencyColor: Record<Ticket["urgency"], string> = {
-  critical: "bg-red-600 text-white",
-  high: "bg-orange-500 text-white",
-  medium: "bg-yellow-300 text-yellow-950",
-  low: "bg-green-200 text-green-900",
+// Each entry: badge background/text/border + the small dot colour.
+export const urgencyStyle: Record<Ticket["urgency"], { badge: string; dot: string }> = {
+  critical: { badge: "bg-red-50 text-red-700 ring-red-200", dot: "bg-red-500" },
+  high: { badge: "bg-orange-50 text-orange-700 ring-orange-200", dot: "bg-orange-500" },
+  medium: { badge: "bg-amber-50 text-amber-700 ring-amber-200", dot: "bg-amber-400" },
+  low: { badge: "bg-emerald-50 text-emerald-700 ring-emerald-200", dot: "bg-emerald-500" },
 };
 
-export const sentimentColor: Record<Ticket["sentiment"], string> = {
-  angry: "bg-red-100 text-red-800",
-  frustrated: "bg-orange-100 text-orange-800",
-  neutral: "bg-gray-100 text-gray-800",
-  positive: "bg-green-100 text-green-800",
+export const sentimentStyle: Record<Ticket["sentiment"], { badge: string; dot: string }> = {
+  angry: { badge: "bg-rose-50 text-rose-700 ring-rose-200", dot: "bg-rose-500" },
+  frustrated: { badge: "bg-amber-50 text-amber-800 ring-amber-200", dot: "bg-amber-500" },
+  neutral: { badge: "bg-slate-50 text-slate-700 ring-slate-200", dot: "bg-slate-400" },
+  positive: { badge: "bg-emerald-50 text-emerald-700 ring-emerald-200", dot: "bg-emerald-500" },
 };
 
 // CREATEDTIME is India time with no timezone marker, so we only reformat the

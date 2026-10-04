@@ -24,7 +24,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="relative isolate min-h-full flex flex-col bg-slate-50 text-slate-900">
+        {/* Soft blue gradient behind the top of every page (Intercom/Stripe style) */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[460px] bg-linear-to-b from-blue-100 via-indigo-50 to-transparent"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[320px] w-[720px] -translate-x-1/2 rounded-full bg-blue-300/30 blur-3xl"
+        />
         <Nav />
         {children}
       </body>
