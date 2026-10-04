@@ -1,0 +1,8 @@
+{
+  "order_id": "ORD-30988",
+  "customer_name": "Kavitha",
+  "issue_category": "defect",
+  "urgency": "low",
+  "sentiment": "neutral",
+  "summary": "Blender motor stops after about 5 seconds of operation."
+}

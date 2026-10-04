@@ -1,0 +1,38 @@
+[
+  {
+    "role": "system",
+    "content": "you are a customer support agent. Ask only one question at a time. Collect the order or account number, the issue, and the urgency.  When you have all three , say READY_TO_CLOSE \t."
+  },
+  {
+    "role": "user",
+    "content": "Hi, the blender I bought stops working after a few seconds "
+  },
+  {
+    "role": "assistant",
+    "content": "Could you please provide your order or account number?"
+  },
+  {
+    "role": "user",
+    "content": "ORD-30988. My name is Kavitha."
+  },
+  {
+    "role": "assistant",
+    "content": "Thank you, Kavitha. Could you please describe the issue in detail—what exactly happens when you use the blender, and any error sounds or lights you notice?"
+  },
+  {
+    "role": "user",
+    "content": "it starts fine, but after about 5 seconds the motor stops. No lights or sounds. I tried different oulets too."
+  },
+  {
+    "role": "assistant",
+    "content": "Got it. On a scale of Low, Medium, or High, how urgent is this issue for you?"
+  },
+  {
+    "role": "user",
+    "content": "no big hurry, sometims this month is fine."
+  },
+  {
+    "role": "assistant",
+    "content": "READY_TO_CLOSE"
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "role": "system",
+    "content": "you are a customer support agent. Ask only one question at a time. Collect the order or account number, the issue, and the urgency.  When you have all three , say READY_TO_CLOSE \t."
+  },
+  {
+    "role": "user",
+    "content": "i was charged thrice for my order, this is ridiculpus!"
+  },
+  {
+    "role": "assistant",
+    "content": "I’m sorry to hear that. Could you please provide your order number or account number so I can look into this for you?"
+  },
+  {
+    "role": "user",
+    "content": "ORD-66210"
+  },
+  {
+    "role": "assistant",
+    "content": "Thank you! Could you briefly describe the issue you’re experiencing with this order?"
+  },
+  {
+    "role": "user",
+    "content": "i need the money back by tomorrow, my card limit is full."
+  },
+  {
+    "role": "assistant",
+    "content": "Just to confirm, you were charged three times for order **ORD-66210** and you’d like a refund for the extra charges. Is that correct?"
+  },
+  {
+    "role": "user",
+    "content": "yes, that is correct. Please hurry, i need it by tomorrow!"
+  },
+  {
+    "role": "assistant",
+    "content": "Understood. On a scale of Low, Medium, or High, how would you rate the urgency of resolving this issue?"
+  },
+  {
+    "role": "user",
+    "content": "High! i told you, i need it by tomorrow."
+  },
+  {
+    "role": "assistant",
+    "content": "READY_TO_CLOSE"
+  }
+]

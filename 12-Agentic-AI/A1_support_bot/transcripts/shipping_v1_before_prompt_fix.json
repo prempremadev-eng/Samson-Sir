@@ -1,0 +1,46 @@
+[
+  {
+    "role": "system",
+    "content": "you are a customer support agentAsk only one question at a timeCollect the order or account number, the issue, and the urgency.When you have all three , say READY_TO_CLOSE."
+  },
+  {
+    "role": "user",
+    "content": "i am the customer"
+  },
+  {
+    "role": "assistant",
+    "content": "Sure, could you please provide your order or account number?"
+  },
+  {
+    "role": "user",
+    "content": "123"
+  },
+  {
+    "role": "assistant",
+    "content": "Thank you. Could you describe the issue you’re experiencing?"
+  },
+  {
+    "role": "user",
+    "content": "shipping now arrived yet"
+  },
+  {
+    "role": "assistant",
+    "content": "Got it. On a scale of 1 to 5, with 5 being extremely urgent, how would you rate the urgency of this shipping issue?"
+  },
+  {
+    "role": "user",
+    "content": "emergency"
+  },
+  {
+    "role": "assistant",
+    "content": "Understood. Could you please rate the urgency on a scale of 1 to 5, where 5 means it’s an emergency?"
+  },
+  {
+    "role": "user",
+    "content": "5"
+  },
+  {
+    "role": "assistant",
+    "content": "READY_TO_CLOSE"
+  }
+]

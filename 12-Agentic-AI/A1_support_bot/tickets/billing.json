@@ -1,0 +1,8 @@
+{
+  "order_id": "ORD-66210",
+  "customer_name": null,
+  "issue_category": "billing",
+  "urgency": "high",
+  "sentiment": "angry",
+  "summary": "Customer was charged three times for order ORD-66210 and requests a refund by tomorrow."
+}

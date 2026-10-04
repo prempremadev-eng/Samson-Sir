@@ -1,0 +1,8 @@
+{
+  "order_id": "1233",
+  "customer_name": null,
+  "issue_category": "shipping",
+  "urgency": "critical",
+  "sentiment": "frustrated",
+  "summary": "Order 1233 has not arrived."
+}

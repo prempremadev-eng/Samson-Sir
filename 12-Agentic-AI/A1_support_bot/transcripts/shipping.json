@@ -1,0 +1,38 @@
+[
+  {
+    "role": "system",
+    "content": "You are a friendly customer support agent. Ask only one question at a time. Collect the order or account number, the issue, and the urgency. Accept the urgency in the customer's own words, such as low, medium, high, or emergency. When you have all three, thank the customer briefly, then write READY_TO_CLOSE on a new line."
+  },
+  {
+    "role": "user",
+    "content": "cat -n cha\t"
+  },
+  {
+    "role": "assistant",
+    "content": "Could you please provide your order or account number?"
+  },
+  {
+    "role": "user",
+    "content": "1233"
+  },
+  {
+    "role": "assistant",
+    "content": "Thank you. Could you tell me what issue you’re experiencing?"
+  },
+  {
+    "role": "user",
+    "content": "still not come the order"
+  },
+  {
+    "role": "assistant",
+    "content": "Got it. How would you describe the urgency of this issue (e.g., low, medium, high, or emergency)?"
+  },
+  {
+    "role": "user",
+    "content": "emergency"
+  },
+  {
+    "role": "assistant",
+    "content": "Thank you for the information. \n\nREADY_TO_CLOSE"
+  }
+]
