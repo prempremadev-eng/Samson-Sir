@@ -178,7 +178,7 @@ export default function ChatPage() {
               </Button>
             </form>
           )}
-          <p className="mt-2 text-center text-xs text-slate-400">
+          <p className="mt-2 hidden text-center text-xs text-slate-400 sm:block">
             Enter to send · Shift + Enter for a new line
           </p>
         </div>

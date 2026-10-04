@@ -17,8 +17,8 @@ import { formatCreated } from "@/lib/labels";
 
 function StatCard({ icon: Icon, label, value, tone }: { icon: LucideIcon; label: string; value: number | string; tone: string }) {
   return (
-    <div className="flex items-center gap-4 rounded-xl border bg-white p-4 shadow-sm">
-      <span className={`flex size-10 shrink-0 items-center justify-center rounded-lg ${tone}`}>
+    <div className="flex items-center gap-3 rounded-xl border bg-white p-3 shadow-sm sm:gap-4 sm:p-4">
+      <span className={`flex size-9 shrink-0 items-center justify-center rounded-lg sm:size-10 ${tone}`}>
         <Icon className="size-5" />
       </span>
       <div>
@@ -102,7 +102,43 @@ export default function DashboardPage() {
         </div>
       )}
 
-      <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
+      {/* Phones: one card per ticket (a 7-column table does not fit) */}
+      <div className="space-y-3 md:hidden">
+        {loading &&
+          tickets.length === 0 &&
+          [0, 1, 2].map((i) => (
+            <div key={i} className="h-36 animate-pulse rounded-xl border bg-white" />
+          ))}
+
+        {!loading && !error && tickets.length === 0 && (
+          <div className="rounded-xl border bg-white py-12 text-center shadow-sm">
+            <Inbox className="mx-auto mb-2 size-8 text-slate-300" />
+            <p className="font-medium">No tickets yet</p>
+            <p className="text-sm text-slate-500">Finish a chat to create the first one.</p>
+          </div>
+        )}
+
+        {tickets.map((t) => (
+          <article key={t.id} className="space-y-3 rounded-xl border bg-white p-4 shadow-sm">
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex flex-wrap gap-1.5">
+                <UrgencyBadge urgency={t.urgency} />
+                <SentimentBadge sentiment={t.sentiment} />
+              </div>
+              <span className="shrink-0 text-xs text-slate-500">{formatCreated(t.created_time)}</span>
+            </div>
+            <p className="text-sm text-slate-800">{t.summary}</p>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t pt-3 text-sm">
+              <CategoryLabel category={t.issue_category} />
+              <span className="font-mono text-xs text-slate-700">{t.order_id ?? "—"}</span>
+              {t.customer_name && <span className="text-slate-700">{t.customer_name}</span>}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {/* Tablets and computers: the full table */}
+      <div className="hidden overflow-hidden rounded-xl border bg-white shadow-sm md:block">
         <Table>
           <TableHeader className="bg-slate-50">
             <TableRow>

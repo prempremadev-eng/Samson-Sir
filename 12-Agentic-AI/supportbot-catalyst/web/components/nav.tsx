@@ -20,7 +20,7 @@ export function Nav() {
           </span>
           <span className="leading-tight">
             <span className="block text-sm font-semibold">SupportBot</span>
-            <span className="block text-xs text-slate-500">Customer Care</span>
+            <span className="hidden text-xs text-slate-500 min-[400px]:block">Customer Care</span>
           </span>
         </Link>
 
