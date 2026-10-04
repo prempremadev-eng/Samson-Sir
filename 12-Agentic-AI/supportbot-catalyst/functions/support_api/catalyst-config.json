@@ -1,0 +1,10 @@
+{
+	"deployment": {
+		"name": "support_api",
+		"stack": "python_3_10",
+		"type": "advancedio"
+	},
+	"execution": {
+		"main": "main.py"
+	}
+}

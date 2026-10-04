@@ -1,0 +1,22 @@
+# secrets
+.env
+.env.*
+!.env.example
+.catalystrc
+
+# python
+__pycache__/
+venv/
+*.pyc
+
+# node / next
+node_modules/
+.next/
+out/
+
+# catalyst local build output
+.build/
+
+# Catalyst SDK is installed into the function folder with --no-deps (see README)
+functions/support_api/zcatalyst_sdk/
+functions/support_api/zcatalyst_sdk-*.dist-info/

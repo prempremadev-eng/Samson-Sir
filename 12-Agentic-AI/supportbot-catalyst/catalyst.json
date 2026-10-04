@@ -1,0 +1,15 @@
+{
+  "functions": {
+    "targets": [
+      "support_api"
+    ],
+    "ignore": [],
+    "source": "functions"
+  },
+  "slate": [
+    {
+      "name": "supportbot-web",
+      "source": "web/out"
+    }
+  ]
+}
