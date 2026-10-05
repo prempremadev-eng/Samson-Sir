@@ -1,0 +1,142 @@
+1. Connection ku thevaiyaana 3 saavi 🔑
+
+┌─────────────────┬──────────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────┬─────────────┐
+│      Saavi      │                         Enga irukku                          │                         Enna                         │    Eppo     │
+│                 │                                                              │                                                      │  vandhuchu  │
+├─────────────────┼──────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────┼─────────────┤
+│ Login token     │ ~/.config/zcatalyst-cli-nodejs/zcatalyst-cli-v1.json         │ "Naan premkumar.r@zohocorphelpdesk.com" nu prove     │ catalyst    │
+│                 │                                                              │ panra OAuth token                                    │ login       │
+├─────────────────┼──────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────┼─────────────┤
+│ Project ID      │ .catalystrc → "id": "50225000000046075"                      │ Endha project                                        │ catalyst    │
+│                 │                                                              │                                                      │ init        │
+├─────────────────┼──────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────┼─────────────┤
+│ Env / Org ID +  │ .catalystrc → 60086856508,                                   │ Development environment                              │ catalyst    │
+│ Domain          │ my-vehicle-app-2-60086856508.development                     │                                                      │ init        │
+└─────────────────┴──────────────────────────────────────────────────────────────┴──────────────────────────────────────────────────────┴─────────────┘
+
+▎ ⚠️ Andha zcatalyst-cli-v1.json file la un login token irukku. Adha yaarukkum share pannaadha, git la podaadha. (Naan adha open pannala, location mattum check pannen.)
+
+catalyst login la nadandhadhu (OAuth):
+Browser → accounts.zoho.in la login
+       ← Zoho oru "refresh token" kudukkum
+CLI    → adha un laptop la save pannum (~/.config/zcatalyst-cli-nodejs/)
+Apram ovvoru command-um indha token vechu oru short-lived access token vaangum. Un catalyst-debug.log la idhu theriyudhu:
+POST https://accounts.zoho.in/oauth/v2/token     → 200   (access token refresh)
+GET  https://api.catalyst.zoho.in/baas/v1/orgs   → 200   (un orgs list)
+GET  https://api.catalyst.zoho.in/baas/v1/project→ 200   (un projects list)
+
+---
+
+2. catalyst serve: technical ah step by step
+
+┌──────┬────────────────────────────────────────────────────────────────────────────┬───────────────┐
+│ Step │                              Enna nadakkudhu                               │ Local / Cloud │
+├──────┼────────────────────────────────────────────────────────────────────────────┼───────────────┤
+│ ①    │ catalyst.json read → targets: entry_api                                    │ 💻 Local      │
+├──────┼────────────────────────────────────────────────────────────────────────────┼───────────────┤
+│ ②    │ .catalystrc read → project ID, env ID, domain                              │ 💻 Local      │
+├──────┼────────────────────────────────────────────────────────────────────────────┼───────────────┤
+│ ③    │ Login token load → access token refresh (accounts.zoho.in)                 │ ☁️ Cloud call │
+├──────┼────────────────────────────────────────────────────────────────────────────┼───────────────┤
+│ ④    │ functions/entry_api/catalyst-config.json read → advancedio, main: index.js │ 💻 Local      │
+├──────┼────────────────────────────────────────────────────────────────────────────┼───────────────┤
+│ ⑤    │ Port 3000 la oru Node.js HTTP server start                                 │ 💻 Local      │
+├──────┼────────────────────────────────────────────────────────────────────────────┼───────────────┤
+│ ⑥    │ Route map: /server/entry_api/* → functions/entry_api/index.js              │ 💻 Local      │
+├──────┼────────────────────────────────────────────────────────────────────────────┼───────────────┤
+│ ⑦    │ Wait for requests                                                          │ 💻 Local      │
+└──────┴────────────────────────────────────────────────────────────────────────────┴───────────────┘
+
+---
+
+3. Request vandhaa: Hello vs Data Store
+
+Case A: Ippo irukka "Hello" code ☁️❌
+
+Browser ──GET localhost:3000/server/entry_api/──▶ catalyst serve (laptop)
+                                                    │
+                                                    ▼
+                                         index.js run (un laptop Node)
+                                         res.write('Hello')
+Browser ◀──────────── Hello ──────────────────────┘
+Cloud ku oru request kooda pogaadhu. Idhu full ah offline ah ododum (startup check thavira). Ippo un index.js SDK use pannala, adhanaala.
+
+Case B: Apram Data Store code ezhudhum bodhu ☁️✅
+
+const catalyst = require('zcatalyst-sdk-node')
+const app = catalyst.initialize(req)
+await app.datastore().table('ParkingEntries').insertRow({...})
+
+Browser ──POST──▶ catalyst serve (laptop :3000)
+                     │ ① req kulla special headers inject pannum:
+                     │    project ID, env, domain, access token
+                     ▼
+                  index.js (laptop la odudhu)
+                     │ ② catalyst.initialize(req) → andha headers-a padikkum
+                     │ ③ insertRow() → HTTPS call:
+                     ▼
+            ☁️ https://api.catalyst.zoho.in/baas/v1/project/50225000000046075/table/.../row
+                     │   (Authorization: un access token)
+                     ▼
+            ☁️ Development Data Store → row save aagum
+                     │
+Browser ◀── response ┘
+
+Key point: catalyst.initialize(req) ku req yen kudukkurom nu ippo puriyum. catalyst serve (local) or Catalyst cloud (deploy aanadhum), rendum req kulla project/auth details vechu anuppum. SDK adha eduthu dhaan cloud kooda pesum. Nee code la project ID, password edhuvum ezhudha vendaam.
+
+---
+
+4. Local vs Deploy: technical comparison
+
+┌────────────────────┬───────────────────────────────────┬──────────────────────────────────────────────────────────────────────────────────────────────┐
+│                    │      catalyst serve (Local)       │                                   catalyst deploy (Cloud)                                    │
+├────────────────────┼───────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────┤
+│ index.js enga      │ Un laptop                         │ Catalyst server                                                                              │
+│ odudhu             │                                   │                                                                                              │
+├────────────────────┼───────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Node version       │ Un laptop la irukka Node (ippo    │ Config la irukka node20                                                                      │
+│                    │ v22)                              │                                                                                              │
+├────────────────────┼───────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────┤
+│ URL                │ localhost:3000/server/entry_api/  │ https://my-vehicle-app-2-60086856508.development.catalystserverless.in/server/entry_api/     │
+│                    │                                   │ (maadhiri)                                                                                   │
+├────────────────────┼───────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────┤
+│ req la auth        │                                   │                                                                                              │
+│ headers yaar       │ CLI (un login token vechu)        │ Catalyst cloud (logged-in user / admin)                                                      │
+│ podudhu            │                                   │                                                                                              │
+├────────────────────┼───────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Data Store         │ ☁️ Cloud Development              │ ☁️ Cloud Development                                                                         │
+├────────────────────┼───────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────┤
+│ console.log enga   │ Un terminal la                    │ Console → Logs                                                                               │
+│ varum              │                                   │                                                                                              │
+└────────────────────┴───────────────────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────────┘
+
+▎ 💡 Note: Laptop la Node 22, config la node20. Local la 22 la odum, cloud la 20 la odum. Ippo idhu problem illa. Aana "local la work aagudhu, cloud la aagala" nu vandhaa, idhu oru kaaranam aa irukkalaam.
+
+---
+
+5. Hotel la sonnaa 🏨
+
+┌───────────────────────────────┬────────────────────────────────────────────────────────────────────────────────────┐
+│           Technical           │                                       Hotel                                        │
+├───────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+│ Login token (~/.config/...)   │ Prem oda owner ID card. Idha kaatti dhaan wholesale market la porul vaanga mudiyum │
+├───────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+│ .catalystrc project ID        │ Hotel license number                                                               │
+├───────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+│ catalyst serve headers inject │ Waiter, order slip kooda owner ID card + license number-um attach pannuraar        │
+├───────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+│ catalyst.initialize(req)      │ Cook andha slip la irundhu ID card-a edukkuraar                                    │
+├───────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+│ api.catalyst.zoho.in          │ Wholesale market (cloud). Store room anga dhaan irukku                             │
+├───────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────┤
+│ insertRow()                   │ Cook ID card kaatti, market store room la porul vekkuraar                          │
+└───────────────────────────────┴────────────────────────────────────────────────────────────────────────────────────┘
+
+Kitchen (code) un veetla (laptop). Store room (Data Store) market la (cloud). Cook ID card vechu dhaan andha store room-a open panna mudiyum.
+
+---
+
+Ippo catalyst serve run panninaa, Step ③ (token refresh) nadakkudha nu catalyst-debug.log la neeye paakkalaam 🔍
+
+________________________________________________________________________________________
+

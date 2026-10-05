@@ -1,0 +1,9 @@
+{
+  "functions": {
+    "targets": [
+      "entry_api"
+    ],
+    "ignore": [],
+    "source": "functions"
+  }
+}

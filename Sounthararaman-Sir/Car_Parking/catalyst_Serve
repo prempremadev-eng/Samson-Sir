@@ -1,0 +1,328 @@
+  
+
+
+
+____________________________________________________________________ 
+
+-------->>   Catalyst Command கொடுத்தால் என்ன நடக்கும்?
+_____________________________________________________________________
+
+🏨 Catalyst Backend – Hotel Example Notes
+
+1. Hotel Mapping (main table)
+
+┌───────────────────┬──────────────────────────────────┬──────────────────────────────────────────────────────┐
+│       Hotel       │              Un App              │                       Meaning                        │
+├───────────────────┼──────────────────────────────────┼──────────────────────────────────────────────────────┤
+│ 🙋 Customer       │ Nee (user)                       │ Order podura aal                                     │
+├───────────────────┼──────────────────────────────────┼──────────────────────────────────────────────────────┤
+│ 🍽️ Plate          │ Browser (Chrome)                 │ Order inga irundhu pogum, result inga dhaan theriyum │
+├───────────────────┼──────────────────────────────────┼──────────────────────────────────────────────────────┤
+│ 🧾 Counter        │ Terminal                         │ Waiter nikkura idam, orders inga print aagum         │
+├───────────────────┼──────────────────────────────────┼──────────────────────────────────────────────────────┤
+│ 🧑‍🍳 Waiter         │ Server (catalyst serve)          │ Order vaangi cook kitta kudukkuravar                 │
+├───────────────────┼──────────────────────────────────┼──────────────────────────────────────────────────────┤
+│ 🚪 Kadhavu        │ Port 3000                        │ Hotel ulla vara vazhi                                │
+├───────────────────┼──────────────────────────────────┼──────────────────────────────────────────────────────┤
+│ 👨‍🍳 Cook           │ entry_api (function)             │ Samaikkuravar (cook oda per)                         │
+├───────────────────┼──────────────────────────────────┼──────────────────────────────────────────────────────┤
+│ 📖 Recipe         │ index.js (code)                  │ Eppadi samaikkanum nu instructions                   │
+├───────────────────┼──────────────────────────────────┼──────────────────────────────────────────────────────┤
+│ 🥞 Dosai          │ "Hello from index.js" (response) │ Samaichu kidaikkura result                           │
+├───────────────────┼──────────────────────────────────┼──────────────────────────────────────────────────────┤
+│ 🧊 Store room     │ Data Store (ParkingEntries)      │ Data save aagura idam (apram varum)                  │
+├───────────────────┼──────────────────────────────────┼──────────────────────────────────────────────────────┤
+│ 🏠 Dining hall    │ React app (port 5173)            │ Customer paakkura screens (apram)                    │
+├───────────────────┼──────────────────────────────────┼──────────────────────────────────────────────────────┤
+│ 🏨 Hotel (motham) │ my-vehicle-app-2                 │ Ellam serndha full app                               │
+└───────────────────┴──────────────────────────────────┴──────────────────────────────────────────────────────┘
+
+---
+
+2. Function Folder: functions/entry_api/
+
+┌──────────────────────┬──────────────────────────────────────┬──────────────────┐
+│         File         │                 Enna                 │     Hotel la     │
+├──────────────────────┼──────────────────────────────────────┼──────────────────┤
+│ index.js             │ Backend code                         │ 📖 Recipe        │
+├──────────────────────┼──────────────────────────────────────┼──────────────────┤
+│ catalyst-config.json │ Name, Node 20, advancedio, main file │ 🪪 Cook ID card  │
+├──────────────────────┼──────────────────────────────────────┼──────────────────┤
+│ package.json         │ Thevaiyaana packages list            │ 🛒 Shopping list │
+├──────────────────────┼──────────────────────────────────────┼──────────────────┤
+│ node_modules/        │ Download aana packages               │ 🔪 Kitchen tools │
+├──────────────────────┼──────────────────────────────────────┼──────────────────┤
+│ package-lock.json    │ Exact versions                       │ 🧾 Bill          │
+└──────────────────────┴──────────────────────────────────────┴──────────────────┘
+
+---
+
+3. Project Root Files: my-vehicle-app/
+
+┌───────────────┬────────────────────────────────────────────────────┬─────────────────────┐
+│     File      │                        Enna                        │      Hotel la       │
+├───────────────┼────────────────────────────────────────────────────┼─────────────────────┤
+│ catalyst.json │ Indha project la enna functions irukku (entry_api) │ 📒 Staff register   │
+├───────────────┼────────────────────────────────────────────────────┼─────────────────────┤
+│ .catalystrc   │ Endha cloud project kooda link (my-vehicle-app-2)  │ 🪧 Hotel name board │
+└───────────────┴────────────────────────────────────────────────────┴─────────────────────┘
+
+---
+
+4. catalyst serve kudutha – Behind la nadakkuradhu
+
+┌──────┬──────────────────────────────────────────────────┬────────────────────────────────────────┐
+│ Step │                  File / Action                   │                Hotel la                │
+├──────┼──────────────────────────────────────────────────┼────────────────────────────────────────┤
+│ ①    │ catalyst.json padikkum → entry_api               │ Register paakkuraar: "yaar yaar cook?" │
+├──────┼──────────────────────────────────────────────────┼────────────────────────────────────────┤
+│ ②    │ .catalystrc padikkum → my-vehicle-app-2          │ "Idhu endha hotel?"                    │
+├──────┼──────────────────────────────────────────────────┼────────────────────────────────────────┤
+│ ③    │ catalyst-config.json padikkum → node20, index.js │ Cook ID card check                     │
+├──────┼──────────────────────────────────────────────────┼────────────────────────────────────────┤
+│ ④    │ index.js irukka nu paakkum                       │ Recipe book ready ah?                  │
+├──────┼──────────────────────────────────────────────────┼────────────────────────────────────────┤
+│ ⑤    │ node_modules irukka nu paakkum                   │ Tools ready ah?                        │
+├──────┼──────────────────────────────────────────────────┼────────────────────────────────────────┤
+│ ⑥    │ Port 3000 la server start                        │ Kadhavu open, waiter counter la        │
+├──────┼──────────────────────────────────────────────────┼────────────────────────────────────────┤
+│ ⑦    │ Wait pannum                                      │ Customer kaaga kaathirukkum            │
+└──────┴──────────────────────────────────────────────────┴────────────────────────────────────────┘
+
+---
+
+5. Order Vandhaa – Request Flow
+
+┌──────┬──────────────────────────────────────────────────┬───────────────────────────────┐
+│ Step │                      Un App                      │           Hotel la            │
+├──────┼──────────────────────────────────────────────────┼───────────────────────────────┤
+│ 1    │ Browser la localhost:3000/server/entry_api/ open │ Customer order podraar        │
+├──────┼──────────────────────────────────────────────────┼───────────────────────────────┤
+│ 2    │ Server request-a vaangudhu                       │ Waiter order vaangraar        │
+├──────┼──────────────────────────────────────────────────┼───────────────────────────────┤
+│ 3    │ index.js run aagudhu (req, res)                  │ Cook recipe padi samaikkuraar │
+├──────┼──────────────────────────────────────────────────┼───────────────────────────────┤
+│ 4    │ res.write('Hello...')                            │ Dosai plate la vekkuraar      │
+├──────┼──────────────────────────────────────────────────┼───────────────────────────────┤
+│ 5    │ res.end()                                        │ Plate-a kudukkuraar           │
+├──────┼──────────────────────────────────────────────────┼───────────────────────────────┤
+│ 6    │ Browser la "Hello" theriyudhu                    │ Customer saapudraar 😋        │
+├──────┼──────────────────────────────────────────────────┼───────────────────────────────┤
+│ 7    │ Terminal la GET /server/entry_api/ 200           │ Counter la order note aagudhu │
+└──────┴──────────────────────────────────────────────────┴───────────────────────────────┘
+
+---
+
+6. Recipe vs Dosai
+
+┌──────────────┬────────────────────────────┬────────────────────────────────┐
+│              │         Recipe 📖          │            Dosai 🥞            │
+├──────────────┼────────────────────────────┼────────────────────────────────┤
+│ Un app la    │ index.js code              │ Code run aagi varra result     │
+├──────────────┼────────────────────────────┼────────────────────────────────┤
+│ Enga irukku  │ File la                    │ Browser la                     │
+├──────────────┼────────────────────────────┼────────────────────────────────┤
+│ Eppo irukkum │ Eppavume                   │ Order (URL open) pannina dhaan │
+├──────────────┼────────────────────────────┼────────────────────────────────┤
+│ Ippo         │ Sample "Hello" code        │ "Hello from index.js"          │
+├──────────────┼────────────────────────────┼────────────────────────────────┤
+│ Apram        │ Data Store read/write code │ Vehicle entries list           │
+└──────────────┴────────────────────────────┴────────────────────────────────┘
+
+---
+
+7. req and res
+
+┌─────┬───────────┬─────────────────────────────────────────────┬──────────────────────────────────┐
+│     │ Full name │                   Meaning                   │             Hotel la             │
+├─────┼───────────┼─────────────────────────────────────────────┼──────────────────────────────────┤
+│ req │ Request   │ Customer enna kettaar (URL, GET/POST, data) │ Order slip                       │
+├─────┼───────────┼─────────────────────────────────────────────┼──────────────────────────────────┤
+│ res │ Response  │ Nee thirumba anuppura                       │ Plate (dosai vechu kudukkuradhu) │
+└─────┴───────────┴─────────────────────────────────────────────┴──────────────────────────────────┘
+
+---
+
+8. Ports
+
+┌──────┬─────────────────────────┬────────────────┬──────────────────────┐
+│ Port │          Enna           │    Command     │     Ippo venum?      │
+├──────┼─────────────────────────┼────────────────┼──────────────────────┤
+│ 3000 │ Backend (Catalyst)      │ catalyst serve │ ✅                   │
+├──────┼─────────────────────────┼────────────────┼──────────────────────┤
+│ 5173 │ Frontend (React / Vite) │ npm run dev    │ ❌ Step 5.4 la venum │
+└──────┴─────────────────────────┴────────────────┴──────────────────────┘
+
+---
+
+9. Important Rules
+
+┌────────────────────────────────────────────────────────────────────────┬─────────────────────────────────────────────┐
+│                                  Rule                                  │                     Yen                     │
+├────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ catalyst serve ah project root la (my-vehicle-app/) dhaan run pannanum │ Anga dhaan catalyst.json irukku             │
+├────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Serve odum bodhu terminal-a close pannaadha                            │ Waiter veetuku poiduvaar, hotel moodidum    │
+├────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Stop panna Ctrl + C, Ctrl + Z illa                                     │ Ctrl + Z pause mattum pannum                │
+├────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Local la test pannittu dhaan deploy                                    │ Thappu cloud la live aagaadhu               │
+├────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Data Store local la illa, cloud Development la dhaan                   │ Store room hotel ku veliya, cloud la irukku │
+└────────────────────────────────────────────────────────────────────────┴─────────────────────────────────────────────┘
+
+---
+
+Idha my-vehicle-app/notes/ la .md file aa save pannanumna sollu. Illana ippo catalyst serve run panni dosai varudha nu paarpom 🥞
+
+
+__________________________________________________
+
+┌───────────┬──────────────────────────────────────────────────┬─────────────────────────────────────────────────────────────┐
+│           │                       Enna                       │                        Eppo irukkum                         │
+├───────────┼──────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤
+│ 📖 Recipe │ Eppadi samaikkanum nu ezhudhi vecha instructions │ Book la eppavume irukkum, order vandhaalum varaattaalum     │
+├───────────┼──────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤
+│ 🥞 Dosai  │ Recipe follow panni samaichu kidaikkura saappadu │ Order vandhaa dhaan samaiyum. Ovvoru order-kkum pudhu dosai │
+└───────────┴──────────────────────────────────────────────────┴─────────────────────────────────────────────────────────────┘
+
+Un app la:
+
+┌───────────┬──────────────────────────────────────────────────────────────────────┬──────────────────────────────────────────┐
+│           │                              Un app la                               │               Enga irukku                │
+├───────────┼──────────────────────────────────────────────────────────────────────┼──────────────────────────────────────────┤
+│ 📖 Recipe │ index.js la irukka code                                              │ File la, eppavume                        │
+├───────────┼──────────────────────────────────────────────────────────────────────┼──────────────────────────────────────────┤
+│ 🥞 Dosai  │ Code run aagi browser ku anuppura result, ippo "Hello from index.js" │ Browser la, URL open pannina dhaan varum │
+└───────────┴──────────────────────────────────────────────────────────────────────┴──────────────────────────────────────────┘
+
+Un index.js la paaru:
+
+module.exports = (req, res) => {          // 📖 Recipe start
+  var url = req.url;                       //    "customer enna order pannaar?"
+  switch (url) {
+    case '/':
+      res.writeHead(200, {...});           //    "plate ready pannu"
+      res.write('<h1>Hello from index.js<h1>');  // 🥞 ← idhu dhaan dosai
+      break;
+    default:
+      res.writeHead(404);                  //    "andha dish illa"
+      res.write('You might find...');
+  }
+  res.end();                               //    "plate-a kudu"
+};                                         // 📖 Recipe end
+
+\
+
+
+__________________________________
+
+Browser ──GET /server/entry_api/──▶ catalyst serve (port 3000)
+                                       │
+                                       ▼
+                         index.js: module.exports = (req, res) => {...}
+                                       │  res.write('Hello from index.js')
+Browser ◀──────── "Hello" ─────────────┘
+
+- req = browser enna kettuchu (URL, method GET/POST, data)
+- res = nee enna thirumba anuppura
+
+____________________________________________________
+
+Correct, first rendu step-um sariya sonna 👏 Adutha varisai idho:
+
+① catalyst.json → "entry_api nu oru cook irukkaar" ✅ (nee sonnadhu)
+
+② .catalystrc → "idhu my-vehicle-app-2 hotel" ✅ (nee sonnadhu)
+
+③ functions/entry_api/catalyst-config.json → cook oda ID card. Idhu un file la irukkuradhu:
+"name": "entry_api",
+"stack": "node20",        ← cook Node 20 la dhaan samaipaar
+"type": "advancedio",     ← (req, res) style cook
+"main": "index.js"        ← cook-a "index.js" la dhaan koopidanum
+
+④ functions/entry_api/index.js → cook ready ah nu paakkum (file irukka, module.exports irukka)
+
+⑤ functions/entry_api/node_modules/ → kitchen tools (zcatalyst-sdk-node) irukka nu paakkum
+
+⑥ Port 3000 la server start → kadhavu open, waiter counter la nikkaraar. Terminal la ippadi varum:
+http://localhost:3000/server/entry_api/
+
+⑦ Wait → customer (browser) order podura varaikkum summa nikkum.
+
+catalyst serve
+  ① catalyst.json            → yaar yaar cook?          (entry_api)
+  ② .catalystrc              → endha hotel?             (my-vehicle-app-2)
+  ③ catalyst-config.json     → cook ID card             (node20, advancedio, index.js)
+  ④ index.js                 → cook ready?
+  ⑤ node_modules             → tools ready?
+  ⑥ port 3000 open           → waiter ready
+  ⑦ wait...                  → order kaaga
+
+Ippo neeye paaru, terminal la idhu nadakkudha nu:
+catalyst serve
+___________________________________________________________________
+
+
+
+
+catalyst serve kudutha udane, hotel open aagura varisai idhu dhaan:
+
+1. 🔑 Manager hotel ku varaar (catalyst serve command start aagudhu)
+
+2. 📒 Register book paakkuraar (catalyst.json padikkum)
+
+▎ "Indha hotel la entry_api nu oru cook irukkaar"
+
+3. 🪪 Hotel endha company nu paakkuraar (.catalystrc padikkum)
+
+▎ "Idhu my-vehicle-app-2 hotel, zoho account"
+
+4. 🍳 Cook ready ah nu check panraar (functions/entry_api/ la index.js + node_modules irukka nu paakkum)
+
+5. 🚪 Kadhavu open, waiter counter la nikkaraar (port 3000 la server start aagum)
+
+▎ Terminal la ippadi varum: http://localhost:3000/server/entry_api/
+
+6. 🧍 Waiter wait panraar. Customer varra varaikkum edhuvum nadakkaadhu. Terminal summa nikkum, adhu normal.
+
+Ippo customer vandhaa:
+
+7. 🙋 Nee plate la (browser) order podura → localhost:3000/server/entry_api/ open pannura
+
+8. 🧑‍🍳 Waiter order-a cook kitta kudukkuraar → index.js run aagudhu (req, res) vechu
+
+9. 🥞 Cook dosai suduraar → res.write('Hello...')
+
+10. 🍽️ Waiter plate la vechu kudukkuraar → Browser la "Hello from index.js" theriyum
+
+┌─────────────────┬────────────────────────────────────────────────┐
+│      Yaar       │                Eppo ready aagum                │
+├─────────────────┼────────────────────────────────────────────────┤
+│ Cook (index.js) │ Already ready (init create pannidichu)         │
+├─────────────────┼────────────────────────────────────────────────┤
+│ Plate (browser) │ Already ready (Chrome)                         │
+├─────────────────┼────────────────────────────────────────────────┤
+│ Customer (nee)  │ Already ready 😄                               │
+├─────────────────┼────────────────────────────────────────────────┤
+│ Waiter (server) │ catalyst serve kudutha udane dhaan ready aagum │
+└─────────────────┴────────────────────────────────────────────────┘
+_____________________________________________________________
+
+
+
+1. Code enga odudhu? → 100% un laptop la.
+2. Cloud kooda eppadi pesudhu? → Login token + project ID vechu, internet (HTTPS) vazhiya.
+
+---
+
+
+
+
+
+
+
+
+
+
+
