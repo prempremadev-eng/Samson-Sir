@@ -1,0 +1,8 @@
+{
+  "order_id": "876873",
+  "customer_name": null,
+  "issue_category": "defect",
+  "urgency": "low",
+  "sentiment": "neutral",
+  "summary": "Customer reported damage to order 876873 with low urgency."
+}

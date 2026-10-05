@@ -1,0 +1,12 @@
+from dotenv import load_dotenv
+from groq import Groq
+
+load_dotenv()
+client=Groq()
+
+messages=[]
+def ask(question)
+    messages.append({"role":"user", "content":question}
+    response= client.chat.completeions.create(
+    model="openai/gpt-oss-120b",
+    messages=mess

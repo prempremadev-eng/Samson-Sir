@@ -1,8 +1,8 @@
 {
-  "order_id": "ORD-45821",
+  "order_id": "345",
   "customer_name": null,
   "issue_category": "shipping",
-  "urgency": "critical",
-  "sentiment": "neutral",
-  "summary": "Customer reports that order ORD-45821 has not arrived and marked it as an emergency."
+  "urgency": "high",
+  "sentiment": "frustrated",
+  "summary": "Customer's parcel has not arrived after 5 days and needs urgent shipping assistance."
 }

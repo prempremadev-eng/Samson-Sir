@@ -1,0 +1,18 @@
+[
+  {
+    "role": "user",
+    "content": "ldkfj"
+  },
+  {
+    "role": "assistant",
+    "content": "It looks like your message got garbled. Could you please clarify what you’d like to know or discuss? I'm happy to help!"
+  },
+  {
+    "role": "user",
+    "content": "l;dfj"
+  },
+  {
+    "role": "assistant",
+    "content": "It seems like your message got scrambled. Could you let me know what you’d like assistance with? I'm here to help!"
+  }
+]

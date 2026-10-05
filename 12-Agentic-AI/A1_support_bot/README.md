@@ -162,3 +162,5 @@ So I added: *"friendly"*, *"Accept the urgency in the customer's own words…"*,
 - [x] Few-shot **and** chain-of-thought in the extraction prompt
 - [x] Three conversations (shipping, billing, defect) saved as JSON, with tickets and screenshots
 - [x] This README
+
+

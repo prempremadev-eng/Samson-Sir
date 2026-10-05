@@ -5,26 +5,26 @@
   },
   {
     "role": "user",
-    "content": "Hi order has not arrived yet"
+    "content": "na order panni 5 days aaguthu innum parcel varlanaga"
   },
   {
     "role": "assistant",
-    "content": "Sure, I’m happy to help. Could you please provide the order number for this purchase?"
+    "content": "Could you please share your order number, so I can look into the delivery status for you?"
   },
   {
     "role": "user",
-    "content": "ORD-45821"
+    "content": "345 and can you speak in tamil"
   },
   {
     "role": "assistant",
-    "content": "Got it—order ORD‑45821 hasn’t arrived yet. Could you let me know how urgent this is for you (e.g., low, medium, high, or emergency)?"
+    "content": "உங்கள் ஆர்டர் எண் 345 என்பதை உறுதிப்படுத்திக்கொள்கிறேன். நீங்கள் கூறியபடி, 5 நாட்களாகப் parcel வரவில்லை; இதுவே உங்கள் பிரச்சனை. இதை எவ்வளவு அவசரமாகத் தீர்க்க வேண்டும்? (உதாரணமாக: குறைந்த, நடுத்தர, உயர்ந்த, அவசர)"
   },
   {
     "role": "user",
-    "content": "emergency"
+    "content": "ithu romba avasaram"
   },
   {
     "role": "assistant",
-    "content": "Thank you for the information. I’ll prioritize this emergency for you right away.\n\nREADY_TO_CLOSE"
+    "content": "நன்றி! உங்கள் ஆர்டர் (345) பற்றிய விநியோகத் தகவலை உடனடியாகப் பார்க்கிறோம்; இது மிகவும் அவசரமானது என்று புரிந்துள்ளோம்.\n\nREADY_TO_CLOSE"
   }
 ]

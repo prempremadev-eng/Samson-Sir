@@ -3,6 +3,6 @@
   "customer_name": null,
   "issue_category": "billing",
   "urgency": "high",
-  "sentiment": "frustrated",
-  "summary": "Customer was double‑charged for order ORD-455 and needs a refund by tomorrow."
+  "sentiment": "angry",
+  "summary": "Customer was charged twice for order ORD-455 and needs a refund by tomorrow."
 }
