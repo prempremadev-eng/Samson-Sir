@@ -19,7 +19,9 @@ How much time I spend on each concept.
 | 🍛 | Lunch break | 2026-10-06 | 13:55 | 14:20 | 25 min | Break — not counted in learning time |
 | 4 | Promise (paused) | 2026-10-06 | 14:20 | 16:54 | ~2 h 34 min | setTimeout + callback understood; Promise confusing → restarted from basics. Step 1 (function + parameter) ✅. **Paused at Step 2 (callback)** — to revisit |
 | 5 | Events (`.on`) | 2026-10-06 | 16:55 | 18:22 | ~1 h 27 min | .on / emit, data + end chunks; found & fixed 2 bugs ('data'→'end', missing ") |
-| 6 | getBody (all together) | | | | | |
+| 6 | getBody (all together) | 2026-10-06 | 18:28 | 18:55 | ~27 min | Part A + B ✅ (fixed req.end → req.emit). Paused before Part C (3 case test) |
+| ☕ | Tea break | 2026-10-06 | 18:55 | 19:18 | 23 min | Break — not counted |
+| 6 | getBody (continued) | 2026-10-06 | 19:18 | 19:33 | ~15 min | Part C 3 case test ✅; fixed getbody→getBody, req→req3, req.end→req3.emit |
 
 ---
 
@@ -32,4 +34,5 @@ How much time I spend on each concept.
 | Ex 3 – ternary | ~38 min |
 | Ex 4 – Promise (paused) | ~2 h 34 min |
 | Ex 5 – Events | ~1 h 27 min |
-| **Playground total so far** | **~6 h 44 min** (+ 13 min resume guide, 25 min lunch not counted) |
+| Ex 6 – getBody | ~42 min |
+| **Playground total so far** | **~7 h 26 min** (+ 13 min resume guide; lunch 25 min + tea 23 min not counted) |
