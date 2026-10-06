@@ -32,8 +32,12 @@ Phase 5: Catalyst backend
        └── Part 2: getBody  ← purinjikka playground la practice
              ├── Ex 1 JSON               ✅
              ├── Ex 2 try/catch          ✅
-             ├── Ex 3 ternary            ⏳ (Part A guess)
-             ├── Ex 4 Promise
+             ├── Ex 3 ternary            ✅
+             ├── Ex 4 Promise            ⏸️ PAUSED (2026-10-06 4:54 PM) — 🔔 REMINDER
+             │     ├── Step 1 function + parameter   ✅ (step1.js)
+             │     ├── Step 2 callback `waiter(eat)` ⏸️ ← inga irundhu restart
+             │     ├── Step 3 setTimeout
+             │     └── Step 4 Promise (3 lines: new Promise, resolve, .then)
              ├── Ex 5 Events
              └── Ex 6 getBody
 ```

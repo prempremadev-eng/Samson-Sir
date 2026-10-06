@@ -16,8 +16,9 @@ How much time I spend on each concept.
 | 2 | try / catch | 2026-10-06 | 12:39 | 12:59 | ~20 min | Crash demo, error message reading |
 | — | Resume guide (HOW-TO-RESUME.md) | 2026-10-06 | 12:59 | 13:12 | ~13 min | |
 | 3 | `? :` ternary, truthy / falsy | 2026-10-06 | 13:12 | 13:50 | ~38 min | 5/8 guesses, 3 traps |
-| 4 | Promise | | | | | |
-| 5 | Events (`.on`) | | | | | |
+| 🍛 | Lunch break | 2026-10-06 | 13:55 | 14:20 | 25 min | Break — not counted in learning time |
+| 4 | Promise (paused) | 2026-10-06 | 14:20 | 16:54 | ~2 h 34 min | setTimeout + callback understood; Promise confusing → restarted from basics. Step 1 (function + parameter) ✅. **Paused at Step 2 (callback)** — to revisit |
+| 5 | Events (`.on`) | 2026-10-06 | 16:55 | 18:22 | ~1 h 27 min | .on / emit, data + end chunks; found & fixed 2 bugs ('data'→'end', missing ") |
 | 6 | getBody (all together) | | | | | |
 
 ---
@@ -29,4 +30,6 @@ How much time I spend on each concept.
 | Ex 1 – JSON | ~1 h 45 min |
 | Ex 2 – try / catch | ~20 min |
 | Ex 3 – ternary | ~38 min |
-| **Playground total so far** | **~2 h 43 min** (+ 13 min resume guide) |
+| Ex 4 – Promise (paused) | ~2 h 34 min |
+| Ex 5 – Events | ~1 h 27 min |
+| **Playground total so far** | **~6 h 44 min** (+ 13 min resume guide, 25 min lunch not counted) |
