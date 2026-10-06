@@ -38,8 +38,8 @@ Phase 5: Catalyst backend
              │     ├── Step 2 callback `waiter(eat)` ⏸️ ← inga irundhu restart
              │     ├── Step 3 setTimeout
              │     └── Step 4 Promise (3 lines: new Promise, resolve, .then)
-             ├── Ex 5 Events
-             └── Ex 6 getBody
+             ├── Ex 5 Events             ✅
+             └── Ex 6 getBody            ✅  → NEXT: index.js la getBody vekkanum
 ```
 
 ---
