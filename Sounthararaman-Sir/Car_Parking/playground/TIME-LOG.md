@@ -23,6 +23,12 @@ How much time I spend on each concept.
 | ☕ | Tea break | 2026-10-06 | 18:55 | 19:18 | 23 min | Break — not counted |
 | 6 | getBody (continued) | 2026-10-06 | 19:18 | 19:33 | ~15 min | Part C 3 case test ✅; fixed getbody→getBody, req→req3, req.end→req3.emit |
 
+## Real app (my-vehicle-app)
+
+| Step | Task | Date | Start | End | Time spent | Notes |
+|---|---|---|---|---|---|---|
+| 5.4 P2 | getBody in `index.js` | 2026-10-06 | 19:43 | 20:16 | ~33 min | Copied getBody (no EventEmitter / fake tests); fixed stray `}(datra)` → `}` (ReferenceError, scope) |
+
 ---
 
 ## Totals

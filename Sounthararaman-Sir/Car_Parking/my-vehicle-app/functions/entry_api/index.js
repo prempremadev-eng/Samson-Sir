@@ -3,6 +3,24 @@
 const { IncomingMessage, ServerResponse } = require("http");
 const catalyst = require('zcatalyst-sdk-node');
 
+function getBody(req){
+	return new Promise((resolve)=>{
+		let data ='';
+
+		req.on('data',(chunk)=>{
+			data +=chunk;
+		})
+		req.on('end',(chunk)=>{
+			try{
+				resolve(data?JSON.parse(data):{})
+			}
+			catch{
+				resolve({})
+			}
+		})
+	})
+}
+
 /**
  * 
  * @param {IncomingMessage} req 
