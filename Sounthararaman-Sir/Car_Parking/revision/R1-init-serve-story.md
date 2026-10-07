@@ -164,6 +164,61 @@ Prem **plate** la (browser) address pottaan: `localhost:3000/server/entry_api/`.
 
 ---
 
+## ✅ Recall test result (diagram paakkaama) – 5 / 5 💯
+
+| # | Question | En answer | |
+|---|---|---|---|
+| 1 | Name board | `.catalystrc` | ✅ |
+| 2 | Register | `catalyst.json` | ✅ |
+| 3 | Waiter mudhalla padikkura file | `catalyst.json` | ✅ |
+| 4 | Cook ID card la 3 vishayam | node20, advancedio, index.js (per, enna samaippaar, enna style) | ✅ |
+| 5 | Saavi enga | `node_modules` | ✅ |
+
+---
+
+## 👀 Naane `node_modules` ulla poi paarthen
+
+### 🔑 Saavi oda label – `zcatalyst-sdk-node/package.json`
+
+```json
+"name": "zcatalyst-sdk-node",
+"version": "3.4.0",
+"description": "Node.js SDK for Zoho Catalyst",
+"main": "lib/index.js",
+```
+
+⭐ `main` = `require('zcatalyst-sdk-node')` pannum bodhu load aagura file (`lib/index.js`). `catalyst-config.json` la `"main": "index.js"` maadhiri dhaan.
+
+### 🗝️ Saavi kulla pala saavi – `lib/` folders
+
+| Folder | Catalyst service | Hotel la |
+|---|---|---|
+| **`datastore`** | Data Store (tables) | 🧊 Store room saavi — Part 3 la idhu |
+| **`zcql`** | SQL maadhiri query | Store room la thedura saavi |
+| `stratus` | File / photo storage | Photo almari |
+| `cron` | Timer jobs | Alarm |
+| `email` | Mail | Post box |
+| `zia` | AI (OCR…) | |
+| `user-management` | Login users | Staff attendance |
+
+`zcatalyst-sdk-node` = **master key bunch** 🔑🔑🔑
+
+### ⚠️ `.build` vs original
+
+| Folder | Enna |
+|---|---|
+| `functions/entry_api/` | ⭐ **Original** — edit pannuradhu idhu dhaan |
+| `.build/functions/entry_api/` | `catalyst serve` create panra **copy** — edit pannaadha, git ignore |
+
+### 📦 Rendu `node_modules`
+
+| `node_modules` | Yaarodadhu |
+|---|---|
+| `my-vehicle-app/node_modules/` | 🏠 Dining hall (React, Vite — `@babel/...`) |
+| `functions/entry_api/node_modules/` | 👨‍🍳 Cook (Catalyst SDK) |
+
+---
+
 ## 🧠 Next recall test (diagram paakkaama)
 
 1. Name board = endha file?

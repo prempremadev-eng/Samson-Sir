@@ -33,7 +33,13 @@ How much time I spend on each concept.
 
 | # | Topic | Date | Start | End | Time spent | Notes |
 |---|---|---|---|---|---|---|
-| R1 | catalyst init + catalyst serve (hotel story) | 2026-10-07 | 11:23 | | | |
+| R1 | catalyst init + catalyst serve (hotel story) | 2026-10-07 | 11:23 | 12:57 | ~1 h 34 min | Init 6/8, serve 6½/8, recall 5/5; explored SDK in node_modules |
+
+## Real app (continued)
+
+| Step | Task | Date | Start | End | Time spent | Notes |
+|---|---|---|---|---|---|---|
+| 5.4 P3 | catalyst.initialize → table | 2026-10-07 | 12:57 | | | |
 
 ---
 
