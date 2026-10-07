@@ -132,3 +132,79 @@ module.exports = async (req, res) => {
 | `await` | **Naan** ezhudhuradhu (keyword) | ⏳ "Inga wait pannu" |
 
 Rule: `await` irundhaa function mela `async` kandippa venum 👫
+
+---
+
+## 🔗 getBody ↔ module.exports connection
+
+**Part 3 la connection illa** — `getBody` ezhudhi vechirukkom, aana yaarum call pannala 🪑. GET-ku body illa (customer "enna irukku?" nu mattum kekkuraar), so thevai padala.
+
+**Part 4 la (POST) cook assistant-a koopiduvaar:**
+
+```js
+module.exports = async (req, res) => {
+  if (req.method === 'POST') {
+    const body = await getBody(req);     // 🔗 CONNECTION inga
+    await table.insertRow({ VehicleNumber: body.vehicleNumber, ... });
+  }
+};
+```
+
+| # | Connection | Artham |
+|---|---|---|
+| 1 | **Adhe `req`** | Waiter kudutha order slip-a cook appadiye assistant-ku kudukkuraar |
+| 2 | **`await`** | getBody Promise (token 🎫) return pannum — thundu ellam vara wait |
+| 3 | **`async`** | `await` use panradhaala venum — Part 3 la already pottachu ✅ |
+
+🏨 Cook (`module.exports`) = boss 👨‍🍳, assistant (`getBody`) = helper 📝. Porul vandha order (POST) mattum helper-a koopiduvaar.
+
+Playground vs real:
+
+| | Playground (Ex 6) | Real (`index.js`) |
+|---|---|---|
+| Result eppadi | `getBody(req).then((body) => …)` | `const body = await getBody(req)` |
+| `req` | Fake (`new EventEmitter()`), naame `emit` | Real (`catalyst serve`), Node thaana `emit` |
+
+---
+
+## 🔪🧩 En observation: unmaiyaana hotel-ku opposite!
+
+> "Unmaiyaana hotel la vegetables-a thundu thundaa vettanum, aana inga thundu thundaa ullatha onnu serkkanum."
+
+| | Unmaiyaana hotel 🔪 | Un app 🧩 |
+|---|---|---|
+| Velai | Periya kaai-a **thundu thundaa vettu** | Thundu thundaa vandhadha **onnaa serthu** |
+| Mudhalla | 🥕 Full carrot | 🧩 `{"name":` + `"prem"}` |
+| Apram | 🥕🔪 slices | `{"name":"prem"}` (full) |
+
+**Aana network la rendum nadakkudhu:**
+
+```
+🏠 React (anuppuradhu)            🌐 Network            👨‍🍳 getBody (vaanguradhu)
+{"name":"prem"} ──🔪 vettu──▶ {"name": │ "prem"} ──🧩 serthu──▶ {"name":"prem"}
+```
+
+| Yaar | Velai | Hotel maadhiri |
+|---|---|---|
+| Network (anuppum bodhu) | Periya data → thundu (chunks) | 🔪 Kaai vetturadhu |
+| `getBody` (vaangum bodhu) | Thundugalai serkkum (`data += chunk`) | 🧩 Puzzle serkkuradhu |
+
+`curl -i` la `transfer-encoding: chunked` = response-um vettappattu dhaan pogudhu.
+
+📦 Courier example: periya parcel **pala box** aa varum. Ellaa box-um vandhu serndha (`end`) apram dhaan full porul.
+
+---
+
+## 🔍 Debug tools (Part 3 la kathukittadhu)
+
+| Tool | Enga | Enna paakkalaam |
+|---|---|---|
+| `console.log` | Terminal (counter) | Code endha step varaikkum vandhuchu |
+| `try / catch` | Terminal + browser | Error message (`getPageedRows` typo pidichudhu!) |
+| `curl -i URL` | Terminal | Status + label + body (naane run pannen ✅) |
+| DevTools Network (F12) | Browser | Status color, Response Headers, Response |
+| **Ctrl + Shift + R** | Browser | Cache illaama pudhusaa load |
+
+**Network tab padikkura order:** Status 200? → Headers `content-type` json? → Response data correct?
+
+**Lesson:** "Work aagudhu" nu body mattum paakkaadha — **status + label + body** moonaiyum check pannu. (`'contentType'` / `'ContentType'` → `'Content-Type'` bug label la dhaan theriyum. Correct aanadhum Firefox JSON viewer vandhuchu!)
