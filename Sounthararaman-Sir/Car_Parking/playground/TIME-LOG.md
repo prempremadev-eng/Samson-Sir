@@ -29,6 +29,12 @@ How much time I spend on each concept.
 |---|---|---|---|---|---|---|
 | 5.4 P2 | getBody in `index.js` | 2026-10-06 | 19:43 | 20:16 | ~33 min | Copied getBody (no EventEmitter / fake tests); fixed stray `}(datra)` → `}` (ReferenceError, scope) |
 
+## 📚 Revision
+
+| # | Topic | Date | Start | End | Time spent | Notes |
+|---|---|---|---|---|---|---|
+| R1 | catalyst init + catalyst serve (hotel story) | 2026-10-07 | 11:23 | | | |
+
 ---
 
 ## Totals

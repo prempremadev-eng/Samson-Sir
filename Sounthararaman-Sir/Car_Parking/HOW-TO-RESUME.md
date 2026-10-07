@@ -85,6 +85,46 @@ Illana indha file-a kaattu:
 
 ---
 
+## 🤖 Claude Code commands
+
+✅ 2026-10-07: laptop shutdown pannittu `claude --continue` pannen — adhe conversation thirumba vandhuchu!
+
+### Start pannum bodhu (terminal la)
+
+| Command | Enna pannum |
+|---|---|
+| `claude` | Pudhu conversation |
+| `claude --continue` (short: `claude -c`) | Andha folder la **kadaisi** conversation-a continue |
+| `claude --resume` (short: `claude -r`) | Pazhaya conversations **list** kaattum, select pannalaam |
+
+⚠️ Eppavume mudhalla `cd ~/vehicle-entry-lancorVendorEntrance`. Conversations folder vaariyaa save aagudhu.
+
+### Claude kulla (`/` slash commands)
+
+| Command | Enna pannum |
+|---|---|
+| `/help` | Ellaa commands-um list |
+| `/resume` | Kulla irundhe pazhaya conversation-ku maarum |
+| `/clear` | Pudhu conversation start (pazhaiyadhu `/resume` la irukkum) |
+| `/compact` | Conversation romba neelamaa aanaa, summary aakki space save pannum |
+| `/memory` | Claude-oda memory file-a paakka / edit panna |
+| `/exit` | Claude-a close pannum |
+
+### Keyboard shortcuts
+
+| Key | Enna pannum |
+|---|---|
+| **Esc** | Claude pannikittu irukka velai-a **niruthum** |
+| **Esc Esc** | Munnaadi anuppina message-ku **thirumbi pogalaam** |
+| **↑** | Munnaadi type panna message thirumba varum |
+| **Shift + Tab** | Mode maathum ("auto mode on" maadhiri) |
+| **Ctrl + C** | Input clear / Claude close |
+| **Ctrl + Z** | ⚠️ Claude **pause** (`Stopped`). Thirumba kondu vara: `fg` |
+| `!` + command | Claude kulla irundhe terminal command. Eg: `! catalyst whoami` |
+| `@` + file per | Oru file-a kaatta. Eg: `@playground/1-json.js idha check pannu` |
+
+---
+
 ## ⚡ Quick commands
 
 | Velai | Command |
