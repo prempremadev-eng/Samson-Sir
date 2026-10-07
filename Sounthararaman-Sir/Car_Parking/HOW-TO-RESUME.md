@@ -39,7 +39,11 @@ Phase 5: Catalyst backend
              │     ├── Step 3 setTimeout
              │     └── Step 4 Promise (3 lines: new Promise, resolve, .then)
              ├── Ex 5 Events             ✅
-             └── Ex 6 getBody            ✅  → NEXT: index.js la getBody vekkanum
+             └── Ex 6 getBody            ✅
+       ├── Part 2 getBody in index.js    ✅
+       ├── Part 3 GET (getPagedRows)     ✅ {"rows":[]}
+       └── Part 4 POST (insertRow)       ✅ first row TN09AB1234 🎉
+ 5.5 React form → fetch POST            ⏳ NEXT
 ```
 
 ---
