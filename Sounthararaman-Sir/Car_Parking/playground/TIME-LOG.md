@@ -41,7 +41,7 @@ How much time I spend on each concept.
 |---|---|---|---|---|---|---|
 | 5.4 P3 | catalyst.initialize → table | 2026-10-07 | 12:57 | 13:27 | ~30 min | Plan + architecture doc; old Hello code commented out, new code not typed yet |
 | 🍛 | Lunch break | 2026-10-07 | 13:27 | 14:18 | 0 h 51 min | Break — not counted |
-| 5.4 P3 | (continued) | 2026-10-07 | 14:18 | | | Type new module.exports + test |
+| 5.4 P3 | (continued) | 2026-10-07 | 14:18 | 17:05 | ~2 h 47 min | async/req,res/module.exports explained; R2 story; console.log debug; fixed getPageedRows typo (catch caught it) + Content-Type label; {"rows":[]} ✅ |
 
 ---
 
