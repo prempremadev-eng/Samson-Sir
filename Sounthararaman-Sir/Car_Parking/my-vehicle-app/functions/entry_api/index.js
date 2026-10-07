@@ -51,6 +51,24 @@ module.exports = async(req,res)=>{
 		const table = app.datastore().table('ParkingEntries');
 		console.log('3- self target: parking entries ')
 
+		if(req.method === 'POST')
+		{
+			const body = await getBody(req);
+			console.log('p1. body vandhuchu :',body);
+
+			const row = await table.insertRow({
+				VehicleNumber: body.vehicleNumber,
+				Name: body.name,
+				PhoneNumber:body.phoneNumber,
+			})
+			console.log('p2.self la vechitten ROWID:', row.ROWID)
+
+			res.writeHead(201, {'Content-Type':  'application/json'});
+			res.end(JSON.stringify({entry: row}))
+			return;
+
+		}
+
 	    console.log('4-store kku poitt return vantuvitten  ')
 		const result = await table.getPagedRows({maxRows:10});
 		console.log('5- thirumbi vanthutte   ')
