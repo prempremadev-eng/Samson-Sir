@@ -21,6 +21,7 @@ function getBody(req){
 	})
 }
 
+
 /**
  * 
  * @param {IncomingMessage} req 
@@ -42,7 +43,25 @@ function getBody(req){
 // 	res.end();
 // };
 
+function allowLocalhost(req,res)
+{
+	const origin = req.headers.origin || '';
+	if(origin.startsWith('http://localhost:')) {
+		res.setHeader('Access-Control-Allow-Origin', origin)
+		res.setHeader('Access-Control-Allow-Methods','GET,POST,OPTIONS');
+		res.setHeader('Access-Control-Allow-Headers','Content-Type')
+	}
+ }
+
+
 module.exports = async(req,res)=>{
+	allowLocalhost(req,res);
+
+	if(req.method==='OPTIONS'){
+		res.writeHead(204);
+		res.end();
+		return;
+	}
 	console.log('1. Order vanthuchu:', req.method,req.url);
 	try{
 		const app = catalyst.initialize(req,{scope: 'admin'});
@@ -60,6 +79,9 @@ module.exports = async(req,res)=>{
 				VehicleNumber: body.vehicleNumber,
 				Name: body.name,
 				PhoneNumber:body.phoneNumber,
+				InTime:body.inTime,
+				EntryType:body.entryType
+
 			})
 			console.log('p2.self la vechitten ROWID:', row.ROWID)
 

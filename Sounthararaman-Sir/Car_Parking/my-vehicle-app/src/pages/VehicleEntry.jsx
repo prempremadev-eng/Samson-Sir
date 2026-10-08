@@ -18,21 +18,51 @@ function VehicleEntry({onNavigate}) {
 
    const entryTypeLabel = ENTRY_TYPE_LABELS[entryType] || 'Unknown'
 
-    const handleSubmit = (e) =>{
+    // const handleSubmit = (e) =>{
+    //     e.preventDefault()
+    //     if(!form.vehicleNumber.trim())
+    //     {
+            
+    //         setError("Enter the vehicleNumber")
+    //         setSuccess('')
+    //         return 
+    //     }
+    //     // console.log('Saving:', form)
+    //     setSuccess(`vehicleNumber ${form.vehicleNumber} added`)
+    //     setForm(emptyForm)
+    //     setError('')
+
+    // }
+
+    const handleSubmit = async (e) =>{
         e.preventDefault()
         if(!form.vehicleNumber.trim())
-        {
-            
+        {   
             setError("Enter the vehicleNumber")
             setSuccess('')
             return 
         }
-        // console.log('Saving:', form)
-        setSuccess(`vehicleNumber ${form.vehicleNumber} added`)
+        const response = await fetch(import.meta.env.VITE_API_BASE,
+            {method:'POST',
+             headers: {'Content-Type':'application/json'},
+             body:JSON.stringify({...form,entryType,inTime:new Date().toISOString() })
+    })
+
+        if(!response.ok)
+        {
+
+            setError('save aagla try again ')
+            setSuccess('')
+            return 
+        }
+        
+        setSuccess(`vehicleNumber ${form.vehicleNumber}added`)
         setForm(emptyForm)
         setError('')
 
     }
+
+    
   return (
     
     <div className="page">

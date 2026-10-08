@@ -53,7 +53,9 @@ How much time I spend on each concept.
 | — | Reference repo → GitHub (gitignore .build/.claude, secret check) | 2026-10-08 | 09:09 | 09:43 | | User pushed; API keys verified not in commit |
 | ⏸️ | Break | 2026-10-08 | 09:43 | 11:17 | | Break — not counted |
 | R3 | Recall quiz: Part 3 + Part 4 | 2026-10-08 | 11:17 | 11:45 | ~28 min | 5½/8; Q7 full chain 💯; doubt: JSON vs text, destructuring |
-| 5.5 | React form → fetch POST | 2026-10-08 | 11:45 | | | |
+| 5.5 | React form → fetch POST | 2026-10-08 | 11:45 | 14:00 | ~2 h 15 min | .env.development (moved to right folder); handleSubmit fetch; bugs: import.meta.VITE (no .env) → 5173/undefined 200; return before ok check; Ctrl+Z serves on 3000/3001 |
+| 🍛 | Lunch break | 2026-10-08 | 14:00 | 14:33 | | Break — not counted |
+| 5.5 | (continued) | 2026-10-08 | 14:33 | 17:10 | ~2 h 37 min | Port 3000 taken by another project serve; guard fix; CORS (allowLocalhost + OPTIONS 204); EntryType/InTime via body.* — full row TN22CD9999 visitor ✅ PHASE 5 DONE 🎉 |
 
 ---
 
