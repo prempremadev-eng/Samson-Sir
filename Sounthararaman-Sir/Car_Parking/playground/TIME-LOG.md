@@ -46,6 +46,15 @@ How much time I spend on each concept.
 | 5.4 P4 | POST → insertRow | 2026-10-07 | 17:43 | 20:01 | ~2 h 18 min | if(POST)+return; fixed missing comma (SyntaxError); 500 "Empty row" ← phoneNumber key no quotes → getBody {} ; first row saved TN09AB1234 ✅ seen in Console Data View |
 | 🍽️ | Dinner break | 2026-10-07 | 20:21 | 21:11 | 50 min | Break — not counted |
 
+## 📅 2026-10-08
+
+| Step | Task | Date | Start | End | Time spent | Notes |
+|---|---|---|---|---|---|---|
+| — | Reference repo → GitHub (gitignore .build/.claude, secret check) | 2026-10-08 | 09:09 | 09:43 | | User pushed; API keys verified not in commit |
+| ⏸️ | Break | 2026-10-08 | 09:43 | 11:17 | | Break — not counted |
+| R3 | Recall quiz: Part 3 + Part 4 | 2026-10-08 | 11:17 | 11:45 | ~28 min | 5½/8; Q7 full chain 💯; doubt: JSON vs text, destructuring |
+| 5.5 | React form → fetch POST | 2026-10-08 | 11:45 | | | |
+
 ---
 
 ## Totals
