@@ -57,6 +57,7 @@ How much time I spend on each concept.
 | 🍛 | Lunch break | 2026-10-08 | 14:00 | 14:33 | | Break — not counted |
 | 5.5 | (continued) | 2026-10-08 | 14:33 | 17:10 | ~2 h 37 min | Port 3000 taken by another project serve; guard fix; CORS (allowLocalhost + OPTIONS 204); EntryType/InTime via body.* — full row TN22CD9999 visitor ✅ PHASE 5 DONE 🎉 |
 | 📝 | Notes R4/R5/CORS + day summary + spoken English | 2026-10-08 | 17:10 | 17:40 | ~30 min | Learning total today ~6 h 19 min |
+| R6 | Full Phase 5 recall (init → CORS) | 2026-10-08 | 17:45 | 19:26 | | 7½/11 — backend 4/4; weak: Ctrl+Z, VITE_, CORS one-liner, 204 |
 
 ---
 
