@@ -56,6 +56,7 @@ How much time I spend on each concept.
 | 5.5 | React form → fetch POST | 2026-10-08 | 11:45 | 14:00 | ~2 h 15 min | .env.development (moved to right folder); handleSubmit fetch; bugs: import.meta.VITE (no .env) → 5173/undefined 200; return before ok check; Ctrl+Z serves on 3000/3001 |
 | 🍛 | Lunch break | 2026-10-08 | 14:00 | 14:33 | | Break — not counted |
 | 5.5 | (continued) | 2026-10-08 | 14:33 | 17:10 | ~2 h 37 min | Port 3000 taken by another project serve; guard fix; CORS (allowLocalhost + OPTIONS 204); EntryType/InTime via body.* — full row TN22CD9999 visitor ✅ PHASE 5 DONE 🎉 |
+| 📝 | Notes R4/R5/CORS + day summary + spoken English | 2026-10-08 | 17:10 | 17:40 | ~30 min | Learning total today ~6 h 19 min |
 
 ---
 
