@@ -43,7 +43,8 @@ Phase 5: Catalyst backend
        ├── Part 2 getBody in index.js    ✅
        ├── Part 3 GET (getPagedRows)     ✅ {"rows":[]}
        └── Part 4 POST (insertRow)       ✅ first row TN09AB1234 🎉
- 5.5 React form → fetch POST            ⏳ NEXT
+ 5.5 React form → fetch POST + CORS      ✅ PHASE 5 DONE 🎉 (2026-10-08)
+ Phase 6 Dashboard list + utils.js       ⏳ NEXT
 ```
 
 ---

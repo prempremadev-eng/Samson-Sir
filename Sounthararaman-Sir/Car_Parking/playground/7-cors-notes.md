@@ -93,7 +93,92 @@ CORS **browser** mattum dhaan check pannum. curl browser illa — guard illa �
 
 💡 React **5174** la odudhu (5173 vera yaaro use pannuraanga) — so fix **endha localhost port aanaalum** allow pannanum.
 
-➡️ Fix code: (inga add pannuvom, fix mudinjadhum)
+### ✅ Fix code (Part A — helper, `getBody` maadhiri)
+
+```js
+function allowLocalhost(req, res) {
+	const origin = req.headers.origin || '';
+	if (origin.startsWith('http://localhost:')) {
+		res.setHeader('Access-Control-Allow-Origin', origin);
+		res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+		res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+	}
+}
+```
+
+| Line | Artham | Hotel la |
+|---|---|---|
+| `req.headers.origin` | Browser thaana podura `Origin` header | Order slip mela "Hall: 5174" stamp |
+| `\|\| ''` | Origin illana (curl) kaali text — crash aagaama | Stamp illaadha slip |
+| `startsWith('http://localhost:')` | localhost endha port aanaalum allow | Namma dining hall mattum |
+| 3 `setHeader` | Permission letter ✉️ | |
+
+**OPTIONS kettadhu ↔ naama kudukkura badhil:**
+
+| OPTIONS Request | Response |
+|---|---|
+| `Origin: http://localhost:5174` | `Access-Control-Allow-Origin: http://localhost:5174` |
+| `Access-Control-Request-Method: POST` | `Access-Control-Allow-Methods: GET,POST,OPTIONS` |
+| `Access-Control-Request-Headers: content-type` | `Access-Control-Allow-Headers: Content-Type` |
+
+### ✅ Fix code (Part B — cook mudhal lines)
+
+```js
+module.exports = async (req, res) => {
+	allowLocalhost(req, res);          // ✉️ ellaa response-kkum letter
+
+	if (req.method === 'OPTIONS') {    // 💂 guard kelvi
+		res.writeHead(204);             // "Sari, vaa" — body illa
+		res.end();
+		return;                         // 🛑 table code odakoodaadhu
+	}
+	...
+```
+
+**Order:** ① letter → ② OPTIONS na 204 + stop → ③ initialize, table → ④ POST → ⑤ GET
+
+### 🧪 Test result
+
+```
+HTTP/1.1 204 No Content
+access-control-allow-origin: http://localhost:5174
+access-control-allow-methods: GET,POST,OPTIONS
+access-control-allow-headers: Content-Type
+```
+
+Munnaadi OPTIONS: 200 + rows, letter illa 🚫 → Ippo: **204 + letter** ✅ → POST pogudhu → row save 🎉
+
+---
+
+## ❓ En doubts (Q & A)
+
+**Q: `|| ''` enna?**
+`||` = OR — left side falsy (`undefined`) na right side (`''`). Ex 3 ternary short form:
+`req.headers.origin ? req.headers.origin : ''`
+Illana curl la `undefined.startsWith` → 💥 TypeError.
+
+**Q: Origin illana address theriyaadhe, enna pannuradhu?**
+Browser **vera address-ku** request anuppum bodhu **eppavume** `Origin` podum. Origin illana → browser illa (curl / server) → guard illa → letter thevai illa, normal ah process.
+⚠️ **CORS security illa!** curl la yaar venumnaalum anuppalaam. Real protection = **Login / Auth** 🔐 (Phase 8).
+
+**Q: `allowLocalhost` eppadi connect aagudhu? `req, res` form la irundhu varudhaa?**
+Cook mudhal line la `allowLocalhost(req, res)` — `catalyst serve` kudutha **adhe** `req, res`.
+
+```
+📝 req
+├── 🏷️ HEADERS — Origin (browser thaana), Content-Type (un fetch)   ← allowLocalhost padikkum
+└── 📦 BODY    — {"vehicleNumber":…} (un form, JSON.stringify)        ← getBody padikkum
+```
+
+---
+
+## 🐛 Naan fix panna CORS bugs
+
+| Line | Bug | Error | Fix |
+|---|---|---|---|
+| 26 | `req.header.origin` | `TypeError: Cannot read properties of undefined` | `req.headers` (plural) |
+| 27 | `origin.startWith(…)` | `TypeError: startWith is not a function` | `startsWith` |
+| 29–30 | `Allow-methods`, `Allow-headers` | (work aagum — header names case paakkaadhu) | `Methods`, `Headers` (style) |
 
 ---
 
