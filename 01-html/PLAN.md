@@ -23,7 +23,7 @@ Start date: 2026-10-09
 |---|---|---|---|
 | 1 | Tag na enna + page skeleton | First `index.html` | ✅ |
 | 2 | Headings, paragraph, text tags | "About Me" page | ✅ |
-| 3 | Links | 2 pages-a link pannu | ⬜ |
+| 3 | Links | 2 pages-a link pannu | ✅ |
 | 4 | Images | Hotel photo add pannu | ⬜ |
 | 5 | Video + Audio + YouTube iframe | Samayal video add pannu | ⬜ |
 | 6 | Lists | Menu list | ⬜ |
