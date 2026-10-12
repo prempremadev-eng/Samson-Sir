@@ -1,0 +1,30 @@
+{
+  "defaults": {
+    "project": 1,
+    "env": 1
+  },
+  "actives": {
+    "project": 1,
+    "env": 1
+  },
+  "projects": [
+    {
+      "idx": 1,
+      "id": "54451000000142001",
+      "name": "CleanCity",
+      "domain": {
+        "id": "50046808644",
+        "name": "cleancity-60078558337.development"
+      },
+      "timezone": "Asia/Kolkata",
+      "env": [
+        {
+          "idx": 1,
+          "id": "60078558337",
+          "name": "Development",
+          "type": 3
+        }
+      ]
+    }
+  ]
+}

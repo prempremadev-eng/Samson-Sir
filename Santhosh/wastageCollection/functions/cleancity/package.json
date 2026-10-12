@@ -1,0 +1,9 @@
+{
+	"name": "cleancity",
+	"version": "1.0.0",
+	"main": "index.js",
+	"author": "premprema90801@gmail.com",
+	"dependencies": {
+		"zcatalyst-sdk-node": "latest"
+	}
+}

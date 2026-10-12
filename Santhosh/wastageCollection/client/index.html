@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CleanCity - Daily Collection</title>
+	<!-- Catalyst Web SDK: login check, logout (first SDK, apram dhaan init.js) -->
+	<script src="https://static.zohocdn.com/catalyst/sdk/js/4.6.1/catalystWebSDK.js"></script>
+	<script src="/__catalyst/sdk/init.js"></script>
+	<style>
+		* { box-sizing: border-box; }
+		body {
+			margin: 0;
+			padding: 16px;
+			font-family: system-ui, sans-serif;
+			background: #f1f5f2;
+			color: #1f2d23;
+		}
+		.card {
+			max-width: 1100px;
+			margin: 0 auto;
+			background: #fff;
+			padding: 20px;
+			border-radius: 12px;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+		}
+		h1 { margin: 0; font-size: 22px; color: #2e7d32; }
+		h2 { font-size: 17px; margin: 20px 0 8px; }
+		.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+		.user { font-size: 14px; color: #5a6b5f; display: flex; align-items: center; gap: 8px; text-align: right; }
+		.user small { display: block; font-size: 12px; color: #7a8a7f; }
+		.badge { display: inline-block; padding: 2px 8px; margin-left: 4px; border-radius: 10px; font-size: 12px; background: #e8f3e9; color: #2e7d32; }
+		.user button { margin: 0 0 0 8px; padding: 6px 14px; font-size: 13px; background: #6b7d70; }
+		#app { display: none; }
+		.tabs { display: flex; gap: 4px; border-bottom: 2px solid #e3e9e4; margin-bottom: 16px; }
+		.tabs button {
+			margin: 0;
+			padding: 10px 16px;
+			font-size: 14px;
+			color: #5a6b5f;
+			background: none;
+			border-radius: 8px 8px 0 0;
+		}
+		.tabs button.active { color: #fff; background: #2e7d32; }
+		.panel { display: none; }
+		.panel.active { display: block; }
+		.filters { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; }
+		.filters label { font-weight: 600; font-size: 14px; }
+		.filters input, .filters select {
+			display: block;
+			margin-top: 4px;
+			padding: 8px;
+			font-size: 15px;
+			border: 1px solid #c5d1c8;
+			border-radius: 8px;
+		}
+		.filters button { margin: 0; padding: 9px 20px; font-size: 15px; }
+		.formula { font-size: 13px; color: #5a6b5f; margin: 12px 0; }
+		.table-wrap { overflow-x: auto; }
+		table { width: 100%; border-collapse: collapse; font-size: 14px; }
+		th, td { padding: 8px; border-bottom: 1px solid #e3e9e4; text-align: right; white-space: nowrap; }
+		th { background: #e8f3e9; position: sticky; top: 0; }
+		th.left, td.left { text-align: left; }
+		td input {
+			width: 90px;
+			padding: 6px;
+			font-size: 14px;
+			text-align: right;
+			border: 1px solid #c5d1c8;
+			border-radius: 6px;
+		}
+		td input:disabled { background: #eee; }
+		td .link { margin: 0 0 0 6px; padding: 4px 10px; font-size: 12px; background: #6b7d70; }
+		td .link.danger { background: #c62828; }
+		.col-entry { background: #fffbe6; }
+		tfoot td { font-weight: 700; background: #f6f8f6; }
+		.short { color: #c62828; }
+		button {
+			margin-top: 16px;
+			padding: 12px 32px;
+			font-size: 16px;
+			font-weight: 600;
+			color: #fff;
+			background: #2e7d32;
+			border: none;
+			border-radius: 8px;
+			cursor: pointer;
+		}
+		button:disabled { background: #9bbf9d; }
+		.secondary { background: #6b7d70; }
+		.who { display: block; font-size: 11px; color: #5a6b5f; font-weight: 400; }
+		.readonly-note { display: none; margin: 8px 0; padding: 8px 12px; border-radius: 8px; background: #fff3cd; color: #8a5a00; font-size: 14px; }
+		.requests { margin: 0 0 16px; padding: 12px; border-radius: 8px; background: #fff8e1; border: 1px solid #ffe08a; }
+		.requests h2 { margin-top: 0; }
+		tr.loc-total td { font-weight: 700; background: #f6f8f6; }
+		tr.grand-total td { font-weight: 700; background: #e8f3e9; }
+		#message { margin-top: 12px; padding: 10px; border-radius: 8px; display: none; }
+		#message.ok { display: block; background: #e3f4e4; color: #1b5e20; }
+		#message.err { display: block; background: #fde7e7; color: #b71c1c; }
+	</style>
+</head>
+<body>
+	<div class="card">
+		<div class="top">
+			<h1>🧹 CleanCity</h1>
+			<div class="user"><span id="userName">Login check...</span><button id="logoutBtn" hidden>Logout</button></div>
+		</div>
+
+		<div id="app">
+			<div class="tabs">
+				<button data-tab="entryPanel" class="active">📝 Daily Entry</button>
+				<button data-tab="reportPanel">📊 Report</button>
+				<button data-tab="vehiclePanel" class="admin-only" hidden>🚛 Vehicles</button>
+				<button data-tab="userPanel" class="admin-only" hidden>👤 Users</button>
+			</div>
+
+			<!-- ===== Daily Entry (ellaarum) ===== -->
+			<div class="panel active" id="entryPanel">
+				<div class="filters">
+					<label>Date
+						<input type="date" id="date">
+					</label>
+					<label id="locationFilter">Location
+						<select id="location">
+							<option value="">All locations</option>
+						</select>
+					</label>
+				</div>
+
+				<p class="formula">
+					Waste Generation = Households × 4 kg &nbsp;|&nbsp; Wet = 50% &nbsp;|&nbsp; Dry = 50%
+					&nbsp;|&nbsp; 🟨 Manjal column mattum type pannanum
+				</p>
+				<div class="readonly-note" id="readonlyNote">👀 Indha date paakka mattum dhaan. Entry <strong>inniku</strong> mattum dhaan podalaam.</div>
+
+				<div class="table-wrap">
+					<table>
+						<thead>
+							<tr>
+								<th>S.No</th>
+								<th class="left">Vehicle No</th>
+								<th>Households</th>
+								<th>Waste Gen (kg)</th>
+								<th>Wet Gen (kg)</th>
+								<th class="col-entry">Wet Collection (kg)</th>
+								<th>Dry Gen (kg)</th>
+								<th class="col-entry">Dry Collection (kg)</th>
+								<th class="left">Entry by</th>
+							</tr>
+						</thead>
+						<tbody id="rows">
+							<tr><td colspan="9" class="left">Loading...</td></tr>
+						</tbody>
+						<tfoot id="totals"></tfoot>
+					</table>
+				</div>
+
+				<button id="saveBtn">Save</button>
+			</div>
+
+			<!-- ===== Report (ellaarum) ===== -->
+			<div class="panel" id="reportPanel">
+				<div class="filters">
+					<label>Period
+						<select id="rPeriod">
+							<option value="week">Week (Mon – Sun)</option>
+							<option value="month">Month</option>
+						</select>
+					</label>
+					<label>Date
+						<input type="date" id="rDate">
+					</label>
+					<label id="rLocationFilter">Location
+						<select id="rLocation">
+							<option value="">All locations</option>
+						</select>
+					</label>
+				</div>
+				<p class="formula" id="rInfo"></p>
+				<div class="table-wrap">
+					<table>
+						<thead>
+							<tr>
+								<th>S.No</th>
+								<th class="left">Vehicle No</th>
+								<th>Households</th>
+								<th>Entry days</th>
+								<th>Waste Gen (kg)</th>
+								<th>Wet Gen (kg)</th>
+								<th>Wet Collection (kg)</th>
+								<th>Dry Gen (kg)</th>
+								<th>Dry Collection (kg)</th>
+							</tr>
+						</thead>
+						<tbody id="reportRows"></tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- ===== Vehicles (admin, owner) ===== -->
+			<div class="panel" id="vehiclePanel">
+				<h2 id="vehicleFormTitle">➕ Pudhu vandi</h2>
+				<div class="filters">
+					<label>Vehicle No
+						<input type="text" id="vNo" placeholder="TN 01 AB 1234">
+					</label>
+					<label>Households
+						<input type="number" id="vHouseholds" min="1" step="1" placeholder="500">
+					</label>
+					<label>Location
+						<select id="vLocation"></select>
+					</label>
+					<button id="vSaveBtn">Save</button>
+					<button id="vCancelBtn" class="secondary" hidden>Cancel</button>
+				</div>
+
+				<h2>🚛 Ellaa vandi</h2>
+				<div class="table-wrap">
+					<table>
+						<thead>
+							<tr>
+								<th>S.No</th>
+								<th class="left">Vehicle No</th>
+								<th class="left">Location</th>
+								<th>Households</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="vehicleRows"></tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- ===== Users (admin, owner) ===== -->
+			<div class="panel" id="userPanel">
+				<div class="requests" id="requestBox" hidden>
+					<h2>⏳ Permission kekkuravanga</h2>
+					<div class="table-wrap">
+						<table>
+							<thead>
+								<tr>
+									<th class="left">Name</th>
+									<th class="left">Email</th>
+									<th class="left">Kadaisi try</th>
+									<th>Thadava</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody id="requestRows"></tbody>
+						</table>
+					</div>
+				</div>
+
+				<h2 id="userFormTitle">➕ Pudhu user</h2>
+				<div class="filters">
+					<label>Name
+						<input type="text" id="uName" placeholder="Sathya">
+					</label>
+					<label>Email (Gmail)
+						<input type="email" id="uEmail" placeholder="sathya@gmail.com">
+					</label>
+					<label>Role
+						<select id="uRole">
+							<option value="supervisor">Supervisor</option>
+							<option value="admin" class="owner-only">Admin</option>
+						</select>
+					</label>
+					<label id="uLocationLabel">Location
+						<select id="uLocation"></select>
+					</label>
+					<button id="uSaveBtn">Save</button>
+					<button id="uCancelBtn" class="secondary" hidden>Cancel</button>
+				</div>
+
+				<h2>👤 Ellaa users</h2>
+				<div class="table-wrap">
+					<table>
+						<thead>
+							<tr>
+								<th class="left">Name</th>
+								<th class="left">Email</th>
+								<th class="left">Role</th>
+								<th class="left">Location</th>
+								<th class="left">Last login</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="userRows"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div id="message"></div>
+	</div>
+
+	<script>
+		// Function (waiter) address — page-um function-um ore server-la irukku
+		const API = '/server/cleancity';
+
+		const $ = id => document.getElementById(id);
+		const message = $('message');
+
+		let me = null;          // naan yaaru (role, location)
+		let locations = [];
+		let report = [];        // Daily entry: andha naal data
+		let vehicles = [];
+		let users = [];
+		let editVehicleId = null;
+		let editUserId = null;
+
+		// ---------- Common ----------
+
+		function today() {
+			if (me && me.today) return me.today;   // server India time
+			const d = new Date();
+			return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+		}
+
+		function showMessage(text, type) {
+			message.textContent = text;
+			message.className = type;
+		}
+
+		function kg(value) {
+			return Number(value).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+		}
+
+		// HTML-la user type pannadhu podumbodhu < > script-ah odaama
+		function escapeHtml(text) {
+			const div = document.createElement('div');
+			div.textContent = text ?? '';
+			return div.innerHTML;
+		}
+
+		function goToLogin() {
+			window.location.href = '/__catalyst/auth/login';
+		}
+
+		// Ellaa API call-um idha vazhiyaa: login cookie + error handle
+		async function api(path, options = {}) {
+			const res = await fetch(`${API}${path}`, {
+				credentials: 'include',
+				headers: { 'Content-Type': 'application/json' },
+				...options
+			});
+			if (res.status === 401) {
+				goToLogin();
+				throw new Error('Login pannunga');
+			}
+			const data = await res.json();
+			if (!res.ok) throw new Error(data.error);
+			return data;
+		}
+
+		function isAdmin() {
+			return me && (me.role === 'owner' || me.role === 'admin');
+		}
+
+		function fillLocationSelect(select) {
+			select.innerHTML = '';
+			locations.forEach(l => {
+				const option = document.createElement('option');
+				option.value = l.ROWID;
+				option.textContent = l.location_name;
+				select.appendChild(option);
+			});
+		}
+
+		// Tabs
+		document.querySelectorAll('.tabs button').forEach(button => {
+			button.addEventListener('click', () => {
+				document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+				document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+				button.classList.add('active');
+				$(button.dataset.tab).classList.add('active');
+				message.className = '';
+				if (button.dataset.tab === 'vehiclePanel') loadVehicles();
+				if (button.dataset.tab === 'userPanel') loadUsers();
+				if (button.dataset.tab === 'entryPanel') loadDay();
+				if (button.dataset.tab === 'reportPanel') loadReport();
+			});
+		});
+
+		// ---------- Daily Entry ----------
+
+		async function loadDay() {
+			$('rows').innerHTML = '<tr><td colspan="9" class="left">Loading...</td></tr>';
+			try {
+				report = await api(`/collection?date=${$('date').value}`);
+				renderDay();
+			} catch (err) {
+				$('rows').innerHTML = '<tr><td colspan="9" class="left">Load aagala</td></tr>';
+				showMessage('❌ ' + err.message, 'err');
+			}
+		}
+
+		function visibleRows() {
+			const name = $('location').value;
+			return report.filter(r => !name || r.location_name === name);
+		}
+
+		function renderDay() {
+			const visible = visibleRows();
+			const rowsBody = $('rows');
+			rowsBody.innerHTML = '';
+			visible.forEach((r, index) => {
+				const tr = document.createElement('tr');
+				tr.innerHTML = `
+					<td>${index + 1}</td>
+					<td class="left">${escapeHtml(r.vehicle_no)}<br><small>${escapeHtml(r.location_name)}</small></td>
+					<td>${r.households}</td>
+					<td>${kg(r.waste_generation)}</td>
+					<td>${kg(r.wet_generation)}</td>
+					<td class="col-entry"><input type="number" min="0" step="0.01" data-id="${r.vehicle_id}" data-field="wet_collection"></td>
+					<td>${kg(r.dry_generation)}</td>
+					<td class="col-entry"><input type="number" min="0" step="0.01" data-id="${r.vehicle_id}" data-field="dry_collection"></td>
+					<td class="left">${r.entered_by ? `${escapeHtml(r.entered_by)}<span class="who">${escapeHtml(r.entered_time || '')}</span>` : '-'}</td>
+				`;
+				const wetInput = tr.querySelector('[data-field="wet_collection"]');
+				const dryInput = tr.querySelector('[data-field="dry_collection"]');
+				wetInput.value = r.wet_collection ?? '';
+				dryInput.value = r.dry_collection ?? '';
+				// Dry plant illaadha location → dry = 0, lock
+				if (!r.has_dry_plant) {
+					dryInput.value = 0;
+					dryInput.disabled = true;
+					dryInput.title = `${r.location_name}-la dry plant illa`;
+				}
+				// Inniku illa-na paakka mattum
+				if (!isToday()) {
+					wetInput.disabled = true;
+					dryInput.disabled = true;
+				}
+				rowsBody.appendChild(tr);
+			});
+			$('readonlyNote').style.display = isToday() ? 'none' : 'block';
+			$('saveBtn').hidden = !isToday();
+			renderTotals(visible);
+		}
+
+		function isToday() {
+			return $('date').value === today();
+		}
+
+		function sumInputs(field) {
+			return [...$('rows').querySelectorAll(`[data-field="${field}"]`)]
+				.reduce((total, input) => total + (Number(input.value) || 0), 0);
+		}
+
+		function renderTotals(visible) {
+			const sum = field => visible.reduce((total, r) => total + (Number(r[field]) || 0), 0);
+			const wetCol = sumInputs('wet_collection');
+			const dryCol = sumInputs('dry_collection');
+			$('totals').innerHTML = `
+				<tr>
+					<td></td>
+					<td class="left">Total</td>
+					<td>${sum('households')}</td>
+					<td>${kg(sum('waste_generation'))}</td>
+					<td>${kg(sum('wet_generation'))}</td>
+					<td class="col-entry ${wetCol < sum('wet_generation') ? 'short' : ''}">${kg(wetCol)}</td>
+					<td>${kg(sum('dry_generation'))}</td>
+					<td class="col-entry ${dryCol < sum('dry_generation') ? 'short' : ''}">${kg(dryCol)}</td>
+					<td></td>
+				</tr>
+			`;
+		}
+
+		// Type pannumbodhe total update
+		$('rows').addEventListener('input', () => renderTotals(visibleRows()));
+		$('date').addEventListener('change', loadDay);
+		$('location').addEventListener('change', renderDay);
+
+		$('saveBtn').addEventListener('click', async () => {
+			const entries = [];
+			$('rows').querySelectorAll('[data-field="wet_collection"]').forEach(wetInput => {
+				const dryInput = $('rows').querySelector(`[data-field="dry_collection"][data-id="${wetInput.dataset.id}"]`);
+				if (wetInput.value === '' && (dryInput.value === '' || dryInput.disabled)) return;
+				entries.push({
+					vehicle_id: wetInput.dataset.id,
+					wet_collection_kg: wetInput.value === '' ? 0 : Number(wetInput.value),
+					dry_collection_kg: dryInput.value === '' ? 0 : Number(dryInput.value)
+				});
+			});
+			if (entries.length === 0) {
+				showMessage('Edhuvum type pannala 🙂', 'err');
+				return;
+			}
+
+			const saveBtn = $('saveBtn');
+			saveBtn.disabled = true;
+			saveBtn.textContent = 'Saving...';
+			try {
+				const data = await api('/collection', {
+					method: 'POST',
+					body: JSON.stringify({ collection_date: $('date').value, entries })
+				});
+				await loadDay();
+				showMessage(`✅ Saved! Pudhusu: ${data.inserted}, Update: ${data.updated}`, 'ok');
+			} catch (err) {
+				showMessage('❌ ' + err.message, 'err');
+			} finally {
+				saveBtn.disabled = false;
+				saveBtn.textContent = 'Save';
+			}
+		});
+
+		// ---------- Report (week / month) ----------
+
+		let periodReport = null;
+
+		async function loadReport() {
+			$('reportRows').innerHTML = '<tr><td colspan="9" class="left">Loading...</td></tr>';
+			try {
+				periodReport = await api(`/report?period=${$('rPeriod').value}&date=${$('rDate').value}`);
+				renderReport();
+			} catch (err) {
+				$('reportRows').innerHTML = '<tr><td colspan="9" class="left">Load aagala</td></tr>';
+				showMessage('❌ ' + err.message, 'err');
+			}
+		}
+
+		function reportRowHtml(cells, className = '') {
+			return `<tr class="${className}">${cells.map((c, i) => `<td class="${i === 1 ? 'left' : ''}">${c}</td>`).join('')}</tr>`;
+		}
+
+		function sumRows(rows) {
+			const total = { households: 0, entry_days: 0, waste_generation: 0, wet_generation: 0, wet_collection: 0, dry_generation: 0, dry_collection: 0 };
+			rows.forEach(r => Object.keys(total).forEach(k => { total[k] += Number(r[k]) || 0; }));
+			return total;
+		}
+
+		function totalCells(label, t) {
+			return ['', label, t.households, t.entry_days, kg(t.waste_generation), kg(t.wet_generation),
+				`<span class="${t.wet_collection < t.wet_generation ? 'short' : ''}">${kg(t.wet_collection)}</span>`,
+				kg(t.dry_generation),
+				`<span class="${t.dry_collection < t.dry_generation ? 'short' : ''}">${kg(t.dry_collection)}</span>`];
+		}
+
+		// Location vaariyaa group → ovvoru location-kkum sub total, kadaisi-la grand total
+		function renderReport() {
+			const r = periodReport;
+			$('rInfo').textContent = `${r.from} → ${r.to} · Generation ${r.days} naal-ku (inniku varaikkum) · Households × 4 kg × naal`;
+			const name = $('rLocation').value;
+			const rows = r.rows.filter(x => !name || x.location_name === name);
+			let html = '';
+			let sNo = 0;
+			[...new Set(rows.map(x => x.location_name))].forEach(locationName => {
+				const group = rows.filter(x => x.location_name === locationName);
+				group.forEach(x => {
+					sNo += 1;
+					html += reportRowHtml([sNo, escapeHtml(x.vehicle_no), x.households, x.entry_days,
+						kg(x.waste_generation), kg(x.wet_generation), kg(x.wet_collection), kg(x.dry_generation), kg(x.dry_collection)]);
+				});
+				html += reportRowHtml(totalCells(`${escapeHtml(locationName)} total`, sumRows(group)), 'loc-total');
+			});
+			if (rows.length) html += reportRowHtml(totalCells('Grand total', sumRows(rows)), 'grand-total');
+			$('reportRows').innerHTML = html || '<tr><td colspan="9" class="left">Data illa</td></tr>';
+		}
+
+		$('rPeriod').addEventListener('change', loadReport);
+		$('rDate').addEventListener('change', loadReport);
+		$('rLocation').addEventListener('change', renderReport);
+
+		// ---------- Vehicles (admin) ----------
+
+		async function loadVehicles() {
+			try {
+				vehicles = await api('/vehicles');
+				renderVehicles();
+			} catch (err) {
+				showMessage('❌ ' + err.message, 'err');
+			}
+		}
+
+		function renderVehicles() {
+			const body = $('vehicleRows');
+			body.innerHTML = '';
+			vehicles.forEach((v, index) => {
+				const tr = document.createElement('tr');
+				tr.innerHTML = `
+					<td>${index + 1}</td>
+					<td class="left">${escapeHtml(v.vehicle_no)}</td>
+					<td class="left">${escapeHtml(v.location_name)}</td>
+					<td>${v.households}</td>
+					<td><button class="link">Edit</button></td>
+				`;
+				tr.querySelector('button').addEventListener('click', () => startVehicleEdit(v));
+				body.appendChild(tr);
+			});
+		}
+
+		function startVehicleEdit(v) {
+			editVehicleId = v.ROWID;
+			$('vehicleFormTitle').textContent = `✏️ Edit: ${v.vehicle_no}`;
+			$('vNo').value = v.vehicle_no;
+			$('vHouseholds').value = v.households;
+			$('vLocation').value = v.location_id;
+			$('vCancelBtn').hidden = false;
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		}
+
+		function resetVehicleForm() {
+			editVehicleId = null;
+			$('vehicleFormTitle').textContent = '➕ Pudhu vandi';
+			$('vNo').value = '';
+			$('vHouseholds').value = '';
+			$('vCancelBtn').hidden = true;
+		}
+
+		$('vCancelBtn').addEventListener('click', resetVehicleForm);
+
+		$('vSaveBtn').addEventListener('click', async () => {
+			try {
+				const body = {
+					vehicle_no: $('vNo').value,
+					households: Number($('vHouseholds').value),
+					location_id: $('vLocation').value
+				};
+				if (editVehicleId) body.ROWID = editVehicleId;
+				const data = await api('/vehicles', { method: 'POST', body: JSON.stringify(body) });
+				showMessage(data.updated ? '✅ Vandi update aachu' : '✅ Pudhu vandi add aachu', 'ok');
+				resetVehicleForm();
+				loadVehicles();
+			} catch (err) {
+				showMessage('❌ ' + err.message, 'err');
+			}
+		});
+
+		// ---------- Users (admin) ----------
+
+		async function loadUsers() {
+			try {
+				users = await api('/users');
+				renderUsers();
+				renderRequests(await api('/requests'));
+			} catch (err) {
+				showMessage('❌ ' + err.message, 'err');
+			}
+		}
+
+		// Owner ellaaraiyum, admin supervisor-ah mattum edit pannalaam
+		function canManage(u) {
+			if (u.role === 'owner') return false;
+			if (u.role === 'admin') return me.role === 'owner';
+			return true;
+		}
+
+		function renderUsers() {
+			const body = $('userRows');
+			body.innerHTML = '';
+			users.forEach(u => {
+				const tr = document.createElement('tr');
+				tr.innerHTML = `
+					<td class="left">${escapeHtml(u.name)}</td>
+					<td class="left">${escapeHtml(u.email)}</td>
+					<td class="left"><span class="badge">${u.role}</span></td>
+					<td class="left">${escapeHtml(u.location_name || (u.role === 'supervisor' ? '-' : 'Ellaam'))}</td>
+					<td class="left">${escapeHtml(u.last_login || 'Innum login pannala')}</td>
+					<td>${canManage(u) ? '<button class="link">Edit</button><button class="link danger">Remove</button>' : ''}</td>
+				`;
+				if (canManage(u)) {
+					const [editBtn, removeBtn] = tr.querySelectorAll('button');
+					editBtn.addEventListener('click', () => startUserEdit(u));
+					removeBtn.addEventListener('click', () => removeUser(u, removeBtn));
+				}
+				body.appendChild(tr);
+			});
+		}
+
+		// Permission illaama try pannavanga → Approve (form fill) / Dismiss
+		function renderRequests(requests) {
+			$('requestBox').hidden = requests.length === 0;
+			const body = $('requestRows');
+			body.innerHTML = '';
+			requests.forEach(r => {
+				const tr = document.createElement('tr');
+				tr.innerHTML = `
+					<td class="left">${escapeHtml(r.name || '-')}</td>
+					<td class="left">${escapeHtml(r.email)}</td>
+					<td class="left">${escapeHtml(r.last_try || '')}</td>
+					<td>${r.tries}</td>
+					<td><button class="link">Approve</button><button class="link danger">Dismiss</button></td>
+				`;
+				const [approveBtn, dismissBtn] = tr.querySelectorAll('button');
+				approveBtn.addEventListener('click', () => startApprove(r));
+				dismissBtn.addEventListener('click', () => dismissRequest(r));
+				body.appendChild(tr);
+			});
+		}
+
+		// Approve = form-la per, email fill → admin role / location select panni Save
+		function startApprove(r) {
+			resetUserForm();
+			$('userFormTitle').textContent = `✅ Approve: ${r.email}`;
+			$('uName').value = r.name || '';
+			$('uEmail').value = r.email;
+			$('uCancelBtn').hidden = false;
+			$('uName').focus();
+			showMessage('Role, location select panni Save pannunga', 'ok');
+		}
+
+		async function dismissRequest(r) {
+			try {
+				await api(`/requests?id=${r.ROWID}`, { method: 'DELETE' });
+				showMessage(`${r.email} list-la irundhu edutthaachu`, 'ok');
+				loadUsers();
+			} catch (err) {
+				showMessage('❌ ' + err.message, 'err');
+			}
+		}
+
+		// Role admin-na location venaam
+		function toggleUserLocation() {
+			$('uLocationLabel').style.display = $('uRole').value === 'supervisor' ? '' : 'none';
+		}
+		$('uRole').addEventListener('change', toggleUserLocation);
+
+		function startUserEdit(u) {
+			editUserId = u.ROWID;
+			$('userFormTitle').textContent = `✏️ Edit: ${u.name}`;
+			$('uName').value = u.name;
+			$('uEmail').value = u.email;
+			$('uRole').value = u.role;
+			if (u.location_id) $('uLocation').value = u.location_id;
+			toggleUserLocation();
+			$('uCancelBtn').hidden = false;
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		}
+
+		function resetUserForm() {
+			editUserId = null;
+			$('userFormTitle').textContent = '➕ Pudhu user';
+			$('uName').value = '';
+			$('uEmail').value = '';
+			$('uRole').value = 'supervisor';
+			toggleUserLocation();
+			$('uCancelBtn').hidden = true;
+		}
+
+		$('uCancelBtn').addEventListener('click', resetUserForm);
+
+		$('uSaveBtn').addEventListener('click', async () => {
+			try {
+				const body = {
+					name: $('uName').value,
+					email: $('uEmail').value,
+					role: $('uRole').value,
+					location_id: $('uRole').value === 'supervisor' ? $('uLocation').value : null
+				};
+				if (editUserId) body.ROWID = editUserId;
+				const data = await api('/users', { method: 'POST', body: JSON.stringify(body) });
+				showMessage(data.updated ? '✅ User update aachu' : `✅ User add aachu — ${data.invited}`, 'ok');
+				resetUserForm();
+				loadUsers();
+			} catch (err) {
+				showMessage('❌ ' + err.message, 'err');
+			}
+		});
+
+		async function removeUser(u, button) {
+			// Thappaa click pannaama irukka, rendu thadava click pannanum
+			if (button.dataset.confirm !== 'yes') {
+				button.dataset.confirm = 'yes';
+				button.textContent = 'Sure?';
+				setTimeout(() => { button.dataset.confirm = ''; button.textContent = 'Remove'; }, 3000);
+				return;
+			}
+			try {
+				await api(`/users?id=${u.ROWID}`, { method: 'DELETE' });
+				showMessage(`✅ ${u.name} remove aachu`, 'ok');
+				loadUsers();
+			} catch (err) {
+				showMessage('❌ ' + err.message, 'err');
+			}
+		}
+
+		// ---------- Start ----------
+
+		// Page open → login check → naan yaaru → role-ku yetha maadhiri screen
+		async function start() {
+			if (typeof catalyst === 'undefined') {
+				$('userName').textContent = '⚠️ SDK load aagala';
+				showMessage('❌ Catalyst SDK load aagala — internet check panni refresh pannunga', 'err');
+				return;
+			}
+			try {
+				await catalyst.auth.isUserAuthenticated();
+			} catch (err) {
+				goToLogin();
+				return;
+			}
+
+			$('logoutBtn').hidden = false;
+			$('logoutBtn').addEventListener('click', () => {
+				catalyst.auth.signOut(window.location.origin + '/app/index.html');
+			});
+
+			try {
+				me = await api('/me');
+			} catch (err) {
+				// Login aachu, aana namma list-la illa (403)
+				$('userName').textContent = '🚫 Permission illa';
+				showMessage('❌ ' + err.message, 'err');
+				return;
+			}
+
+			// Page top: yaar login pannirukkaanga
+			const place = me.location_name || 'Ellaa location';
+			const lastLogin = me.last_login ? ` · Munnaadi login: ${me.last_login}` : '';
+			$('userName').innerHTML = `<span>👤 <strong>${escapeHtml(me.name)}</strong><span class="badge">${me.role}</span>
+				<small>📍 ${escapeHtml(place)} · ${escapeHtml(me.email)}${escapeHtml(lastLogin)}</small></span>`;
+			$('date').value = today();
+			$('date').max = today();
+			$('rDate').value = today();
+
+			locations = await api('/locations');
+			if (me.role === 'supervisor') {
+				// Supervisor-ku location filter venaam — server-ae avanga location mattum anuppum
+				$('locationFilter').style.display = 'none';
+				$('rLocationFilter').style.display = 'none';
+			} else {
+				locations.forEach(l => {
+					['location', 'rLocation'].forEach(id => {
+						const option = document.createElement('option');
+						option.value = l.location_name;
+						option.textContent = l.location_name;
+						$(id).appendChild(option);
+					});
+				});
+			}
+
+			if (isAdmin()) {
+				document.querySelectorAll('.admin-only').forEach(el => el.hidden = false);
+				fillLocationSelect($('vLocation'));
+				fillLocationSelect($('uLocation'));
+				// Admin-ah add panna owner mattum
+				if (me.role !== 'owner') $('uRole').querySelector('.owner-only').remove();
+			}
+
+			$('app').style.display = 'block';
+			loadDay();
+		}
+
+		start();
+	</script>
+</body>
+</html>

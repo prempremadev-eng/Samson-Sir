@@ -18,6 +18,23 @@ const [rows, setRows] = useState([]);
     <div>    
     <h2>Dashboard</h2>
     <p>{rows.length} vandi irukku</p>
+    <table>
+      <thead>
+        <tr>
+          <th>VehicleNumber </th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody >
+        {rows.map((row)=>(
+         <tr key={row.ROWID}>
+          <td>{row.VehicleNumber}</td>
+          <td>{row.Name}</td>
+         </tr> 
+        ))}
+        
+      </tbody>
+    </table>
     <button onClick={()=>onNavigate('home')}>Home</button>
     </div>
   )

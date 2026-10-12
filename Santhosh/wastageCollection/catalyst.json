@@ -1,0 +1,12 @@
+{
+  "functions": {
+    "targets": [
+      "cleancity"
+    ],
+    "ignore": [],
+    "source": "functions"
+  },
+  "client": {
+    "source": "client"
+  }
+}

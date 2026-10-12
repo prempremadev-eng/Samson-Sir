@@ -65,9 +65,14 @@ How much time I spend on each concept.
 
 | Step | Task | Date | Start | End | Time spent | Notes |
 |---|---|---|---|---|---|---|
-| R7 | Warm-up recall (4 days gap) | 2026-10-12 | 11:52 | 12:09 | | Ctrl+C/Z ✅; re-taught VITE_, CORS, 204 → VITE_ ✅, CORS blocker = browser ✅ (after hint), 204 vs {} 🟡 |
-| 6.1–6.4 | Dashboard: test GET URL, useEffect (StrictMode 2x), fetch in loadRows, useState([]) + rows.length | 2026-10-12 | 12:09 | 14:04 | | 6.1 guesses 3/3; asked full code for 6.3 & 6.4; bracket bugs useState() → {} → [] ; setRows before declare (lint); GPRS test skipped |
-| ⏸️ | Break (6.5 .map not started — 9-map.js guess pending) | 2026-10-12 | 14:53 | | | Break — not counted |
+| R7 | Warm-up recall (4 days gap) | 2026-10-12 | 11:52 | 12:09 | ~17 min | Ctrl+C/Z ✅; re-taught VITE_, CORS, 204 → VITE_ ✅, CORS blocker = browser ✅ (after hint), 204 vs {} 🟡 |
+| 6.1–6.4 | Dashboard: test GET URL, useEffect (StrictMode 2x), fetch in loadRows, useState([]) + rows.length | 2026-10-12 | 12:09 | 14:04 | ~1 h 55 min | 6.1 guesses 3/3; asked full code for 6.3 & 6.4; bracket bugs useState() → {} → [] ; setRows before declare (lint); GPRS test skipped |
+| 6.5a | .map() intro + typed playground/9-map.js | 2026-10-12 | 14:04 | 14:53 | ~49 min | 9-map.js typed (14:52) |
+| ⏸️ | Break | 2026-10-12 | 14:53 | 21:57 | | Break — not counted |
+| 6.5 | .map() playground → Dashboard list | 2026-10-12 | 21:57 | 22:32 | ~35 min | 9-map.js strings + objects ✅; key: missing → row.id → row.ROWID ✅; Name added; 7 rows on screen 🎉; guesses skipped (ran first) |
+| 6.6 | `<table>` thead/tbody/tr/th/td with .map | 2026-10-12 | 22:32 | 22:56 | ~24 min | map(row)=> parse error, { vs (, <tr> outside map, 1 <td> → asked full code; table on screen ✅; no borders by default |
+| 🗺️ | Full plan + compare with reference Dashboard | 2026-10-12 | 22:56 | 23:04 | ~8 min | Reference has IN/OUT counts, search, Type/Status filters, badges, cards → Phase 6 ~50% |
+| 📝 | Notes R6 (Tamil + English) + day summary + spoken English | 2026-10-12 | 23:04 | 23:20 | ~16 min | **Learning total today ~4 h 24 min** |
 
 ---
 

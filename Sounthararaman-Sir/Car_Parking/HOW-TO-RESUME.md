@@ -1,6 +1,6 @@
 # 🧭 Enga Irukkom & Eppadi Continue Pannuradhu
 
-Last updated: 2026-10-12, 14:53
+Last updated: 2026-10-12, 23:06
 
 ---
 
@@ -49,8 +49,14 @@ Phase 5: Catalyst backend
  ├── 6.2 useEffect + [] (StrictMode 2x) ✅
  ├── 6.3 fetch inside loadRows()        ✅
  ├── 6.4 useState([]) + rows.length     ✅ "7 vandi irukku"
- └── 6.5 .map() list                    ⏸️ ← inga irundhu restart
-       └── playground/9-map.js type panni guess pannu
+ ├── 6.5 .map() list + key ROWID        ✅
+ ├── 6.6 <table> thead/tbody/tr/td      ✅ (border illa — CSS baaki)
+ ├── 🤔 Decision: Table-aa, Cards-aa (original maadhiri)?  ← inga irundhu restart
+ ├── 6.7 IN / OUT count (.filter 🆕)      🔜
+ ├── 6.8 Search box                     🔜
+ ├── 6.9 Type + Status filter buttons   🔜
+ └── 6.10 Columns + time format (utils.js) + CSS badge  🔜
+ Phase 7 VehicleOut (updateRow) → Phase 8 Deploy → 9 Login → 10 Admin → 11 Photo/Scan/Voice
 ```
 
 ---
