@@ -1,6 +1,6 @@
 # 🧭 Enga Irukkom & Eppadi Continue Pannuradhu
 
-Last updated: 2026-10-06, 1:05 PM
+Last updated: 2026-10-12, 14:53
 
 ---
 
@@ -44,7 +44,13 @@ Phase 5: Catalyst backend
        ├── Part 3 GET (getPagedRows)     ✅ {"rows":[]}
        └── Part 4 POST (insertRow)       ✅ first row TN09AB1234 🎉
  5.5 React form → fetch POST + CORS      ✅ PHASE 5 DONE 🎉 (2026-10-08)
- Phase 6 Dashboard list + utils.js       ⏳ NEXT
+ Phase 6 Dashboard list (GET)             ⏳ (2026-10-12)
+ ├── 6.1 GET URL browser test (7 rows)  ✅
+ ├── 6.2 useEffect + [] (StrictMode 2x) ✅
+ ├── 6.3 fetch inside loadRows()        ✅
+ ├── 6.4 useState([]) + rows.length     ✅ "7 vandi irukku"
+ └── 6.5 .map() list                    ⏸️ ← inga irundhu restart
+       └── playground/9-map.js type panni guess pannu
 ```
 
 ---

@@ -61,6 +61,16 @@ How much time I spend on each concept.
 
 ---
 
+## 📅 2026-10-12
+
+| Step | Task | Date | Start | End | Time spent | Notes |
+|---|---|---|---|---|---|---|
+| R7 | Warm-up recall (4 days gap) | 2026-10-12 | 11:52 | 12:09 | | Ctrl+C/Z ✅; re-taught VITE_, CORS, 204 → VITE_ ✅, CORS blocker = browser ✅ (after hint), 204 vs {} 🟡 |
+| 6.1–6.4 | Dashboard: test GET URL, useEffect (StrictMode 2x), fetch in loadRows, useState([]) + rows.length | 2026-10-12 | 12:09 | 14:04 | | 6.1 guesses 3/3; asked full code for 6.3 & 6.4; bracket bugs useState() → {} → [] ; setRows before declare (lint); GPRS test skipped |
+| ⏸️ | Break (6.5 .map not started — 9-map.js guess pending) | 2026-10-12 | 14:53 | | | Break — not counted |
+
+---
+
 ## Totals
 
 | Concept | Time |
