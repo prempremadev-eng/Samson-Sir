@@ -16,6 +16,7 @@ Every error I hit while building A2, with the reason (WHY) and the fix.
 | 7 | 13 Oct | `ingest.py:4` | No error! But `FileNotFoundError` later with a strange joined path | Missing comma |
 | 8 | 13 Oct | `chunking.py:15` | No error! But only 16 chunks (only 1 book was cut) | Wrong indent (too much) |
 | 9 | 13 Oct | `recursive_chunking.py:24` | `TypeError: repr() takes exactly one argument (60 given)` | Extra symbol `*` |
+| 10 | 13 Oct | `compare_chunking.py` (location) | `can't open file '.../A2_rag_qa/compare_chunking.py': No such file or directory` | Wrong path (file inside `results/`) |
 
 ---
 
@@ -252,12 +253,44 @@ print("Recursive :", repr(recursive[5]["text"][-60:]))
 
 ---
 
+## Error 10 — Code file inside the `results/` folder (again!) 📂
+
+**Error message**
+```
+can't open file '/home/prem/.../A2_rag_qa/compare_chunking.py': [Errno 2] No such file or directory
+```
+
+❌ **Wrong**
+```
+A2_rag_qa/
+└── results/
+    └── compare_chunking.py   ← code file in the output folder
+```
+
+✅ **Right**
+```
+A2_rag_qa/
+├── compare_chunking.py       ← code files stay in the main folder
+└── results/                  ← only the saved tables go here
+```
+
+**Fix command**
+```bash
+mv results/compare_chunking.py .
+```
+
+**Why (simple English):** Same as Error #1. When I create a new file, VS Code puts it in the folder that is **selected** in the sidebar. I had `results/` selected. Python looks for the file in the folder where I run the command, so it could not find it.
+
+**Tip:** Before creating a file, click on the **main project folder** in the sidebar. Or check with `ls` that the file is where I think it is.
+
+---
+
 ## 🧠 My mistake patterns
 
 | Mistake type | Count | Tip to myself |
 |---|---|---|
 | Missing quotes | 1 | File paths and words are text → `" "` |
-| Wrong path / missing `/` | 1 (+1 in setup) | Run `pwd` first: "Where am I?" |
+| Wrong path / missing `/` | 2 (+1 in setup) | Run `pwd` first: "Where am I?" · click the main folder before "New File" |
 | Missing print | 1 | No `print()` = no output |
 | Missing indent | 2 | After a line ending in `:` → move right 4 spaces |
 | Too much indent | 1 | `return` goes **after** the loop, not inside it |
