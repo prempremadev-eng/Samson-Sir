@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body{margin:0}</style>
+<title>Reading a PDF Reel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a row of 9:16 story cards you swipe through, like a reel. Cards stay dark in both themes; the page around them follows the theme. */
+:root {
+  --page: #e9edf1;
+  --page-fg: #1b2530;
+  --page-muted: #5a6876;
+  --card: #14202a;
+  --card-2: #1d2c38;
+  --ink: #f3f5f7;
+  --ink-dim: #9fb0bf;
+  --saffron: #f2b134;
+  --pdf: #e0524c;
+  --term: #8fdcb2;
+  --line: #2c3d4b;
+  --display: "Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --page: #0b1117; --page-fg: #e6ebf0; --page-muted: #8d9cab; --line: #2c3d4b; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --page: #0b1117; --page-fg: #e6ebf0; --page-muted: #8d9cab; --line: #2c3d4b; color-scheme: dark; }
+
+body { background: var(--page); color: var(--page-fg); font-family: var(--body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 40px; display: grid; gap: 18px; }
+header { display: grid; gap: 6px; }
+.eyebrow { font: 600 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--page-muted); }
+h1 { font: 800 clamp(28px, 5vw, 44px)/1.05 var(--display); margin: 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--page-muted); max-width: 60ch; line-height: 1.5; }
+
+.controls { display: flex; gap: 10px; align-items: center; }
+.controls button { font: 700 14px var(--body); border: 1.5px solid var(--page-fg); background: transparent; color: var(--page-fg); border-radius: 999px; padding: 8px 16px; cursor: pointer; }
+.controls button:focus-visible, .strip:focus-visible { outline: 3px solid var(--saffron); outline-offset: 3px; }
+.controls .count { font: 600 13px var(--mono); color: var(--page-muted); font-variant-numeric: tabular-nums; }
+
+.strip { display: grid; grid-auto-flow: column; grid-auto-columns: min(330px, calc(100vw - 48px)); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding-block: 4px 14px; scrollbar-width: thin; }
+.reel { scroll-snap-align: start; aspect-ratio: 9 / 16; max-width: 100%; background: var(--card); color: var(--ink); border-radius: 22px; padding: 16px 18px 20px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; position: relative; }
+.bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.bars i { height: 3px; border-radius: 3px; background: var(--line); }
+.bars i.on { background: var(--ink); }
+.step { font: 600 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--saffron); }
+.reel h2 { font: 800 27px/1.05 var(--display); margin: 0; text-wrap: balance; }
+.visual { flex: 1; display: grid; place-items: center; min-height: 0; }
+.cap { margin: 0; font-size: 15px; line-height: 1.45; color: var(--ink-dim); }
+.cap b { color: var(--ink); }
+
+pre { margin: 0; background: #0a1218; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font: 400 12px/1.55 var(--mono); color: var(--ink); white-space: pre-wrap; word-break: break-word; }
+.k { color: #c8a6ff; } .s { color: var(--saffron); } .f { color: #7cc4ff; } .c { color: #6b7f90; }
+.out { color: var(--term); }
+.full { font-size: 12px; line-height: 2; white-space: pre; overflow-x: auto; word-break: normal; padding: 14px 12px; }
+.ln { display: inline-block; width: 1.6em; color: #556a7b; user-select: none; }
+.out .cut { background: var(--pdf); color: #fff; border-radius: 3px; padding: 0 2px; }
+
+/* PDF tiles */
+.folder { width: 100%; display: grid; gap: 10px; }
+.folder-tab { font: 600 13px var(--mono); color: var(--saffron); display: flex; align-items: center; gap: 8px; }
+.pdfs { display: grid; gap: 9px; }
+.pdf { display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 10px; background: var(--card-2); border: 1px solid var(--line); border-radius: 12px; padding: 9px 10px; transition: opacity .3s; }
+.pdf .ic { width: 38px; height: 46px; border-radius: 5px; background: var(--pdf); position: relative; display: grid; place-items: end center; padding-bottom: 5px; font: 700 9px var(--mono); color: #fff; }
+.pdf .ic::before { content: ""; position: absolute; top: 0; right: 0; border-width: 0 10px 10px 0; border-style: solid; border-color: var(--card-2) var(--card-2) #b23a35 #b23a35; border-radius: 0 0 0 3px; }
+.pdf .nm { font: 600 12px/1.3 var(--mono); word-break: break-all; min-width: 0; }
+.pdf .pg { font: 600 12px var(--mono); color: var(--ink-dim); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pdf.dim { opacity: .28; }
+.pdf.pick { border-color: var(--saffron); box-shadow: 0 0 0 2px var(--saffron) inset; }
+
+/* pages */
+.pages { display: flex; gap: 12px; align-items: flex-end; }
+.page { width: 64px; height: 84px; background: #f4f1ec; border-radius: 6px; display: grid; place-items: center; font: 800 30px var(--display); color: #14202a; position: relative; }
+.page::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: 12px; height: 18px; background: repeating-linear-gradient(#c9c3b8 0 2px, transparent 2px 6px); }
+.len { margin-top: 14px; text-align: center; font: 800 54px/1 var(--display); color: var(--saffron); }
+.len small { display: block; font: 600 12px var(--mono); color: var(--ink-dim); margin-top: 4px; letter-spacing: .08em; }
+
+.flow { width: 100%; display: grid; gap: 10px; justify-items: center; }
+.flow .row { display: flex; gap: 8px; }
+.flow .mini { width: 42px; height: 54px; font-size: 20px; }
+.flow .mini::after { left: 7px; right: 7px; bottom: 8px; height: 12px; }
+.arrow { font: 800 22px var(--display); color: var(--saffron); }
+.notebook { width: 82%; background: #f4f1ec; color: #14202a; border-radius: 8px; padding: 10px 12px; font: 400 11px/1.5 var(--mono); border-left: 8px solid var(--saffron); }
+.notebook b { font-family: var(--display); font-size: 14px; display: block; margin-bottom: 2px; }
+
+.learn { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; width: 100%; }
+.learn li { background: var(--card-2); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; display: grid; gap: 3px; }
+.learn code { font: 600 13px var(--mono); color: var(--saffron); }
+.learn span { font-size: 14px; color: var(--ink-dim); }
+.next { font: 600 12px var(--mono); color: var(--term); letter-spacing: .06em; }
+
+@media (prefers-reduced-motion: reduce) { .strip { scroll-behavior: auto; } .pdf { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">A2 RAG Q&amp;A · Reel 1 · M1</span>
+    <h1>How the computer reads a PDF</h1>
+    <p class="lede">My first attempt with <code>ingest.py</code>: open one PDF, count its pages, read every page, and print a small part. Swipe through the 7 cards.</p>
+  </header>
+
+  <div class="controls">
+    <button type="button" id="prev" aria-label="Previous card">← Back</button>
+    <button type="button" id="next" aria-label="Next card">Next →</button>
+    <span class="count" id="count">1 / 7</span>
+  </div>
+
+  <div class="strip" id="strip" tabindex="0" aria-label="Reel cards">
+
+    <!-- 1 -->
+    <article class="reel">
+      <div class="bars"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <span class="step">Step 1 · The shelf</span>
+      <h2>3 PDF books in one folder</h2>
+      <div class="visual">
+        <div class="folder">
+          <div class="folder-tab">📁 A2_rag_qa/docs/</div>
+          <div class="pdfs">
+            <div class="pdf"><div class="ic">PDF</div><div class="nm">catalyst_data_store.pdf</div><div class="pg">11 pg</div></div>
+            <div class="pdf"><div class="ic">PDF</div><div class="nm">chromadb_getting_started.pdf</div><div class="pg">6 pg</div></div>
+            <div class="pdf"><div class="ic">PDF</div><div class="nm">groq_rate_limits.pdf</div><div class="pg">3 pg</div></div>
+          </div>
+        </div>
+      </div>
+      <p class="cap">Three <b>different topics</b>: a database, a vector DB, and API limits. Different books make the search work harder later.</p>
+    </article>
+
+    <!-- 2 -->
+    <article class="reel">
+      <div class="bars"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+      <span class="step">Step 2 · First attempt</span>
+      <h2>Pick only one book</h2>
+      <div class="visual">
+        <div class="pdfs" style="width:100%">
+          <div class="pdf dim"><div class="ic">PDF</div><div class="nm">catalyst_data_store.pdf</div><div class="pg">11 pg</div></div>
+          <div class="pdf dim"><div class="ic">PDF</div><div class="nm">chromadb_getting_started.pdf</div><div class="pg">6 pg</div></div>
+          <div class="pdf pick"><div class="ic">PDF</div><div class="nm">groq_rate_limits.pdf</div><div class="pg">3 pg</div></div>
+        </div>
+      </div>
+<pre><span class="k">from</span> pypdf <span class="k">import</span> <span class="f">PdfReader</span>
+
+reader = <span class="f">PdfReader</span>(<span class="s">"docs/groq_rate_limits.pdf"</span>)</pre>
+      <p class="cap"><b>PdfReader</b> is the key that opens a PDF. The path goes inside <b>quotes</b>.</p>
+    </article>
+
+    <!-- 3 -->
+    <article class="reel">
+      <div class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
+      <span class="step">Step 3 · Count</span>
+      <h2>How many pages?</h2>
+      <div class="visual">
+        <div>
+          <div class="pages"><div class="page">1</div><div class="page">2</div><div class="page">3</div></div>
+          <div class="len">3<small>len(reader.pages)</small></div>
+        </div>
+      </div>
+<pre><span class="f">print</span>(<span class="f">len</span>(reader.pages))
+<span class="out">3</span></pre>
+      <p class="cap"><b>len()</b> counts. <b>print()</b> shows it on the screen. If we see a number, the book opened.</p>
+    </article>
+
+    <!-- 4 -->
+    <article class="reel">
+      <div class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+      <span class="step">Step 4 · Read</span>
+      <h2>Copy every page into one notebook</h2>
+      <div class="visual">
+        <div class="flow">
+          <div class="row"><div class="page mini">1</div><div class="page mini">2</div><div class="page mini">3</div></div>
+          <div class="arrow">↓ extract_text()</div>
+          <div class="notebook"><b>text</b>Rate limits act as control measures to regulate how frequently users…</div>
+        </div>
+      </div>
+<pre>text = <span class="s">""</span>
+<span class="k">for</span> page <span class="k">in</span> reader.pages:
+    text = text + page.<span class="f">extract_text</span>()</pre>
+      <p class="cap">Start with an <b>empty notebook</b>. Turn each page, read its words, and <b>add</b> them to the notebook.</p>
+    </article>
+
+    <!-- 5 -->
+    <article class="reel">
+      <div class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+      <span class="step">Step 5 · Show a little</span>
+      <h2>Print the first 300 letters</h2>
+      <div class="visual" style="width:100%">
+<pre style="width:100%"><span class="f">print</span>(text[:<span class="s">300</span>])
+<span class="out">Search
+Rate limits act as control measures to regulate how frequently users and applications can access our API within specified timeframes. These limits help ensure service stability, fair access, and protection against misuse so that we can serve reliable and fast inference for all.
+<span class="cut">Rate limits ar</span></span></pre>
+      </div>
+      <p class="cap"><b>[:300]</b> keeps the screen clean. The text stops at <b>"Rate limits ar"</b> because that is letter number 300.</p>
+    </article>
+
+    <!-- 6 -->
+    <article class="reel">
+      <div class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+      <span class="step">Recap</span>
+      <h2>The computer can read a book now</h2>
+      <div class="visual">
+        <ul class="learn">
+          <li><code>PdfReader("…")</code><span>opens the PDF</span></li>
+          <li><code>len(reader.pages)</code><span>counts the pages → 3</span></li>
+          <li><code>page.extract_text()</code><span>reads the words on one page</span></li>
+          <li><code>text[:300]</code><span>shows only the first 300 letters</span></li>
+        </ul>
+      </div>
+      <p class="next">LAST CARD → the full code</p>
+    </article>
+
+    <!-- 7 -->
+    <article class="reel">
+      <div class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+      <span class="step">Full code · ingest.py v1</span>
+      <h2>All 7 lines together</h2>
+      <div class="visual" style="width:100%">
+<pre class="full" style="width:100%"><span class="ln">1</span><span class="k">from</span> pypdf <span class="k">import</span> <span class="f">PdfReader</span>
+<span class="ln">2</span>reader = <span class="f">PdfReader</span>(
+<span class="ln"></span>    <span class="s">"docs/groq_rate_limits.pdf"</span>)
+<span class="ln">3</span><span class="f">print</span>(<span class="f">len</span>(reader.pages))
+<span class="ln">4</span>text = <span class="s">""</span>
+<span class="ln">5</span><span class="k">for</span> page <span class="k">in</span> reader.pages:
+<span class="ln">6</span>    text = text + page.<span class="f">extract_text</span>()
+<span class="ln">7</span><span class="f">print</span>(text[:<span class="s">600</span>])</pre>
+      </div>
+      <p class="cap"><b>1–2</b> open the book · <b>3</b> count pages · <b>4–6</b> read every page · <b>7</b> show the first 600 letters. Commit <b>6e6dbf9</b>.</p>
+      <p class="next">NEXT REEL → read all 3 books into labelled boxes</p>
+    </article>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  var strip = document.getElementById('strip');
+  var cards = strip.querySelectorAll('.reel');
+  var count = document.getElementById('count');
+  function current() {
+    var w = cards[0].getBoundingClientRect().width + 16;
+    return Math.min(cards.length - 1, Math.max(0, Math.round(strip.scrollLeft / w)));
+  }
+  function go(i) {
+    i = Math.min(cards.length - 1, Math.max(0, i));
+    strip.scrollTo({ left: cards[i].offsetLeft - strip.offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }
+  strip.addEventListener('scroll', function () { count.textContent = (current() + 1) + ' / ' + cards.length; }, { passive: true });
+  document.getElementById('prev').addEventListener('click', function () { go(current() - 1); });
+  document.getElementById('next').addEventListener('click', function () { go(current() + 1); });
+  strip.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(current() + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(current() - 1); }
+  });
+})();
+</script>
+
+</html>
