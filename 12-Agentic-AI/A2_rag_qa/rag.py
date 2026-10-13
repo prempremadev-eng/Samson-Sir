@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from groq import Groq
 from index import get_collection
+from hybrid import retrieve_hybrid
 
 load_dotenv()
 LLM_MODEL = "openai/gpt-oss-20b"
@@ -33,14 +34,19 @@ def generate_answer(question, chunks):
     )
     return response.choices[0].message.content
 
-def ask(question):
-    chunks = retrieve_dense(question)
+def ask(question, mode="hybrid"):
+    # mode="dense"  -> vector search only (the baseline)
+    # mode="hybrid" -> vector search + BM25 keyword search (the upgrade)
+    if mode == "hybrid":
+        chunks = retrieve_hybrid(question)
+    else:
+        chunks = retrieve_dense(question)
     answer = generate_answer(question, chunks)
     return answer, chunks
 
 if __name__ == "__main__":
     question = input("Ask a question: ")
-    answer, chunks = ask(question)
+    answer, chunks = ask(question, mode="hybrid")
     print("\nAnswer:", answer)
     print("\nSources used:")
     for c in chunks:
