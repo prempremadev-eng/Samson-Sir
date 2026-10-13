@@ -1,0 +1,52 @@
+[
+  {
+    "question": "Which query language can be used to access the Catalyst Data Store?",
+    "ground_truth": "ZCQL. The Data Store can be accessed with ZCQL query operations.",
+    "source": "catalyst_data_store.pdf"
+  },
+  {
+    "question": "What is the built-in OLAP database in the Catalyst Data Store used for?",
+    "ground_truth": "It exclusively handles analytical queries on the Data Store, giving instantaneous results on datasets of any scale.",
+    "source": "catalyst_data_store.pdf"
+  },
+  {
+    "question": "Which bulk operations does the Catalyst Data Store support?",
+    "ground_truth": "Bulk Read, Bulk Write, and Bulk Delete.",
+    "source": "catalyst_data_store.pdf"
+  },
+  {
+    "question": "What usage information does Metrics show for the Catalyst Data Store?",
+    "ground_truth": "Table Count and Row Count history.",
+    "source": "catalyst_data_store.pdf"
+  },
+  {
+    "question": "How many results does a Chroma query return by default if n_results is not provided?",
+    "ground_truth": "10 results.",
+    "source": "chromadb_getting_started.pdf"
+  },
+  {
+    "question": "What must you provide for every document you add to a Chroma collection?",
+    "ground_truth": "A unique string ID for each document.",
+    "source": "chromadb_getting_started.pdf"
+  },
+  {
+    "question": "What happens to data stored with chromadb.Client() when the program ends?",
+    "ground_truth": "It is lost, because chromadb.Client() runs Chroma in memory.",
+    "source": "chromadb_getting_started.pdf"
+  },
+  {
+    "question": "What HTTP status code does the Groq API return when you exceed a rate limit?",
+    "ground_truth": "429 Too Many Requests.",
+    "source": "groq_rate_limits.pdf"
+  },
+  {
+    "question": "What is the requests-per-minute limit for openai/gpt-oss-safeguard-20b on Groq?",
+    "ground_truth": "3 requests per minute.",
+    "source": "groq_rate_limits.pdf"
+  },
+  {
+    "question": "What does the x-ratelimit-limit-tokens header refer to in the Groq API?",
+    "ground_truth": "Tokens Per Minute (TPM).",
+    "source": "groq_rate_limits.pdf"
+  }
+]
