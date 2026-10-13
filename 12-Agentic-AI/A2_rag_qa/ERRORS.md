@@ -14,6 +14,7 @@ Every error I hit while building A2, with the reason (WHY) and the fix.
 | 5 | 13 Oct | `ingest.py:14` | `SyntaxError: expected ':'` (shows after fixing #4) | Missing colon |
 | 6 | 13 Oct | `ingest.py:17` | `SyntaxError: 'return' outside function` (shows after fixing #4, #5) | Missing indent |
 | 7 | 13 Oct | `ingest.py:4` | No error! But `FileNotFoundError` later with a strange joined path | Missing comma |
+| 8 | 13 Oct | `chunking.py:15` | No error! But only 16 chunks (only 1 book was cut) | Wrong indent (too much) |
 
 ---
 
@@ -197,6 +198,34 @@ files = [
 
 ---
 
+## Error 8 — `return` inside the loop (silent bug!) 🤫
+
+**What happened:** No error, but `Fixed-size chunks: 16`. Only the **first** book (Catalyst) was cut. ChromaDB and Groq were never cut.
+
+❌ **Wrong**
+```python
+    for doc in documents:
+        pieces = splitter.split_text(doc["text"])
+        for piece in pieces:
+            chunks.append({"source": doc["source"], "text": piece})
+        return chunks          # 8 spaces = inside the "for doc" loop
+```
+
+✅ **Right**
+```python
+    for doc in documents:
+        pieces = splitter.split_text(doc["text"])
+        for piece in pieces:
+            chunks.append({"source": doc["source"], "text": piece})
+    return chunks              # 4 spaces = after the loop finishes
+```
+
+**Why (simple English):** `return` means "stop and go home now" 🏠. Inside the loop, the function goes home after **book 1** and never comes back for books 2 and 3. After the loop (4 spaces), it goes home only when **all** books are done.
+
+**How I could catch it:** 6890 characters ÷ ~450 = ~16. That is the size of **one** book, not three. **Always check if the number makes sense!**
+
+---
+
 ## 🧠 My mistake patterns
 
 | Mistake type | Count | Tip to myself |
@@ -205,5 +234,6 @@ files = [
 | Wrong path / missing `/` | 1 (+1 in setup) | Run `pwd` first: "Where am I?" |
 | Missing print | 1 | No `print()` = no output |
 | Missing indent | 2 | After a line ending in `:` → move right 4 spaces |
+| Too much indent | 1 | `return` goes **after** the loop, not inside it |
 | Missing colon `:` | 1 | `for` / `if` / `def` lines end with `:` |
 | Missing comma | 1 | Every item in a list ends with `,` |
