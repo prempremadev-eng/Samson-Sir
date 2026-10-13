@@ -21,4 +21,4 @@ if __name__=="__main__":
     print("Recursive chunks :", len(recursive))
     print("---How does chunk 5 END? ---")
     print("Fixed :", repr(fixed[5]["text"][-60:]))
-    print("Recursive :",repr(*recursive[5]["text"][-60:]))
+    print("Recursive :",repr(recursive[5]["text"][-60:]))
