@@ -18,23 +18,21 @@ const [rows, setRows] = useState([]);
     <div>    
     <h2>Dashboard</h2>
     <p>{rows.length} vandi irukku</p>
-    <table>
-      <thead>
-        <tr>
-          <th>VehicleNumber </th>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody >
-        {rows.map((row)=>(
-         <tr key={row.ROWID}>
-          <td>{row.VehicleNumber}</td>
-          <td>{row.Name}</td>
-         </tr> 
-        ))}
-        
-      </tbody>
-    </table>
+    <ul className="record-list">
+      { rows.map((row)=>(
+        <li className="record-card" key={row.ROWID}>
+          <div className="record-card-row">
+            <span>{row.VehicleNumber}</span>
+            <span>{row.Status}</span>
+          </div>  
+          <div className="record-card-meta">{row.EntryType}</div>
+          <div className="record-card-meta">{row.InTime}</div>
+
+        </li>
+      ))
+
+      }
+    </ul>
     <button onClick={()=>onNavigate('home')}>Home</button>
     </div>
   )

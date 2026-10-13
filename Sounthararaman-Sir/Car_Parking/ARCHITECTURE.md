@@ -124,7 +124,8 @@ module.exports = async (req, res) => {
 | **5.5** | React form `fetch` | POST | `insertRow` | + EntryType, InTime | **~1–1.5 h** | ❌ |
 | | **Phase 5 total (form → cloud save 🎉)** | | | | **~3 h** | |
 | Phase 6 (6.1–6.6) | Dashboard list + table | GET | `getPagedRows` | VehicleNumber, Name | ~2 h (actual ~3 h 43 min) | ✅ 2026-10-12 |
-| Phase 6 (6.7–6.10) | IN/OUT count, search, filters, columns + time + CSS | GET | — (React `.filter`) | Ellam display | ~3 h | 🔜 |
+| Phase 6 (6.7–6.8) | Table → Cards + card CSS | GET | — | + Status, EntryType, InTime | ~45 min | ✅ 2026-10-13 |
+| Phase 6 (6.9–6.14) | Total/IN/OUT boxes, badge, search, Type/Status/Date filters, banner | GET | — (React `.filter`) | Ellam | ~3 h 20 min | 🔜 |
 | Phase 7 | VehicleOut | POST | `updateRow` | Status → OUT (+ OutTime) | ~2–3 h | ❌ |
 
 ---

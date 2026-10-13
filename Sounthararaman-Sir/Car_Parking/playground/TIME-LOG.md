@@ -76,6 +76,17 @@ How much time I spend on each concept.
 
 ---
 
+## 📅 2026-10-13
+
+| Step | Task | Date | Start | End | Time spent | Notes |
+|---|---|---|---|---|---|---|
+| R8 | Recall quiz: R6 Phase 6 (8 questions) | 2026-10-13 | 21:58 | 22:10 | ~12 min | **5 / 8** — Q2,5,6 ✅; Q1,3,7,8 half (why missing / bracket order); Q4 "" vs [] forgot. Decision: Cards like original |
+| 6.7–6.8 | Table → Cards (original style) + card CSS | 2026-10-13 | 22:10 | 22:55 | ~45 min | Column names: vehicleNumer/status/entryTypeLabel → asked code; CSS ??? filled by self (list-style none, display flex) ✅; cards on screen 🎉 |
+| 🗺️ | Dashboard remaining plan (full reference read) | 2026-10-13 | 22:55 | 22:58 | ~3 min | 6.9–6.14 left (~3 h 20 min), Dashboard ~40% |
+| 📝 | Notes R7 (Tamil + English) + day summary + spoken English | 2026-10-13 | 22:58 | 23:10 | ~12 min | **Learning total today ~1 h 12 min** |
+
+---
+
 ## Totals
 
 | Concept | Time |

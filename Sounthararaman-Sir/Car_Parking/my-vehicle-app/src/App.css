@@ -38,3 +38,29 @@ button{
 }
 .success {color: green;}
 .error {color: red;}
+
+/* Bullets edukkanum, */
+.record-list{
+  list-style:none;
+  padding:0;
+}
+/* 2.Ovvoru card kum box */
+.record-card{
+  border: 1px solid #ccc;
+  border-radius:8px;
+  padding:12px;
+  margin-bottom:10px;
+  text-align:left;
+
+}
+/* 3- Number left status right*/
+.record-card-row {
+  display:flex;
+  justify-content:space-between;
+}
+/* keela chinna info */
+.record-card-meta{
+  font-size:14px;
+  color:gray;
+}
+

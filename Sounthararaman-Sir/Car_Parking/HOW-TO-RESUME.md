@@ -1,6 +1,6 @@
 # 🧭 Enga Irukkom & Eppadi Continue Pannuradhu
 
-Last updated: 2026-10-12, 23:06
+Last updated: 2026-10-13, 23:06
 
 ---
 
@@ -51,11 +51,15 @@ Phase 5: Catalyst backend
  ├── 6.4 useState([]) + rows.length     ✅ "7 vandi irukku"
  ├── 6.5 .map() list + key ROWID        ✅
  ├── 6.6 <table> thead/tbody/tr/td      ✅ (border illa — CSS baaki)
- ├── 🤔 Decision: Table-aa, Cards-aa (original maadhiri)?  ← inga irundhu restart
- ├── 6.7 IN / OUT count (.filter 🆕)      🔜
- ├── 6.8 Search box                     🔜
- ├── 6.9 Type + Status filter buttons   🔜
- └── 6.10 Columns + time format (utils.js) + CSS badge  🔜
+ ├── 🤔 Decision: Cards (original maadhiri) ✅ 2026-10-13
+ ├── 6.7 Table → Cards structure        ✅
+ ├── 6.8 Card CSS (flex, space-between) ✅
+ ├── 6.9 👥 Total · ⬇️ IN · ⬆️ OUT boxes (.filter 🆕)  ⏸️ ← inga irundhu restart (playground first)
+ ├── 6.10 Status badge color            🔜
+ ├── 6.11 🔍 Search                      🔜
+ ├── 6.12 Type + Status filter pills    🔜
+ ├── 6.13 📅 Date filter                 🔜
+ └── 6.14 Banner + date pill + polish   🔜
  Phase 7 VehicleOut (updateRow) → Phase 8 Deploy → 9 Login → 10 Admin → 11 Photo/Scan/Voice
 ```
 
