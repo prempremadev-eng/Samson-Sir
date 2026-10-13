@@ -8,3 +8,4 @@
 | 2026-10-13 | Back from lunch | 14:12 |
 | 2026-10-13 | Tea break | 15:37 |
 | 2026-10-13 | Back from tea | 15:52 |
+| 2026-10-13 | Stop for the day (tired) | 17:46 |

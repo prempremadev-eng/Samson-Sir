@@ -15,6 +15,7 @@ Every error I hit while building A2, with the reason (WHY) and the fix.
 | 6 | 13 Oct | `ingest.py:17` | `SyntaxError: 'return' outside function` (shows after fixing #4, #5) | Missing indent |
 | 7 | 13 Oct | `ingest.py:4` | No error! But `FileNotFoundError` later with a strange joined path | Missing comma |
 | 8 | 13 Oct | `chunking.py:15` | No error! But only 16 chunks (only 1 book was cut) | Wrong indent (too much) |
+| 9 | 13 Oct | `recursive_chunking.py:24` | `TypeError: repr() takes exactly one argument (60 given)` | Extra symbol `*` |
 
 ---
 
@@ -226,6 +227,31 @@ files = [
 
 ---
 
+## Error 9 — An extra `*` breaks the text into 60 pieces ⭐
+
+**Error message**
+```
+  File "recursive_chunking.py", line 24, in <module>
+    print("Recursive :",repr(*recursive[5]["text"][-60:]))
+TypeError: repr() takes exactly one argument (60 given)
+```
+
+❌ **Wrong**
+```python
+print("Recursive :", repr(*recursive[5]["text"][-60:]))
+```
+
+✅ **Right**
+```python
+print("Recursive :", repr(recursive[5]["text"][-60:]))
+```
+
+**Why (simple English):** In Python, a `*` in front of a value inside `( )` means **"open the bag and pour everything out"**. A text of 60 letters becomes **60 separate letters**. `repr()` can take only **1** thing, but it got **60** → TypeError.
+
+**How to read this error:** "takes exactly one argument (60 given)" → I gave 60 things instead of 1 → look for something that splits one value into many → the `*`.
+
+---
+
 ## 🧠 My mistake patterns
 
 | Mistake type | Count | Tip to myself |
@@ -235,5 +261,6 @@ files = [
 | Missing print | 1 | No `print()` = no output |
 | Missing indent | 2 | After a line ending in `:` → move right 4 spaces |
 | Too much indent | 1 | `return` goes **after** the loop, not inside it |
+| Extra symbol (typo) | 1 | Compare my line with the line above it, character by character |
 | Missing colon `:` | 1 | `for` / `if` / `def` lines end with `:` |
 | Missing comma | 1 | Every item in a list ends with `,` |
