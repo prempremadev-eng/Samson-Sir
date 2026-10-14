@@ -94,7 +94,8 @@ How much time I spend on each concept.
 | 📋 | Day agenda planning | 2026-10-14 | 10:07 | 10:10 | | Final plan: Dashboard full + Vehicle OUT today (6.9–6.11 → 7.1–7.4 → 6.12–6.14) |
 | R9 | Recall quiz: R7 cards + CSS (6 questions) | 2026-10-14 | 10:17 | 10:28 | ~11 min | **4 / 6** — span/div, flex, list-style ✅; Q1 why (phone) + Q3 variable small 🟡; Q6 null = shows nothing, no crash ❌ |
 | 🧹 | Cleanup: commit pending practice files as-is | 2026-10-14 | 10:28 | 10:30 | | User: practice files, keep debug logs |
-| 6.9 | Total · IN · OUT boxes (.filter) | 2026-10-14 | 10:30 | | | |
+| 6.9 | Total · IN · OUT boxes (.filter) | 2026-10-14 | 10:30 | 11:36 | ~1 h 6 min | 10-filter.js guess ✅ (first guess in days!); bugs: .length missing (object as React child), 'out' vs 'OUT' silent bug, total unused, Summary- capital; backend not running → all 0 (lesson: 0 ≠ no data); flex-direction row → column |
+| 6.10 | Status badge color | 2026-10-14 | 11:37 | | | |
 
 ---
 
