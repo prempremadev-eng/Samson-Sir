@@ -57,6 +57,7 @@ const [search, setSearch] = useState("")
     />
 
 
+    {filteredRows.length ===0&& <p>🚫 No vehicle found</p>}
     <ul className="record-list">
       { filteredRows.map((row)=>(
         <li className="record-card" key={row.ROWID}>

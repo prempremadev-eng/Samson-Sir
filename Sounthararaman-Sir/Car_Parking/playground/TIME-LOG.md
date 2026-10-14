@@ -99,7 +99,9 @@ How much time I spend on each concept.
 | ☕ | Tea break | 2026-10-14 | 11:49 | 12:03 | | Break — not counted |
 | 6.10b | Template string playground → badge in Dashboard | 2026-10-14 | 12:03 | 12:41 | ~38 min | 11-template.js: + vs backtick same output, space bug 'status -in', strikethrough = deprecated global `status`; asked code for badge (pasted); green IN pills ✅ |
 | 6.11 | 🔍 Search (includes + toLowerCase + filteredRows) | 2026-10-14 | 12:48 | 13:54 | ~1 h 6 min | 12-includes.js guess 4/4 ✅; bugs: useState([]) for text, filter { without return, vehicleNumber/inCludes typos, rows.map → filteredRows.map (asked code); '99' → 2 cards ✅; empty result explained |
-| 🍛 | Lunch | 2026-10-14 | 13:54 | | | Break — not counted |
+| 🍛 | Lunch | 2026-10-14 | 13:54 | 14:50 | | Break — not counted |
+| 6.11b | 'No vehicle found' message (&&) | 2026-10-14 | 14:50 | 15:19 | ~29 min | Asked code; missed === 0 → message shown with 7 cards (truthy 7; 0 && renders 0 gotcha); filter returns true/false and keeps the whole row — explained |
+| 7.1 | Kitchen: POST rowId → updateRow Status OUT | 2026-10-14 | 15:19 | | | |
 
 ---
 
