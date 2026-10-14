@@ -101,7 +101,8 @@ How much time I spend on each concept.
 | 6.11 | 🔍 Search (includes + toLowerCase + filteredRows) | 2026-10-14 | 12:48 | 13:54 | ~1 h 6 min | 12-includes.js guess 4/4 ✅; bugs: useState([]) for text, filter { without return, vehicleNumber/inCludes typos, rows.map → filteredRows.map (asked code); '99' → 2 cards ✅; empty result explained |
 | 🍛 | Lunch | 2026-10-14 | 13:54 | 14:50 | | Break — not counted |
 | 6.11b | 'No vehicle found' message (&&) | 2026-10-14 | 14:50 | 15:19 | ~29 min | Asked code; missed === 0 → message shown with 7 cards (truthy 7; 0 && renders 0 gotcha); filter returns true/false and keeps the whole row — explained |
-| 7.1 | Kitchen: POST rowId → updateRow Status OUT | 2026-10-14 | 15:19 | | | |
+| 7.1 | Kitchen: POST rowId → updateRow Status OUT | 2026-10-14 | 15:19 | 16:07 | ~50 min | why explained (2 kinds of POST); bugs: body.row.Id (would crash Vehicle IN too), body.status → 'OUT'; serve was Ctrl+Z'd (stat T) → found pgrep -af; curl → ;sd row OUT ✅ (MODIFIEDTIME 16:06) |
+| 7.2 | VehicleOut page: IN vehicle list | 2026-10-14 | 16:07 | | | |
 
 ---
 

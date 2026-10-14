@@ -156,4 +156,10 @@ Illana indha file-a kaattu:
 | Backend server start | `cd ~/Documents/Samson-Sir/Sounthararaman-Sir/Car_Parking/my-vehicle-app && catalyst serve` |
 | Backend test URL | http://localhost:3000/server/entry_api/ |
 | Catalyst account check | `catalyst whoami` |
+| 🔎 catalyst serve odudhaa (PID + command) | `pgrep -af "catalyst serve"` |
+| 🔪 Ellaa catalyst serve-um stop | `pkill -f "catalyst serve"` |
+| 🔍 Endha port yaaru pudichirukkaa | `ss -ltnp \| grep -E ':3000\|:4000\|:5173'` |
+| ⏸️ Ctrl + Z panna process list | `jobs` |
+| ▶️ Pause-la irukkradha munnadi kondu vaa (apram Ctrl + C) | `fg` |
+| 🔪 Pause process-a kill | `kill %1` (jobs number) / `kill <PID>` |
 | Markdown preview (VS Code) | **Ctrl + K**, apram **V** |

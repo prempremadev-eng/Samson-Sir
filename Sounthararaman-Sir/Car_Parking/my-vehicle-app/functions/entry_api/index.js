@@ -61,7 +61,18 @@ module.exports = async(req,res)=>{
 			const body = await getBody(req);
 			console.log('p1. body vandhuchu :',body);
 
-			const row = await table.insertRow({
+			if(body.rowId) {
+				const row = await table.updateRow({
+					ROWID: body.rowId,
+					Status:'OUT'
+				})
+				res.writeHead(200,{'Content-Type': 'application/json'})
+				res.end(JSON.stringify({entry: row}))
+				return 
+
+			}
+
+			const row = await table.insertRow	({
 				VehicleNumber: body.vehicleNumber,
 				Name: body.name,
 				PhoneNumber:body.phoneNumber,
