@@ -78,4 +78,18 @@ button{
   align-items:center;
 
 }
+.status-badge {
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: bold;
+}
+.status-in {
+  background-color: #d4f5dd;
+  color: green;
+}
+.status-out {
+  background-color: #fde2e2;
+  color: red;
+}
 

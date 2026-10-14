@@ -52,8 +52,8 @@ const [rows, setRows] = useState([]);
         <li className="record-card" key={row.ROWID}>
           <div className="record-card-row">
             <span>{row.VehicleNumber}</span>
-            <span>{row.Status}</span>
-          </div>  
+            {/* <span>{row.Status}</span> */}
+<span className={`status-badge status-${row.Status.toLowerCase()}`}>{row.Status}</span>          </div>  
           <div className="record-card-meta">{row.EntryType}</div>
           <div className="record-card-meta">{row.InTime}</div>
 
