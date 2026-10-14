@@ -126,7 +126,9 @@ module.exports = async (req, res) => {
 | Phase 6 (6.1–6.6) | Dashboard list + table | GET | `getPagedRows` | VehicleNumber, Name | ~2 h (actual ~3 h 43 min) | ✅ 2026-10-12 |
 | Phase 6 (6.7–6.8) | Table → Cards + card CSS | GET | — | + Status, EntryType, InTime | ~45 min | ✅ 2026-10-13 |
 | Phase 6 (6.9–6.14) | Total/IN/OUT boxes, badge, search, Type/Status/Date filters, banner | GET | — (React `.filter`) | Ellam | ~3 h 20 min | 🔜 |
-| Phase 7 | VehicleOut | POST | `updateRow` | Status → OUT (+ OutTime) | ~2–3 h | ❌ |
+| Phase 6 (6.9–6.11) | Total/IN/OUT, badge, search, no-result message | GET | — (React `.filter`) | Status, VehicleNumber | ~2 h (actual ~3 h 40 min) | ✅ 2026-10-14 |
+| Phase 7 (7.1–7.4) | VehicleOut | POST `{rowId}` | `updateRow` | Status → OUT | ~2–3 h (actual ~2 h 50 min) | ✅ 2026-10-14 |
+| Phase 7.5 | OutTime save | POST | `updateRow` | + OutTime (pudhu column) | ~30 min | 🔜 |
 
 ---
 

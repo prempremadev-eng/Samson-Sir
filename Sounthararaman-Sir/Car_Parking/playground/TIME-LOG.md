@@ -105,6 +105,9 @@ How much time I spend on each concept.
 | 7.2 | VehicleOut page: IN vehicle list | 2026-10-14 | 16:07 | 17:39 | | **Wrote it myself from hints (no code asked!)**; bugs: useState(""), filter { } without return (same as 6.11), missing inner classNames; ;sd (OUT) hidden ✅ 6 cards |
 | 7.3 | Mark OUT button → fetch POST rowId | 2026-10-14 | 17:39 | 17:57 | ~19 min | Wrote handler from hints; bugs: if(response.ok) missing !, onclick small c (silent), row.id → row.ROWID; 3 vandi OUT via button ✅, no junk rows; table 4 OUT / 3 IN |
 | 7.4 | Dashboard check with real OUT data | 2026-10-14 | 17:57 | 18:02 | ~5 min | Total 7 · IN 3 · OUT 4, red OUT badges ✅ — **Phase 7 core DONE 🎉** |
+| ⏸️ | Break | 2026-10-14 | 18:02 | 18:23 | | Break — not counted |
+| 6.12a | Status filter — && condition explained (puriyala) → playground 13-status.js step 1 ✅ | 2026-10-14 | 18:23 | 19:06 | ~43 min | Double negative (!== && !==) too hard; playground === filterVar understood. Stopped — tired. Dashboard not touched |
+| 📝 | Notes R8 (Tamil + English) + day summary + spoken English | 2026-10-14 | 19:06 | 19:25 | ~19 min | **Learning total today ~7 h 28 min** (may include a short unlogged break inside 7.2) |
 
 ---
 

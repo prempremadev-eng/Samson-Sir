@@ -1,6 +1,6 @@
 # 🧭 Enga Irukkom & Eppadi Continue Pannuradhu
 
-Last updated: 2026-10-13, 23:06
+Last updated: 2026-10-14, 19:08
 
 ---
 
@@ -54,13 +54,19 @@ Phase 5: Catalyst backend
  ├── 🤔 Decision: Cards (original maadhiri) ✅ 2026-10-13
  ├── 6.7 Table → Cards structure        ✅
  ├── 6.8 Card CSS (flex, space-between) ✅
- ├── 6.9 👥 Total · ⬇️ IN · ⬆️ OUT boxes (.filter 🆕)  ⏸️ ← inga irundhu restart (playground first)
- ├── 6.10 Status badge color            🔜
- ├── 6.11 🔍 Search                      🔜
- ├── 6.12 Type + Status filter pills    🔜
+ ├── 6.9 👥 Total · ⬇️ IN · ⬆️ OUT boxes (.filter)  ✅ 2026-10-14
+ ├── 6.10 Status badge color 🟢🔴         ✅
+ ├── 6.11 🔍 Search + No vehicle found    ✅
+ ├── 6.12 Status + Type filter pills    ⏸️ ← inga irundhu restart: playground/13-status.js step 2 ('all' case)
  ├── 6.13 📅 Date filter                 🔜
  └── 6.14 Banner + date pill + polish   🔜
- Phase 7 VehicleOut (updateRow) → Phase 8 Deploy → 9 Login → 10 Admin → 11 Photo/Scan/Voice
+ Phase 7 VehicleOut                      ✅ core 2026-10-14
+ ├── 7.1 entry_api: POST rowId → updateRow OUT ✅
+ ├── 7.2 VehicleOut page: IN list       ✅ (naane ezhudhinen 🏆)
+ ├── 7.3 Mark OUT button                ✅
+ ├── 7.4 Dashboard OUT check            ✅
+ └── 7.5 OutTime column (console) + save 🔜
+ Phase 8 Deploy → 9 Login → 10 Admin → 11 Photo/Scan/Voice
 ```
 
 ---
