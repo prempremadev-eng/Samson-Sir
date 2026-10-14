@@ -103,7 +103,8 @@ How much time I spend on each concept.
 | 6.11b | 'No vehicle found' message (&&) | 2026-10-14 | 14:50 | 15:19 | ~29 min | Asked code; missed === 0 → message shown with 7 cards (truthy 7; 0 && renders 0 gotcha); filter returns true/false and keeps the whole row — explained |
 | 7.1 | Kitchen: POST rowId → updateRow Status OUT | 2026-10-14 | 15:19 | 16:07 | ~50 min | why explained (2 kinds of POST); bugs: body.row.Id (would crash Vehicle IN too), body.status → 'OUT'; serve was Ctrl+Z'd (stat T) → found pgrep -af; curl → ;sd row OUT ✅ (MODIFIEDTIME 16:06) |
 | 7.2 | VehicleOut page: IN vehicle list | 2026-10-14 | 16:07 | 17:39 | | **Wrote it myself from hints (no code asked!)**; bugs: useState(""), filter { } without return (same as 6.11), missing inner classNames; ;sd (OUT) hidden ✅ 6 cards |
-| 7.3 | Mark OUT button → fetch POST rowId | 2026-10-14 | 17:39 | | | |
+| 7.3 | Mark OUT button → fetch POST rowId | 2026-10-14 | 17:39 | 17:57 | ~19 min | Wrote handler from hints; bugs: if(response.ok) missing !, onclick small c (silent), row.id → row.ROWID; 3 vandi OUT via button ✅, no junk rows; table 4 OUT / 3 IN |
+| 7.4 | Dashboard check with real OUT data | 2026-10-14 | 17:57 | | | |
 
 ---
 

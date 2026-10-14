@@ -15,6 +15,17 @@ function VehicleOut({onNavigate}) {
     loadRows()
   },[])
 
+  const handleMarkOut = async(id) => {
+    const response = await fetch(import.meta.env.VITE_API_BASE,{
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({rowId:id})
+    })
+    if(!response.ok) return
+
+    setRows(rows.filter((row)=> row.ROWID !== id))
+  }
+
   return (
     <div>
     <h2>VehicleOut</h2>
@@ -25,7 +36,7 @@ function VehicleOut({onNavigate}) {
         <li className="record-card" key={row.ROWID}>
           <div className="record-card-row">
             <span>{row.VehicleNumber}</span>
-            <button>MarkOUT</button>
+            <button onClick={()=>{handleMarkOut(row.ROWID)}}>MarkOUT</button>
           </div>
           <div className="record-card-meta">{row.EntryType}</div>
           <div className="record-card-meta">🕐{row.InTime}</div>
