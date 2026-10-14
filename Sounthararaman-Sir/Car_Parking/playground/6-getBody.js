@@ -24,7 +24,7 @@ const req = new EventEmitter();
 getBody(req).then((body)=>{
     console.log('Body kidaichathu:', body)
     console.log('Name:', body.name);
-})
+})  
 
 req.emit('data', '{"name":');
 req.emit('data', '"prem"}')

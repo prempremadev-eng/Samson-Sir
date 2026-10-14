@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>practice </h1>
+    <p> here i try to convert object the a wrong text format , the browser tells it - Uncaught SyntaxError: '' string literal contains an unescaped line break
+        and [HTTP/1.1 404 Not Found 0ms] // i understand it the the text is not it the correct format and the another one is - 404 not found - this is can't understand it
+        how can i understand it 
+
+    </p>
+    <script>
+        const text = '{"vehicleNumber" : "TN09ABI234","name": "prem"}'
+        const obj = text.parse(text)
+
+//         console.log(typeof text)   // → string
+// console.log(text.name) 
+// console.log(text)    </script>
+    
+</body>
+</html>

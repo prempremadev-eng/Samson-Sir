@@ -47,6 +47,12 @@ function VehicleEntry({onNavigate}) {
              headers: {'Content-Type':'application/json'},
              body:JSON.stringify({...form,entryType,inTime:new Date().toISOString() })
     })
+    console.log(response.ok)
+    console.log(response.status)
+    console.log(response)
+    const data = await response.json();
+    console.log(data)
+
 
         if(!response.ok)
         {
@@ -56,7 +62,7 @@ function VehicleEntry({onNavigate}) {
             return 
         }
         
-        setSuccess(`vehicleNumber ${form.vehicleNumber}added`)
+        setSuccess(`vehicleNumber  -  ${form.vehicleNumber} added`)
         setForm(emptyForm)
         setError('')
 
