@@ -98,6 +98,8 @@ How much time I spend on each concept.
 | 6.10a | Status badge — why + template string intro (confused → playground) | 2026-10-14 | 11:37 | 11:49 | ~12 min | |
 | ☕ | Tea break | 2026-10-14 | 11:49 | 12:03 | | Break — not counted |
 | 6.10b | Template string playground → badge in Dashboard | 2026-10-14 | 12:03 | 12:41 | ~38 min | 11-template.js: + vs backtick same output, space bug 'status -in', strikethrough = deprecated global `status`; asked code for badge (pasted); green IN pills ✅ |
+| 6.11 | 🔍 Search (includes + toLowerCase + filteredRows) | 2026-10-14 | 12:48 | 13:54 | ~1 h 6 min | 12-includes.js guess 4/4 ✅; bugs: useState([]) for text, filter { without return, vehicleNumber/inCludes typos, rows.map → filteredRows.map (asked code); '99' → 2 cards ✅; empty result explained |
+| 🍛 | Lunch | 2026-10-14 | 13:54 | | | Break — not counted |
 
 ---
 

@@ -2,6 +2,7 @@
 import {useEffect,useState} from 'react'
 function Dashboard({onNavigate}) {
 const [rows, setRows] = useState([]);
+const [search, setSearch] = useState("")
    useEffect(()=>{
 
     const loadRows = async ()=>{
@@ -19,11 +20,14 @@ const [rows, setRows] = useState([]);
   })
   const outCount = rows.filter((row)=> {return row.Status ==='OUT'})
 
+  const filteredRows = rows.filter((row)=>{
+    return row.VehicleNumber.toLowerCase().includes(search.toLowerCase())
+  })
+
   return (
     <div>    
     <h2>Dashboard</h2>
     {/* <p>{rows.length} vandi irukku</p> */}
-    
     <div className="summary-row">
       <div className="summary-card">
         <span>👥</span>
@@ -46,9 +50,15 @@ const [rows, setRows] = useState([]);
 
     </div>
 
+    <input
+      placeholder="🔍 Search vehicle number"
+      value={search}
+      onChange={(e)=> setSearch(e.target.value)}
+    />
+
 
     <ul className="record-list">
-      { rows.map((row)=>(
+      { filteredRows.map((row)=>(
         <li className="record-card" key={row.ROWID}>
           <div className="record-card-row">
             <span>{row.VehicleNumber}</span>
