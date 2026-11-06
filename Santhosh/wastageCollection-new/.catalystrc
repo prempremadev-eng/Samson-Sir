@@ -1,0 +1,30 @@
+{
+  "projects": [
+    {
+      "idx": 1,
+      "id": "50225000000245022",
+      "name": "ThooimaiNagaram",
+      "domain": {
+        "id": "50047470507",
+        "name": "thooimainagaram-60086856508.development"
+      },
+      "timezone": "Asia/Kolkata",
+      "env": [
+        {
+          "idx": 1,
+          "id": "60086856508",
+          "name": "Development",
+          "type": 3
+        }
+      ]
+    }
+  ],
+  "defaults": {
+    "project": 1,
+    "env": 1
+  },
+  "actives": {
+    "project": 1,
+    "env": 1
+  }
+}
