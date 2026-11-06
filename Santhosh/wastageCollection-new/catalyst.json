@@ -8,5 +8,11 @@
   },
   "client": {
     "source": "client"
-  }
+  },
+  "slate": [
+    {
+      "name": "thooimainagaram",
+      "source": "/home/prem/Documents/Samson-Sir/Santhosh/wastageCollection-new/client"
+    }
+  ]
 }

@@ -348,8 +348,12 @@
 	</div>
 
 	<script>
-		// Function (waiter) address — page-um function-um ore server-la irukku
-		const API = '/server/cleancity';
+		// Function (waiter) address
+		// Slate-la page vera domain (onslate.in), function vera domain → full address venum
+		// Local serve (localhost) / Web Client-la ore server → relative path podhum
+		const FUNCTION_DOMAIN = 'https://thooimainagaram-60086856508.development.catalystserverless.in';
+		const sameServer = location.hostname === 'localhost' || location.hostname.endsWith('catalystserverless.in');
+		const API = (sameServer ? '' : FUNCTION_DOMAIN) + '/server/cleancity';
 
 		const $ = id => document.getElementById(id);
 		const message = $('message');
@@ -392,9 +396,12 @@
 
 		// Ellaa API call-um idha vazhiyaa: login cookie + error handle
 		async function api(path, options = {}) {
+			const headers = { 'Content-Type': 'application/json' };
+			// Vera domain-la cookie pogaadhu → login token-ah header-la anuppanum
+			if (!sameServer) headers.Authorization = (await catalyst.auth.generateAuthToken()).access_token;
 			const res = await fetch(`${API}${path}`, {
-				credentials: 'include',
-				headers: { 'Content-Type': 'application/json' },
+				credentials: sameServer ? 'include' : 'omit',
+				headers,
 				...options
 			});
 			if (res.status === 401) {
@@ -847,7 +854,7 @@
 
 			$('logoutBtn').hidden = false;
 			$('logoutBtn').addEventListener('click', () => {
-				catalyst.auth.signOut(window.location.origin + '/app/index.html');
+				catalyst.auth.signOut(window.location.origin + (sameServer ? '/app/index.html' : '/'));
 			});
 
 			try {
