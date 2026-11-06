@@ -97,6 +97,60 @@
 		#message { margin-top: 12px; padding: 10px; border-radius: 8px; display: none; }
 		#message.ok { display: block; background: #e3f4e4; color: #1b5e20; }
 		#message.err { display: block; background: #fde7e7; color: #b71c1c; }
+
+		/* Report: S.No + Vehicle No left-la nikkum, matha columns scroll aagum */
+		.sticky-cols tr { background: #fff; }
+		.sticky-cols tr.loc-total { background: #f6f8f6; }
+		.sticky-cols tr.grand-total { background: #e8f3e9; }
+		.sticky-cols th:nth-child(-n+2), .sticky-cols td:nth-child(-n+2) { position: sticky; z-index: 1; background: inherit; }
+		.sticky-cols th:nth-child(1), .sticky-cols td:nth-child(1) { left: 0; width: 48px; min-width: 48px; }
+		.sticky-cols th:nth-child(2), .sticky-cols td:nth-child(2) { left: 48px; box-shadow: 2px 0 0 #e3e9e4; }
+		.sticky-cols th:nth-child(-n+2) { z-index: 2; background: #e8f3e9; }
+
+		/* ===== Phone (chinna screen) ===== */
+		@media (max-width: 640px) {
+			body { padding: 8px; }
+			.card { padding: 12px; border-radius: 10px; }
+			h1 { font-size: 20px; }
+			.user { text-align: left; }
+
+			/* Tabs oru line-la, idam illana side-la swipe */
+			.tabs { overflow-x: auto; }
+			.tabs button { flex-shrink: 0; white-space: nowrap; padding: 10px 12px; }
+
+			/* 16px-ku keezha irundha iPhone type pannum podhu zoom aagum */
+			.filters input, .filters select, td input { font-size: 16px; }
+			.filters > label { flex: 1 1 140px; }
+			.filters input, .filters select { width: 100%; }
+
+			/* Daily Entry: table → ovvoru vandiyum oru card */
+			.entry-table thead { display: none; }
+			.entry-table, .entry-table tbody, .entry-table tfoot, .entry-table tr, .entry-table td { display: block; }
+			.entry-table tr { margin-bottom: 10px; padding: 4px 12px; border: 1px solid #e3e9e4; border-radius: 10px; background: #fff; }
+			.entry-table td {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				gap: 12px;
+				padding: 7px 0;
+				border-bottom: 1px dashed #e3e9e4;
+				white-space: normal;
+			}
+			.entry-table td:last-child { border-bottom: none; }
+			.entry-table td::before { content: attr(data-label); font-weight: 600; font-size: 13px; color: #5a6b5f; text-align: left; }
+			.entry-table td:empty, .entry-table td.sno { display: none; }
+			.entry-table td.vehicle { display: block; padding: 8px 0; font-size: 16px; font-weight: 700; }
+			.entry-table td.vehicle::before { content: "🚛 "; }
+			.entry-table tfoot td.vehicle::before { content: none; }
+			.entry-table td.vehicle small { font-weight: 400; color: #5a6b5f; }
+			.entry-table td.col-entry { margin: 0 -12px; padding: 8px 12px; }
+			.entry-table td input { width: 130px; padding: 8px; }
+			.entry-table tfoot tr { background: #e8f3e9; }
+			.entry-table tfoot td { background: none; }
+
+			/* Save button eppavum keezha theriyum, scroll panna vendaam */
+			#saveBtn { position: sticky; bottom: 8px; width: 100%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
+		}
 	</style>
 </head>
 <body>
@@ -134,7 +188,7 @@
 				<div class="readonly-note" id="readonlyNote">👀 Indha date paakka mattum dhaan. Entry <strong>inniku</strong> mattum dhaan podalaam.</div>
 
 				<div class="table-wrap">
-					<table>
+					<table class="entry-table">
 						<thead>
 							<tr>
 								<th>S.No</th>
@@ -178,7 +232,7 @@
 				</div>
 				<p class="formula" id="rInfo"></p>
 				<div class="table-wrap">
-					<table>
+					<table class="sticky-cols">
 						<thead>
 							<tr>
 								<th>S.No</th>
@@ -406,15 +460,15 @@
 			visible.forEach((r, index) => {
 				const tr = document.createElement('tr');
 				tr.innerHTML = `
-					<td>${index + 1}</td>
-					<td class="left">${escapeHtml(r.vehicle_no)}<br><small>${escapeHtml(r.location_name)}</small></td>
-					<td>${r.households}</td>
-					<td>${kg(r.waste_generation)}</td>
-					<td>${kg(r.wet_generation)}</td>
-					<td class="col-entry"><input type="number" min="0" step="0.01" data-id="${r.vehicle_id}" data-field="wet_collection"></td>
-					<td>${kg(r.dry_generation)}</td>
-					<td class="col-entry"><input type="number" min="0" step="0.01" data-id="${r.vehicle_id}" data-field="dry_collection"></td>
-					<td class="left">${r.entered_by ? `${escapeHtml(r.entered_by)}<span class="who">${escapeHtml(r.entered_time || '')}</span>` : '-'}</td>
+					<td class="sno">${index + 1}</td>
+					<td class="left vehicle">${escapeHtml(r.vehicle_no)}<br><small>${escapeHtml(r.location_name)}</small></td>
+					<td data-label="Households">${r.households}</td>
+					<td data-label="Waste Gen (kg)">${kg(r.waste_generation)}</td>
+					<td data-label="Wet Gen (kg)">${kg(r.wet_generation)}</td>
+					<td class="col-entry" data-label="Wet Collection (kg)"><input type="number" inputmode="decimal" min="0" step="0.01" data-id="${r.vehicle_id}" data-field="wet_collection"></td>
+					<td data-label="Dry Gen (kg)">${kg(r.dry_generation)}</td>
+					<td class="col-entry" data-label="Dry Collection (kg)"><input type="number" inputmode="decimal" min="0" step="0.01" data-id="${r.vehicle_id}" data-field="dry_collection"></td>
+					<td class="left" data-label="Entry by"><span>${r.entered_by ? `${escapeHtml(r.entered_by)}<span class="who">${escapeHtml(r.entered_time || '')}</span>` : '-'}</span></td>
 				`;
 				const wetInput = tr.querySelector('[data-field="wet_collection"]');
 				const dryInput = tr.querySelector('[data-field="dry_collection"]');
@@ -454,13 +508,13 @@
 			$('totals').innerHTML = `
 				<tr>
 					<td></td>
-					<td class="left">Total</td>
-					<td>${sum('households')}</td>
-					<td>${kg(sum('waste_generation'))}</td>
-					<td>${kg(sum('wet_generation'))}</td>
-					<td class="col-entry ${wetCol < sum('wet_generation') ? 'short' : ''}">${kg(wetCol)}</td>
-					<td>${kg(sum('dry_generation'))}</td>
-					<td class="col-entry ${dryCol < sum('dry_generation') ? 'short' : ''}">${kg(dryCol)}</td>
+					<td class="left vehicle">Total</td>
+					<td data-label="Households">${sum('households')}</td>
+					<td data-label="Waste Gen (kg)">${kg(sum('waste_generation'))}</td>
+					<td data-label="Wet Gen (kg)">${kg(sum('wet_generation'))}</td>
+					<td class="col-entry ${wetCol < sum('wet_generation') ? 'short' : ''}" data-label="Wet Collection (kg)">${kg(wetCol)}</td>
+					<td data-label="Dry Gen (kg)">${kg(sum('dry_generation'))}</td>
+					<td class="col-entry ${dryCol < sum('dry_generation') ? 'short' : ''}" data-label="Dry Collection (kg)">${kg(dryCol)}</td>
 					<td></td>
 				</tr>
 			`;
