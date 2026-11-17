@@ -173,8 +173,11 @@ module.exports = async (req, res) => {
 };
 
 // Login cookie irundha Catalyst user object, illa-na null
-// Catalyst sila nerathula sariyaana user-kkum null / error kudukkum → oru thadava thirumba kekkurom
-// Rendu thadavaiyum error-na "login illa" (401) illa, "konjam wait" (503) — appo login page-ku pogaadhu
+// 1. getCurrentUser() — normal vazhi. Sila nerathula sariyaana user-kkum null / error kudukkum → oru thadava thirumba.
+// 2. Apparum null-na: gateway header EXACTLY "x-zc-user-type: project-user" + number id irundha,
+//    admin API-la andha user-ah paarthu ACTIVE-ah irundha mattum ok.
+//    "admin" header-ah eppavum nambakoodaadhu — login illaadha call-kkum gateway "admin" + owner id anuppum.
+//    Browser poli header anuppinaa gateway value-oda join aagum ("project-user, admin") → exact match aagaadhu.
 async function getLoggedInUser(req) {
 	let lastError = null;
 	for (let attempt = 1; attempt <= 2; attempt++) {
@@ -188,10 +191,29 @@ async function getLoggedInUser(req) {
 		}
 		if (attempt === 1) await new Promise(r => setTimeout(r, 300));
 	}
+
+	const userType = req.headers['x-zc-user-type'];
+	const userId = req.headers['x-zc-user-id'];
+	if (userType === 'project-user' && typeof userId === 'string' && /^\d{1,25}$/.test(userId)) {
+		try {
+			const adminApp = catalyst.initialize(req, { scope: 'admin' });
+			const d = await adminApp.userManagement().getUserDetails(userId);
+			const status = String((d && d.status) || '').toUpperCase();
+			if (d && String(d.user_id) === userId && status === 'ACTIVE' && d.email_id) {
+				console.log('[auth] gateway user ok', userId);
+				return d;
+			}
+			console.warn('[auth] gateway user rejected', userId, status);
+		} catch (err) {
+			console.warn('[auth] getUserDetails failed', err && err.message);
+		}
+	}
+
 	if (lastError) {
 		console.error('getCurrentUser error', lastError);
 		throw httpError(503, 'Server busy — konjam neram kazhichu try pannunga');
 	}
+	console.warn('[auth] no user', userType || null, userId || null);
 	return null;
 }
 
