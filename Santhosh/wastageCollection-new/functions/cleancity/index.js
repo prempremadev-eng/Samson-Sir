@@ -352,10 +352,14 @@ async function saveAppUser(app, body, me) {
 	return { added: true, invited };
 }
 
+// Invite email link click pannadhum customer inga varuvaanga
+const APP_URL = 'https://thooimainagaram-60086856508.development.catalystserverless.in/app/index.html';
+
 async function inviteToCatalyst(app, email, name) {
 	try {
 		await app.userManagement().registerUser(
-			{ platform_type: 'web', redirect_url: '/app/index.html' },
+			// Catalyst-ku full address venum ('/app/index.html' mattum kudutha "invalid domain" error)
+			{ platform_type: 'web', redirect_url: APP_URL },
 			{ first_name: name, last_name: '-', email_id: email }
 		);
 		return 'invite email anuppiyaachu';
