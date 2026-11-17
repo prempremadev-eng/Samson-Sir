@@ -55,6 +55,10 @@
 			border-radius: 8px;
 		}
 		.filters button { margin: 0; padding: 9px 20px; font-size: 15px; }
+		.filters label[hidden] { display: none; }
+		.report-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+		.report-actions button { margin: 0; padding: 9px 18px; font-size: 15px; }
+		.toggle-details { display: none; }
 		.formula { font-size: 13px; color: #5a6b5f; margin: 12px 0; }
 		.table-wrap { overflow-x: auto; }
 		table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -148,6 +152,17 @@
 			.entry-table tfoot tr { background: #e8f3e9; }
 			.entry-table tfoot td { background: none; }
 
+			/* Entry: phone-la Vehicle No + Wet + Dry mattum; "Ellaa details" click panna matha column */
+			.entry-table:not(.show-all) td.extra { display: none; }
+			.toggle-details { display: block; width: 100%; margin: 8px 0 10px; padding: 9px; font-size: 14px; }
+			#entryPanel .formula { display: none; }
+			#entryPanel.show-all .formula { display: block; }
+
+			/* Report: buttons full width, rendu sama */
+			.report-actions button { flex: 1 1 0; }
+			.sticky-cols { font-size: 13px; }
+			.sticky-cols th, .sticky-cols td { padding: 7px 6px; }
+
 			/* Save button eppavum keezha theriyum, scroll panna vendaam */
 			#saveBtn { position: sticky; bottom: 8px; width: 100%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
 		}
@@ -187,8 +202,9 @@
 				</p>
 				<div class="readonly-note" id="readonlyNote">👀 Indha date paakka mattum dhaan. Entry <strong>inniku</strong> mattum dhaan podalaam.</div>
 
+				<button id="toggleDetails" class="secondary toggle-details">👁️ Ellaa details kaattu</button>
 				<div class="table-wrap">
-					<table class="entry-table">
+					<table class="entry-table" id="entryTable">
 						<thead>
 							<tr>
 								<th>S.No</th>
@@ -217,18 +233,30 @@
 				<div class="filters">
 					<label>Period
 						<select id="rPeriod">
-							<option value="week">Week (Mon – Sun)</option>
-							<option value="month">Month</option>
+							<option value="today">Today</option>
+							<option value="yesterday">Yesterday</option>
+							<option value="week">This week (Mon – Sun)</option>
+							<option value="lastWeek">Last week</option>
+							<option value="month">This month</option>
+							<option value="lastMonth">Last month</option>
+							<option value="custom">Custom (From – To)</option>
 						</select>
 					</label>
-					<label>Date
-						<input type="date" id="rDate">
+					<label class="custom-date" hidden>From
+						<input type="date" id="rFrom">
+					</label>
+					<label class="custom-date" hidden>To
+						<input type="date" id="rTo">
 					</label>
 					<label id="rLocationFilter">Location
 						<select id="rLocation">
 							<option value="">All locations</option>
 						</select>
 					</label>
+				</div>
+				<div class="report-actions">
+					<button id="exportBtn" class="secondary">⬇️ Export (Excel)</button>
+					<button id="shareBtn">📤 Share</button>
 				</div>
 				<p class="formula" id="rInfo"></p>
 				<div class="table-wrap">
@@ -469,13 +497,13 @@
 				tr.innerHTML = `
 					<td class="sno">${index + 1}</td>
 					<td class="left vehicle">${escapeHtml(r.vehicle_no)}<br><small>${escapeHtml(r.location_name)}</small></td>
-					<td data-label="Households">${r.households}</td>
-					<td data-label="Waste Gen (kg)">${kg(r.waste_generation)}</td>
-					<td data-label="Wet Gen (kg)">${kg(r.wet_generation)}</td>
+					<td class="extra" data-label="Households">${r.households}</td>
+					<td class="extra" data-label="Waste Gen (kg)">${kg(r.waste_generation)}</td>
+					<td class="extra" data-label="Wet Gen (kg)">${kg(r.wet_generation)}</td>
 					<td class="col-entry" data-label="Wet Collection (kg)"><input type="number" inputmode="decimal" min="0" step="0.01" data-id="${r.vehicle_id}" data-field="wet_collection"></td>
-					<td data-label="Dry Gen (kg)">${kg(r.dry_generation)}</td>
+					<td class="extra" data-label="Dry Gen (kg)">${kg(r.dry_generation)}</td>
 					<td class="col-entry" data-label="Dry Collection (kg)"><input type="number" inputmode="decimal" min="0" step="0.01" data-id="${r.vehicle_id}" data-field="dry_collection"></td>
-					<td class="left" data-label="Entry by"><span>${r.entered_by ? `${escapeHtml(r.entered_by)}<span class="who">${escapeHtml(r.entered_time || '')}</span>` : '-'}</span></td>
+					<td class="left extra" data-label="Entry by"><span>${r.entered_by ? `${escapeHtml(r.entered_by)}<span class="who">${escapeHtml(r.entered_time || '')}</span>` : '-'}</span></td>
 				`;
 				const wetInput = tr.querySelector('[data-field="wet_collection"]');
 				const dryInput = tr.querySelector('[data-field="dry_collection"]');
@@ -516,16 +544,23 @@
 				<tr>
 					<td></td>
 					<td class="left vehicle">Total</td>
-					<td data-label="Households">${sum('households')}</td>
-					<td data-label="Waste Gen (kg)">${kg(sum('waste_generation'))}</td>
-					<td data-label="Wet Gen (kg)">${kg(sum('wet_generation'))}</td>
+					<td class="extra" data-label="Households">${sum('households')}</td>
+					<td class="extra" data-label="Waste Gen (kg)">${kg(sum('waste_generation'))}</td>
+					<td class="extra" data-label="Wet Gen (kg)">${kg(sum('wet_generation'))}</td>
 					<td class="col-entry ${wetCol < sum('wet_generation') ? 'short' : ''}" data-label="Wet Collection (kg)">${kg(wetCol)}</td>
-					<td data-label="Dry Gen (kg)">${kg(sum('dry_generation'))}</td>
+					<td class="extra" data-label="Dry Gen (kg)">${kg(sum('dry_generation'))}</td>
 					<td class="col-entry ${dryCol < sum('dry_generation') ? 'short' : ''}" data-label="Dry Collection (kg)">${kg(dryCol)}</td>
 					<td></td>
 				</tr>
 			`;
 		}
+
+		// Phone-la: Ellaa details kaattu / maraikka
+		$('toggleDetails').addEventListener('click', () => {
+			const showAll = $('entryTable').classList.toggle('show-all');
+			$('entryPanel').classList.toggle('show-all', showAll);
+			$('toggleDetails').textContent = showAll ? '🙈 Details maraikka' : '👁️ Ellaa details kaattu';
+		});
 
 		// Type pannumbodhe total update
 		$('rows').addEventListener('input', () => renderTotals(visibleRows()));
@@ -566,16 +601,53 @@
 			}
 		});
 
-		// ---------- Report (week / month) ----------
+		// ---------- Report (Today / Yesterday / Week / Month / Custom) ----------
 
 		let periodReport = null;
 
+		// "2026-11-17" + n naal → "2026-11-18"
+		function addDays(ymd, n) {
+			const d = new Date(`${ymd}T00:00:00Z`);
+			d.setUTCDate(d.getUTCDate() + n);
+			return d.toISOString().slice(0, 10);
+		}
+
+		// Period select → from, to date
+		function reportRange() {
+			const t = today();
+			const d = new Date(`${t}T00:00:00Z`);
+			const monday = addDays(t, -((d.getUTCDay() + 6) % 7));
+			const firstOfMonth = t.slice(0, 8) + '01';
+			switch ($('rPeriod').value) {
+				case 'today': return { from: t, to: t };
+				case 'yesterday': return { from: addDays(t, -1), to: addDays(t, -1) };
+				case 'week': return { from: monday, to: addDays(monday, 6) };
+				case 'lastWeek': return { from: addDays(monday, -7), to: addDays(monday, -1) };
+				case 'month': return { from: firstOfMonth, to: addDays(addDays(firstOfMonth, 32).slice(0, 8) + '01', -1) };
+				case 'lastMonth': {
+					const lastMonthEnd = addDays(firstOfMonth, -1);
+					return { from: lastMonthEnd.slice(0, 8) + '01', to: lastMonthEnd };
+				}
+				default: return { from: $('rFrom').value, to: $('rTo').value };
+			}
+		}
+
 		async function loadReport() {
+			const isCustom = $('rPeriod').value === 'custom';
+			document.querySelectorAll('.custom-date').forEach(l => l.hidden = !isCustom);
+			const { from, to } = reportRange();
+			if (!from || !to) return;
+			if (from > to) {
+				showMessage('❌ From date, To date-ku munnaadi irukkanum', 'err');
+				return;
+			}
+			message.className = '';
 			$('reportRows').innerHTML = '<tr><td colspan="9" class="left">Loading...</td></tr>';
 			try {
-				periodReport = await api(`/report?period=${$('rPeriod').value}&date=${$('rDate').value}`);
+				periodReport = await api(`/report?from=${from}&to=${to}`);
 				renderReport();
 			} catch (err) {
+				periodReport = null;
 				$('reportRows').innerHTML = '<tr><td colspan="9" class="left">Load aagala</td></tr>';
 				showMessage('❌ ' + err.message, 'err');
 			}
@@ -601,7 +673,8 @@
 		// Location vaariyaa group → ovvoru location-kkum sub total, kadaisi-la grand total
 		function renderReport() {
 			const r = periodReport;
-			$('rInfo').textContent = `${r.from} → ${r.to} · Generation ${r.days} naal-ku (inniku varaikkum) · Households × 4 kg × naal`;
+			const range = r.from === r.to ? r.from : `${r.from} → ${r.to}`;
+			$('rInfo').textContent = `${range} · Generation ${r.days} naal-ku (inniku varaikkum) · Households × 4 kg × naal`;
 			const name = $('rLocation').value;
 			const rows = r.rows.filter(x => !name || x.location_name === name);
 			let html = '';
@@ -619,9 +692,95 @@
 			$('reportRows').innerHTML = html || '<tr><td colspan="9" class="left">Data illa</td></tr>';
 		}
 
-		$('rPeriod').addEventListener('change', loadReport);
-		$('rDate').addEventListener('change', loadReport);
+		$('rPeriod').addEventListener('change', () => {
+			// Custom-ku maarumbodhu: munnaadi paartha range-ae From / To-la vechu kudukkalaam
+			if ($('rPeriod').value === 'custom') {
+				$('rFrom').value = periodReport ? periodReport.from : today();
+				$('rTo').value = periodReport ? periodReport.to : today();
+			}
+			loadReport();
+		});
+		$('rFrom').addEventListener('change', loadReport);
+		$('rTo').addEventListener('change', loadReport);
 		$('rLocation').addEventListener('change', renderReport);
+
+		// ---------- Export / Share ----------
+
+		// Screen-la theriyura report (location filter-oda) → CSV text (Excel open pannum)
+		function reportCsv() {
+			const r = periodReport;
+			const name = $('rLocation').value;
+			const rows = r.rows.filter(x => !name || x.location_name === name);
+			const cell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+			const num = v => Math.round((Number(v) || 0) * 100) / 100;
+			const line = (label, x) => [label, x.vehicle_no ?? '', x.location_name ?? '', x.households, x.entry_days,
+				num(x.waste_generation), num(x.wet_generation), num(x.wet_collection), num(x.dry_generation), num(x.dry_collection)];
+			const out = [
+				['CleanCity Report', `${r.from} to ${r.to}`, name || 'All locations'],
+				[],
+				['S.No', 'Vehicle No', 'Location', 'Households', 'Entry days', 'Waste Gen (kg)', 'Wet Gen (kg)', 'Wet Collection (kg)', 'Dry Gen (kg)', 'Dry Collection (kg)']
+			];
+			let sNo = 0;
+			[...new Set(rows.map(x => x.location_name))].forEach(locationName => {
+				const group = rows.filter(x => x.location_name === locationName);
+				group.forEach(x => out.push(line(++sNo, x)));
+				out.push(line('', { ...sumRows(group), vehicle_no: `${locationName} total` }));
+			});
+			if (rows.length) out.push(line('', { ...sumRows(rows), vehicle_no: 'Grand total' }));
+			// \uFEFF → Excel Tamil / special letters-ah sariyaa kaattum
+			return '\uFEFF' + out.map(row => row.map(cell).join(',')).join('\r\n');
+		}
+
+		function reportFileName() {
+			const r = periodReport;
+			return `CleanCity-Report-${r.from === r.to ? r.from : `${r.from}_to_${r.to}`}.csv`;
+		}
+
+		// WhatsApp-la anuppa chinna summary text
+		function reportSummary() {
+			const r = periodReport;
+			const name = $('rLocation').value;
+			const rows = r.rows.filter(x => !name || x.location_name === name);
+			const t = sumRows(rows);
+			return [
+				`🧹 CleanCity Report`,
+				`📅 ${r.from === r.to ? r.from : `${r.from} → ${r.to}`}`,
+				`📍 ${name || 'All locations'}`,
+				`🚛 Vandi: ${rows.length}`,
+				`💧 Wet: ${kg(t.wet_collection)} / ${kg(t.wet_generation)} kg`,
+				`📦 Dry: ${kg(t.dry_collection)} / ${kg(t.dry_generation)} kg`
+			].join('\n');
+		}
+
+		$('exportBtn').addEventListener('click', () => {
+			if (!periodReport) return showMessage('Report innum load aagala', 'err');
+			const blob = new Blob([reportCsv()], { type: 'text/csv;charset=utf-8' });
+			const a = document.createElement('a');
+			a.href = URL.createObjectURL(blob);
+			a.download = reportFileName();
+			a.click();
+			URL.revokeObjectURL(a.href);
+			showMessage(`✅ ${a.download} download aachu`, 'ok');
+		});
+
+		$('shareBtn').addEventListener('click', async () => {
+			if (!periodReport) return showMessage('Report innum load aagala', 'err');
+			const file = new File([reportCsv()], reportFileName(), { type: 'text/csv' });
+			const text = reportSummary();
+			try {
+				// Phone: file + summary → WhatsApp / Mail / Drive edhu vena
+				if (navigator.canShare && navigator.canShare({ files: [file] })) {
+					await navigator.share({ title: 'CleanCity Report', text, files: [file] });
+				} else if (navigator.share) {
+					await navigator.share({ title: 'CleanCity Report', text });
+				} else {
+					// Computer: share illa → WhatsApp Web-la summary
+					window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+				}
+			} catch (err) {
+				if (err.name !== 'AbortError') showMessage('❌ Share aagala: ' + err.message, 'err');
+			}
+		});
 
 		// ---------- Vehicles (admin) ----------
 
@@ -873,7 +1032,6 @@
 				<small>📍 ${escapeHtml(place)} · ${escapeHtml(me.email)}${escapeHtml(lastLogin)}</small></span>`;
 			$('date').value = today();
 			$('date').max = today();
-			$('rDate').value = today();
 
 			locations = await api('/locations');
 			if (me.role === 'supervisor') {

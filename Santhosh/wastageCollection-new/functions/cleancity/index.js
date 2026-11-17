@@ -139,10 +139,20 @@ module.exports = async (req, res) => {
 			case '/report': {
 				const period = url.searchParams.get('period');
 				const date = url.searchParams.get('date');
-				if (!['week', 'month'].includes(period) || !isDate(date)) {
-					throw httpError(400, 'period=week|month, date=YYYY-MM-DD venum');
+				const fromParam = url.searchParams.get('from');
+				const toParam = url.searchParams.get('to');
+				let range;
+				if (isDate(fromParam) && isDate(toParam)) {
+					// Custom: from → to (Today, Yesterday, edhu vena)
+					if (fromParam > toParam) throw httpError(400, 'From date, To date-ku munnaadi irukkanum');
+					if ((new Date(toParam) - new Date(fromParam)) / 86400000 > 366) throw httpError(400, 'Max 1 varusham (366 naal) mattum');
+					range = { period: 'custom', from: fromParam, to: toParam };
+				} else if (['week', 'month'].includes(period) && isDate(date)) {
+					range = periodRange(period, date);
+				} else {
+					throw httpError(400, 'from=YYYY-MM-DD&to=YYYY-MM-DD (or) period=week|month&date=YYYY-MM-DD venum');
 				}
-				const report = await getPeriodReport(app, period, date);
+				const report = await getPeriodReport(app, range);
 				if (me.role === 'supervisor') report.rows = report.rows.filter(r => r.location_id === me.location_id);
 				sendJson(res, 200, report);
 				break;
@@ -418,8 +428,8 @@ async function getDayReport(app, date) {
 	});
 }
 
-// Week (Mon–Sun) / Month report: andha period-la ovvoru vandi-kkum total
-async function getPeriodReport(app, period, date) {
+// Week (Mon–Sun) / Month → from, to
+function periodRange(period, date) {
 	const d = new Date(`${date}T00:00:00Z`);
 	let start;
 	let end;
@@ -432,13 +442,15 @@ async function getPeriodReport(app, period, date) {
 		end = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 0));
 	}
 	const ymd = x => x.toISOString().slice(0, 10);
-	const from = ymd(start);
-	const to = ymd(end);
+	return { period, from: ymd(start), to: ymd(end) };
+}
 
+// from → to report: andha naatkal-la ovvoru vandi-kkum total
+async function getPeriodReport(app, { period, from, to }) {
 	// Generation: inniku varaikkum ulla naal mattum kanakku (naalai innum varala)
 	const today = nowIST().date;
 	const lastCounted = to < today ? to : today;
-	const days = from > today ? 0 : Math.round((new Date(`${lastCounted}T00:00:00Z`) - start) / 86400000) + 1;
+	const days = from > today ? 0 : Math.round((new Date(`${lastCounted}T00:00:00Z`) - new Date(`${from}T00:00:00Z`)) / 86400000) + 1;
 
 	const vehicles = await getVehicles(app);
 	const rows = await app.zcql().executeZCQLQuery(
