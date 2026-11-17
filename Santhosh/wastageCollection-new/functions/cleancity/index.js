@@ -173,14 +173,26 @@ module.exports = async (req, res) => {
 };
 
 // Login cookie irundha Catalyst user object, illa-na null
+// Catalyst sila nerathula sariyaana user-kkum null / error kudukkum → oru thadava thirumba kekkurom
+// Rendu thadavaiyum error-na "login illa" (401) illa, "konjam wait" (503) — appo login page-ku pogaadhu
 async function getLoggedInUser(req) {
-	try {
-		const userApp = catalyst.initialize(req);
-		const user = await userApp.userManagement().getCurrentUser();
-		return user && user.email_id ? user : null;
-	} catch (err) {
-		return null;
+	let lastError = null;
+	for (let attempt = 1; attempt <= 2; attempt++) {
+		try {
+			const userApp = catalyst.initialize(req);
+			const user = await userApp.userManagement().getCurrentUser();
+			if (user && user.email_id) return user;
+			lastError = null;
+		} catch (err) {
+			lastError = err;
+		}
+		if (attempt === 1) await new Promise(r => setTimeout(r, 300));
 	}
+	if (lastError) {
+		console.error('getCurrentUser error', lastError);
+		throw httpError(503, 'Server busy — konjam neram kazhichu try pannunga');
+	}
+	return null;
 }
 
 function requireRole(me, allowed) {

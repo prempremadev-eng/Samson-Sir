@@ -407,7 +407,7 @@
 		}
 
 		// Ellaa API call-um idha vazhiyaa: login cookie + error handle
-		async function api(path, options = {}) {
+		async function api(path, options = {}, retried = false) {
 			const headers = { 'Content-Type': 'application/json' };
 			// Vera domain-la cookie pogaadhu → login token-ah header-la anuppanum
 			if (!sameServer) headers.Authorization = (await catalyst.auth.generateAuthToken()).access_token;
@@ -417,6 +417,11 @@
 				...options
 			});
 			if (res.status === 401) {
+				// Oru glitch-ku login page venaam → 1 second kazhichu oru thadava thirumba
+				if (!retried) {
+					await new Promise(r => setTimeout(r, 1000));
+					return api(path, options, true);
+				}
 				goToLogin();
 				throw new Error('Login pannunga');
 			}
@@ -991,8 +996,14 @@
 			try {
 				await catalyst.auth.isUserAuthenticated();
 			} catch (err) {
-				goToLogin();
-				return;
+				// Signal weak-ah irundhaalum fail aagum → oru thadava thirumba check
+				try {
+					await new Promise(r => setTimeout(r, 1000));
+					await catalyst.auth.isUserAuthenticated();
+				} catch (err2) {
+					goToLogin();
+					return;
+				}
 			}
 
 			$('logoutBtn').hidden = false;
