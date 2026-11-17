@@ -106,6 +106,7 @@
 		.sticky-cols tr { background: #fff; }
 		.sticky-cols tr.loc-total { background: #f6f8f6; }
 		.sticky-cols tr.grand-total { background: #e8f3e9; }
+		.sticky-cols tfoot tr { background: #f6f8f6; }
 		.sticky-cols th:nth-child(-n+2), .sticky-cols td:nth-child(-n+2) { position: sticky; z-index: 1; background: inherit; }
 		.sticky-cols th:nth-child(1), .sticky-cols td:nth-child(1) { left: 0; width: 48px; min-width: 48px; }
 		.sticky-cols th:nth-child(2), .sticky-cols td:nth-child(2) { left: 48px; box-shadow: 2px 0 0 #e3e9e4; }
@@ -127,33 +128,16 @@
 			.filters > label { flex: 1 1 140px; }
 			.filters input, .filters select { width: 100%; }
 
-			/* Daily Entry: table → ovvoru vandiyum oru card */
-			.entry-table thead { display: none; }
-			.entry-table, .entry-table tbody, .entry-table tfoot, .entry-table tr, .entry-table td { display: block; }
-			.entry-table tr { margin-bottom: 10px; padding: 4px 12px; border: 1px solid #e3e9e4; border-radius: 10px; background: #fff; }
-			.entry-table td {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				gap: 12px;
-				padding: 7px 0;
-				border-bottom: 1px dashed #e3e9e4;
-				white-space: normal;
-			}
-			.entry-table td:last-child { border-bottom: none; }
-			.entry-table td::before { content: attr(data-label); font-weight: 600; font-size: 13px; color: #5a6b5f; text-align: left; }
-			.entry-table td:empty, .entry-table td.sno { display: none; }
-			.entry-table td.vehicle { display: block; padding: 8px 0; font-size: 16px; font-weight: 700; }
-			.entry-table td.vehicle::before { content: "🚛 "; }
-			.entry-table tfoot td.vehicle::before { content: none; }
+			/* Daily Entry: Report maadhiri table — S.No + Vehicle No nikkum, matha column swipe */
+			.entry-table td input { width: 66px; padding: 7px 5px; }
+			.entry-table th, .entry-table td { font-size: 13px; }
+			.entry-table th { white-space: normal; vertical-align: bottom; }
+			.entry-table th, .entry-table td { padding: 7px 4px; }
+			.entry-table td.vehicle { font-weight: 700; }
 			.entry-table td.vehicle small { font-weight: 400; color: #5a6b5f; }
-			.entry-table td.col-entry { margin: 0 -12px; padding: 8px 12px; }
-			.entry-table td input { width: 130px; padding: 8px; }
-			.entry-table tfoot tr { background: #e8f3e9; }
-			.entry-table tfoot td { background: none; }
 
 			/* Entry: phone-la Vehicle No + Wet + Dry mattum; "Ellaa details" click panna matha column */
-			.entry-table:not(.show-all) td.extra { display: none; }
+			.entry-table:not(.show-all) .extra { display: none; }
 			.toggle-details { display: block; width: 100%; margin: 8px 0 10px; padding: 9px; font-size: 14px; }
 			#entryPanel .formula { display: none; }
 			#entryPanel.show-all .formula { display: block; }
@@ -204,18 +188,18 @@
 
 				<button id="toggleDetails" class="secondary toggle-details">👁️ Ellaa details kaattu</button>
 				<div class="table-wrap">
-					<table class="entry-table" id="entryTable">
+					<table class="entry-table sticky-cols" id="entryTable">
 						<thead>
 							<tr>
 								<th>S.No</th>
 								<th class="left">Vehicle No</th>
-								<th>Households</th>
-								<th>Waste Gen (kg)</th>
-								<th>Wet Gen (kg)</th>
+								<th class="extra">Households</th>
+								<th class="extra">Waste Gen (kg)</th>
+								<th class="extra">Wet Gen (kg)</th>
 								<th class="col-entry">Wet Collection (kg)</th>
-								<th>Dry Gen (kg)</th>
+								<th class="extra">Dry Gen (kg)</th>
 								<th class="col-entry">Dry Collection (kg)</th>
-								<th class="left">Entry by</th>
+								<th class="left extra">Entry by</th>
 							</tr>
 						</thead>
 						<tbody id="rows">
@@ -550,7 +534,7 @@
 					<td class="col-entry ${wetCol < sum('wet_generation') ? 'short' : ''}" data-label="Wet Collection (kg)">${kg(wetCol)}</td>
 					<td class="extra" data-label="Dry Gen (kg)">${kg(sum('dry_generation'))}</td>
 					<td class="col-entry ${dryCol < sum('dry_generation') ? 'short' : ''}" data-label="Dry Collection (kg)">${kg(dryCol)}</td>
-					<td></td>
+					<td class="extra"></td>
 				</tr>
 			`;
 		}
